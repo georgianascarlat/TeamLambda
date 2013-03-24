@@ -16,4 +16,5 @@ public interface GUI {
 
     public void logIn(LoginInfo info, List<String> services);
 
+    public void logOut();
 }

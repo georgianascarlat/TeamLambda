@@ -54,7 +54,8 @@ public class MediatorGUIImpl implements MediatorGUI {
 
     @Override
     public void logOut() {
-        //To change body of implemented methods use File | Settings | File Templates.
+
+        gui.logOut();
     }
 
     @Override

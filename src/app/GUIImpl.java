@@ -31,9 +31,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
     private JTable table;
 
-    private JLabel labelUserName = new JLabel("Username: ");
-    private JLabel labelPassword = new JLabel("Password: ");
-    private JLabel labelType = new JLabel("User Type: ");
 
     private JTextField tUserName = new JTextField(10);
     private JTextField tType = new JTextField(10);
@@ -42,7 +39,12 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     private JPanel bottom = new JPanel(new FlowLayout());
     private JPanel top = new JPanel();
 
-    private LoginButton loginButton;
+
+    private JLabel labelUserName = new JLabel("Username: ");
+    private JLabel labelPassword = new JLabel("Password: ");
+    private JLabel labelType = new JLabel("User Type: ");
+
+
 
     private static final String[] columnNames = {"Service Name",
             "Users List",
@@ -87,7 +89,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         jp.add(top, constraints);
 
 
-        loginButton = new LoginButton(this, mediator);
+        LoginButton loginButton = new LoginButton(this, mediator);
 
         labelUserName.setLabelFor(tUserName);
         labelPassword.setLabelFor(tPassword);
@@ -109,7 +111,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
 
         jp.add(bottom, constraints);
-
 
         setSize(new Dimension(WIDTH, HEIGHT));
         setVisible(true);
@@ -142,10 +143,12 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     public void logIn(LoginInfo info, List<String> services) {
 
         JLabel label = new JLabel("Hi, " + info.getUsername() + "!");
+        LogoutButton logoutButton = new LogoutButton(this, mediator);
 
         top.removeAll();
 
         top.add(label);
+        top.add(logoutButton);
 
 
         Object[][] data = getDataFromServices(services);
@@ -161,6 +164,27 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
     }
 
+    @Override
+    public void logOut() {
+
+        LoginButton loginButton = new LoginButton(this, mediator);
+
+        top.removeAll();
+
+        top.add(labelUserName);
+        top.add(tUserName);
+        top.add(labelType);
+        top.add(tType);
+        top.add(labelPassword);
+        top.add(tPassword);
+        top.add(loginButton);
+
+        bottom.removeAll();
+
+
+        this.paintAll(this.getGraphics());
+
+    }
 
 
     private void initTable(JTable table) {
