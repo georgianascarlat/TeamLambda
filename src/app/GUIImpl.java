@@ -151,14 +151,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         Object[][] data = getDataFromServices(services);
         table = new JTable(new MyTableModel(columnNames, data));
 
-
-        initTableDimensions(table);
-
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            TableColumn column = table.getColumnModel().getColumn(i);
-            column.sizeWidthToFit();
-
-        }
+        initTable(table);
 
         bottom.removeAll();
 
@@ -170,31 +163,35 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
 
 
-    private void initTableDimensions(JTable table) {
+    private void initTable(JTable table) {
 
-        int height = 0;
+        int height = 0, width = 0;
         TableColumn col = null;
+        Component comp;
 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         ListRenderer lr = new ListRenderer();
-        lr.setShow(true);
         table.setDefaultRenderer(DefaultListModel.class, lr);
 
         ProgressBarRenderer pr = new ProgressBarRenderer();
-        pr.setShow(true);
         table.setDefaultRenderer(Service.class, pr);
 
 
         for (int i = 0; i < table.getColumnCount(); i++) {
 
             col = table.getColumnModel().getColumn(i);
-            int width = 0;
+            width = 0;
 
 
-            TableCellRenderer renderer = col.getHeaderRenderer();
+            TableCellRenderer renderer = table.getTableHeader().getDefaultRenderer();
+            comp = renderer.getTableCellRendererComponent(
+                    null, col.getHeaderValue(),
+                    false, false, 0, 0);
+            width = Math.max(width, comp.getPreferredSize().width);
+
             for (int r = 0; r < table.getRowCount(); r++) {
                 renderer = table.getCellRenderer(r, i);
-                Component comp = renderer.getTableCellRendererComponent(table, table.getValueAt(r, i),
+                comp = renderer.getTableCellRendererComponent(table, table.getValueAt(r, i),
                         false, false, r, i);
                 width = Math.max(width, comp.getPreferredSize().width);
                 height = Math.max(height, comp.getPreferredSize().height);
@@ -205,7 +202,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
         if(col != null)
             col.setPreferredWidth(PROGRESS_BAR_WIDTH);
-
 
         table.setRowHeight(height);
     }
@@ -218,9 +214,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
             data[i][0] = services.get(i);
             data[i][1] = new DefaultListModel<String>();
-            ((DefaultListModel<String>)data[i][1]).addElement("Ana");
-            ((DefaultListModel<String>)data[i][1]).addElement("Bibi");
-            ((DefaultListModel<String>)data[i][1]).addElement("Bibi");
             data[i][2] = StatusTypes.Inactive;
             data[i][3] =  new ServiceImpl();
 
