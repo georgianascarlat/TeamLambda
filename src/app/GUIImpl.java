@@ -1,9 +1,11 @@
 package app;
 
-import commands.Command;
-import commands.LoginButton;
+import commands.*;
+import models.*;
 
+import java.util.List;
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,28 +38,16 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
     private LoginButton loginButton;
 
-    public GUIImpl() {
-        super("Drawing");
+    private static final String[] columnNames = {"Service Name",
+            "Users List",
+            "Auction Status",
+            "Download Progress"};
 
+    public GUIImpl(MediatorGUI mediator) {
+        super("Auctions");
 
-        String[] columnNames = {"Service Name",
-                "Users List",
-                "Auction Status",
-                "Download Progress"};
-        Object[][] data = {
-                {"Kathy", "Smith",
-                        "Snowboarding", new Integer(5)},
-                {"John", "Doe",
-                        "Rowing", new Integer(3)},
-                {"Sue", "Black",
-                        "Knitting", new Integer(2)},
-                {"Jane", "White",
-                        "Speed reading", new Integer(20)},
-                {"Joe", "Brown",
-                        "Pool", new Integer(10)}
-        };
-
-        table = new JTable(data, columnNames);
+        this.mediator = mediator;
+        this.mediator.registerGUI(this);
 
 
         addWindowListener(new WindowAdapter() {
@@ -70,8 +60,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         JPanel jp = new JPanel();
         jp.setSize(800, 600);
         getContentPane().add(jp);
-        mediator = new MediatorGUIImpl();
-        mediator.registerGUI(this);
 
         GridBagLayout gbl = new GridBagLayout();
         gbl.layoutContainer(this);
@@ -85,8 +73,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         gbl.setConstraints(jp, constraints);
 
         jp.setLayout(gbl);
-
-
 
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -116,7 +102,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
         jp.add(bottom, constraints);
 
-        bottom.add(new JScrollPane(table));
 
         setSize(new Dimension(800, 600));
         setVisible(true);
@@ -124,42 +109,67 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     }
 
 
-
-
+    @Override
     public void actionPerformed(ActionEvent e) {
         Command comd = (Command) e.getSource();
         comd.execute();
     }
 
 
-    public static void main(String[] args) {
-        new GUIImpl();
-    }
-
     @Override
     public LoginInfo getLoginInfo() {
         String username = tUserName.getText(), type = tType.getText(), pass = String.valueOf(tPassword.getPassword());
 
-        if("".equals(username) || "".equals(pass) || "".equals(type)){
+        if ("".equals(username) || "".equals(pass) || "".equals(type)) {
             JOptionPane.showMessageDialog(this,
                     "Some fields are blank.");
             return null;
         }
 
-        return new LoginInfo(username,type,pass);
+        return new LoginInfo(username, type, pass);
     }
 
     @Override
-    public void logIn(LoginInfo info) {
+    public void logIn(LoginInfo info, List<String> services) {
 
-        JLabel label =  new JLabel("Hi, "+info.getUsername()+"!");
+        JLabel label = new JLabel("Hi, " + info.getUsername() + "!");
 
         top.removeAll();
 
         top.add(label);
 
+
+        Object[][] data = getDataFromServices(services);
+        table = new JTable(new MyTableModel(columnNames, data));
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            TableColumn column = table.getColumnModel().getColumn(i);
+            column.sizeWidthToFit();
+
+        }
+
+        bottom.removeAll();
+
+        bottom.add(new JScrollPane(table));
+
         this.paintAll(this.getGraphics());
 
+    }
+
+    private Object[][] getDataFromServices(List<String> services) {
+        int size = services.size();
+        Object[][] data = new Object[size][4];
+
+        for(int i=0;i<size;i++){
+
+            data[i][0] = services.get(i);
+            data[i][1] = new JList<String>();
+            data[i][2] = StatusTypes.Inactive;
+            data[i][3] =  new JProgressBar(0,10);
+
+        }
+
+        return data;
     }
 
 

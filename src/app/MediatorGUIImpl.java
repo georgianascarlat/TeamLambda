@@ -1,6 +1,11 @@
 package app;
 
 import app.MediatorGUI;
+import exceptions.NoSuchUserException;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,6 +17,7 @@ import app.MediatorGUI;
 public class MediatorGUIImpl implements MediatorGUI {
 
     protected GUI gui;
+    protected WebServiceClient webServiceClient;
 
 
     @Override
@@ -20,15 +26,29 @@ public class MediatorGUIImpl implements MediatorGUI {
     }
 
     @Override
+    public void registerWebServiceClient(WebServiceClient webServiceClient) {
+        this.webServiceClient = webServiceClient;
+    }
+
+    @Override
     public void logIn() {
 
         LoginInfo info = gui.getLoginInfo();
 
+        if (info == null)
+            return;
 
-        System.out.println(info);
-        if(info != null){
-            gui.logIn(info);
+        List<String> services = null;
+        try {
+
+            services = webServiceClient.getServices(info);
+            gui.logIn(info, services);
+
+        } catch (NoSuchUserException e) {
+
+            JOptionPane.showMessageDialog((Component) gui, "Invalid username or password.");
         }
+
 
     }
 

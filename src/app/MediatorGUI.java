@@ -1,5 +1,7 @@
 package app;
 
+import exceptions.NoSuchUserException;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -17,6 +19,8 @@ package app;
 public interface MediatorGUI {
 
     public void registerGUI(GUI gui);
+
+    public void registerWebServiceClient(WebServiceClient webServiceClient);
 
     //un utilizator face log in / log out
     public void logIn();

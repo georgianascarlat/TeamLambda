@@ -1,5 +1,7 @@
 package app;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -11,6 +13,7 @@ public interface GUI {
 
 
     public LoginInfo getLoginInfo();
-    public void logIn(LoginInfo info);
+
+    public void logIn(LoginInfo info, List<String> services);
 
 }
