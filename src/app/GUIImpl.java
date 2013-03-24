@@ -5,6 +5,8 @@ import models.*;
 
 import java.util.List;
 import javax.swing.*;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,6 +23,10 @@ import java.awt.event.WindowEvent;
  */
 public class GUIImpl extends JFrame implements ActionListener, GUI {
 
+    public static final int PROGRESS_BAR_WIDTH = 300;
+    public static final int COLUMN_OFFSET = 12;
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 600;
     private MediatorGUI mediator;
 
     private JTable table;
@@ -33,7 +39,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     private JTextField tType = new JTextField(10);
     private JPasswordField tPassword = new JPasswordField(10);
 
-    private JPanel bottom = new JPanel();
+    private JPanel bottom = new JPanel(new FlowLayout());
     private JPanel top = new JPanel();
 
     private LoginButton loginButton;
@@ -58,7 +64,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
 
         JPanel jp = new JPanel();
-        jp.setSize(800, 600);
+        jp.setSize(WIDTH, HEIGHT);
         getContentPane().add(jp);
 
         GridBagLayout gbl = new GridBagLayout();
@@ -67,8 +73,8 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.NORTHWEST;
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.weightx = 800;
-        constraints.weighty = 800;
+        constraints.weightx = WIDTH;
+        constraints.weighty = HEIGHT;
 
         gbl.setConstraints(jp, constraints);
 
@@ -100,11 +106,14 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         constraints.gridx = 0;
         constraints.gridy = 1;
 
+
+
         jp.add(bottom, constraints);
 
 
-        setSize(new Dimension(800, 600));
+        setSize(new Dimension(WIDTH, HEIGHT));
         setVisible(true);
+
 
     }
 
@@ -142,6 +151,9 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         Object[][] data = getDataFromServices(services);
         table = new JTable(new MyTableModel(columnNames, data));
 
+
+        initTableDimensions(table);
+
         for (int i = 0; i < table.getColumnCount(); i++) {
             TableColumn column = table.getColumnModel().getColumn(i);
             column.sizeWidthToFit();
@@ -156,6 +168,48 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
     }
 
+
+
+    private void initTableDimensions(JTable table) {
+
+        int height = 0;
+        TableColumn col = null;
+
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        ListRenderer lr = new ListRenderer();
+        lr.setShow(true);
+        table.setDefaultRenderer(DefaultListModel.class, lr);
+
+        ProgressBarRenderer pr = new ProgressBarRenderer();
+        pr.setShow(true);
+        table.setDefaultRenderer(Service.class, pr);
+
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+
+            col = table.getColumnModel().getColumn(i);
+            int width = 0;
+
+
+            TableCellRenderer renderer = col.getHeaderRenderer();
+            for (int r = 0; r < table.getRowCount(); r++) {
+                renderer = table.getCellRenderer(r, i);
+                Component comp = renderer.getTableCellRendererComponent(table, table.getValueAt(r, i),
+                        false, false, r, i);
+                width = Math.max(width, comp.getPreferredSize().width);
+                height = Math.max(height, comp.getPreferredSize().height);
+            }
+            col.setPreferredWidth(width + COLUMN_OFFSET);
+
+        }
+
+        if(col != null)
+            col.setPreferredWidth(PROGRESS_BAR_WIDTH);
+
+
+        table.setRowHeight(height);
+    }
+
     private Object[][] getDataFromServices(List<String> services) {
         int size = services.size();
         Object[][] data = new Object[size][4];
@@ -163,9 +217,12 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         for(int i=0;i<size;i++){
 
             data[i][0] = services.get(i);
-            data[i][1] = new JList<String>();
+            data[i][1] = new DefaultListModel<String>();
+            ((DefaultListModel<String>)data[i][1]).addElement("Ana");
+            ((DefaultListModel<String>)data[i][1]).addElement("Bibi");
+            ((DefaultListModel<String>)data[i][1]).addElement("Bibi");
             data[i][2] = StatusTypes.Inactive;
-            data[i][3] =  new JProgressBar(0,10);
+            data[i][3] =  new ServiceImpl();
 
         }
 

@@ -1,6 +1,7 @@
 package models;
 
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,7 +36,12 @@ public class MyTableModel extends AbstractTableModel {
     }
 
     public Class getColumnClass(int c) {
-        return getValueAt(0, c).getClass();
+        Class cls = getValueAt(0, c).getClass();
+        Class[] interfaces = cls.getInterfaces();
+        if(interfaces.length > 0)
+            return interfaces[0];
+
+        return cls;
     }
 
     /*
@@ -54,5 +60,6 @@ public class MyTableModel extends AbstractTableModel {
         data[row][col] = value;
         fireTableCellUpdated(row, col);
     }
+
 
 }
