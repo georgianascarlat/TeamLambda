@@ -22,7 +22,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     private MediatorGUI mediator;
 
     private JTable table;
-    private JLabel loginInfo;
 
     private JLabel labelUserName = new JLabel("Username: ");
     private JLabel labelPassword = new JLabel("Password: ");
@@ -32,29 +31,34 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     private JTextField tType = new JTextField(10);
     private JPasswordField tPassword = new JPasswordField(10);
 
+    private JPanel bottom = new JPanel();
+    private JPanel top = new JPanel();
+
+    private LoginButton loginButton;
+
     public GUIImpl() {
         super("Drawing");
 
 
-        String[] columnNames = {"First Name",
-                "Last Name",
-                "Sport",
-                "# of Years",
-                "Vegetarian"};
+        String[] columnNames = {"Service Name",
+                "Users List",
+                "Auction Status",
+                "Download Progress"};
         Object[][] data = {
                 {"Kathy", "Smith",
-                        "Snowboarding", new Integer(5), new Boolean(false)},
+                        "Snowboarding", new Integer(5)},
                 {"John", "Doe",
-                        "Rowing", new Integer(3), new Boolean(true)},
+                        "Rowing", new Integer(3)},
                 {"Sue", "Black",
-                        "Knitting", new Integer(2), new Boolean(false)},
+                        "Knitting", new Integer(2)},
                 {"Jane", "White",
-                        "Speed reading", new Integer(20), new Boolean(true)},
+                        "Speed reading", new Integer(20)},
                 {"Joe", "Brown",
-                        "Pool", new Integer(10), new Boolean(false)}
+                        "Pool", new Integer(10)}
         };
 
         table = new JTable(data, columnNames);
+
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -82,7 +86,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
         jp.setLayout(gbl);
 
-        JPanel top = new JPanel(); // 1 row, any number of columns
+
 
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -91,7 +95,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         jp.add(top, constraints);
 
 
-        LoginButton loginButton = new LoginButton(this, mediator);
+        loginButton = new LoginButton(this, mediator);
 
         labelUserName.setLabelFor(tUserName);
         labelPassword.setLabelFor(tPassword);
@@ -104,9 +108,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         top.add(labelPassword);
         top.add(tPassword);
         top.add(loginButton);
-
-
-        JPanel bottom = new JPanel();
 
 
         constraints.fill = GridBagConstraints.BOTH;
@@ -147,4 +148,19 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
         return new LoginInfo(username,type,pass);
     }
+
+    @Override
+    public void logIn(LoginInfo info) {
+
+        JLabel label =  new JLabel("Hi, "+info.getUsername()+"!");
+
+        top.removeAll();
+
+        top.add(label);
+
+        this.paintAll(this.getGraphics());
+
+    }
+
+
 }

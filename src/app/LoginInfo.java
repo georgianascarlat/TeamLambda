@@ -10,11 +10,20 @@ package app;
 public class LoginInfo {
 
     private String username, type, password;
+    private String fileName;
 
     LoginInfo(String username, String type, String password) {
         this.username = username;
         this.type = type;
         this.password = password;
+    }
+
+    String getFileName() {
+        return fileName;
+    }
+
+    void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     String getUsername() {

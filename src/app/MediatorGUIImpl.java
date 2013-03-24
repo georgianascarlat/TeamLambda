@@ -23,7 +23,13 @@ public class MediatorGUIImpl implements MediatorGUI {
     public void logIn() {
 
         LoginInfo info = gui.getLoginInfo();
+
+
         System.out.println(info);
+        if(info != null){
+            gui.logIn(info);
+        }
+
     }
 
     @Override

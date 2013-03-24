@@ -11,5 +11,6 @@ public interface GUI {
 
 
     public LoginInfo getLoginInfo();
+    public void logIn(LoginInfo info);
 
 }
