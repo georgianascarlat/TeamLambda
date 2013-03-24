@@ -1,9 +1,13 @@
+package commands;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
  * Date: 3/24/13
- * Time: 12:57 PM
+ * Time: 2:27 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface Mediator {
+public interface Command {
+
+    public void execute();
 }
