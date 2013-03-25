@@ -1,13 +1,13 @@
 package state;
 
-import app.MediatorGUI;
-import commands.CommandMenuItem;
+import mediator.MediatorGUI;
 import models.MenuItemType;
 import models.PopupListener;
+import models.PopupType;
+import models.TablePopupListener;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.util.List;
 
 /**
@@ -25,20 +25,21 @@ public class SellerSessionState extends SessionState {
     }
 
     @Override
-    protected MouseListener getTableMouseListener() {
-        return new PopupListener(new JPopupMenu());
+    protected PopupListener getTableMouseListener() {
+        return new TablePopupListener(new JPopupMenu());
     }
 
     @Override
-    protected MouseListener getListMouseListener() {
+    protected PopupListener getListMouseListener() {
 
-        return createMouseListener(MenuItemType.MakeOffer,MenuItemType.DropAuction);
+        return createMouseListener(PopupType.ListPopup,
+                MenuItemType.MakeOffer,MenuItemType.DropAuction);
 
     }
 
     @Override
-    public void launchOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void launchOffer(int row) {
+
     }
 
 

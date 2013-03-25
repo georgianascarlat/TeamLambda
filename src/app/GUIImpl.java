@@ -2,6 +2,7 @@ package app;
 
 import commands.*;
 import exceptions.NoSuchUserTypeException;
+import mediator.MediatorGUI;
 import models.*;
 import state.SessionState;
 import state.SessionStateFactory;
@@ -53,6 +54,13 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         this.mediator = mediator;
         this.mediator.registerGUI(this);
 
+
+        init(mediator);
+
+
+    }
+
+    private void init(MediatorGUI mediator) {
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -109,8 +117,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
         setSize(new Dimension(WIDTH, HEIGHT));
         setVisible(true);
-
-
     }
 
 
@@ -184,7 +190,10 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
     }
 
-
+    @Override
+    public void launchOffer(int row) {
+        stateManager.launchOffer(row);
+    }
 
 
 }

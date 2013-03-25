@@ -1,6 +1,6 @@
 package commands;
 
-import app.MediatorGUI;
+import mediator.MediatorGUI;
 import models.MenuItemType;
 
 import javax.swing.*;
@@ -16,12 +16,31 @@ public class CommandMenuItem extends JMenuItem implements Command {
 
     private MenuItemType type;
     private MediatorGUI med;
+    private String selectedService, selectedListElement;
+    private int selectedServiceRow, selectedListElementIndex;
 
     public CommandMenuItem(MenuItemType type, MediatorGUI med) {
         super(type.getText());
         this.type = type;
         this.med = med;
 
+
+    }
+
+    public void setSelectedListElementIndex(int selectedListElementIndex) {
+        this.selectedListElementIndex = selectedListElementIndex;
+    }
+
+    public void setSelectedServiceRow(int selectedServiceRow) {
+        this.selectedServiceRow = selectedServiceRow;
+    }
+
+    public void setSelectedService(String selectedService) {
+        this.selectedService = selectedService;
+    }
+
+    public void setSelectedListElement(String selectedListElement) {
+        this.selectedListElement = selectedListElement;
     }
 
     @Override
@@ -30,13 +49,13 @@ public class CommandMenuItem extends JMenuItem implements Command {
         switch (type) {
 
             case LaunchOfferRequest:
-                med.launchOffer();
+                med.launchOffer(selectedService,selectedServiceRow);
                 break;
             case DropOfferRequest:
                 //med.dropOffer();
                 break;
             case AcceptOffer:
-                 med.acceptOffer();
+                // med.acceptOffer();
                 break;
             case RefuseOffer:
                 // med.refuseOffer();
@@ -49,4 +68,5 @@ public class CommandMenuItem extends JMenuItem implements Command {
                 break;
         }
     }
+
 }

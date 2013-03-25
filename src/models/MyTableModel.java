@@ -17,12 +17,14 @@ import java.awt.event.MouseListener;
 public class MyTableModel extends AbstractTableModel {
     private String[] columnNames;
     private Object[][] data;
-    private MouseListener listMouseListener;
-    private MouseListener tableMouseListener;
+    private PopupListener listMouseListener;
+    private PopupListener tableMouseListener;
     private static final int COLUMN_OFFSET = 12;
     private static final int PROGRESS_BAR_WIDTH = 300;
+    public static final int STATUS_COLUMN = 2;
+    public static final int SERVICE_COLUMN_NAME = 0;
 
-    public MyTableModel(String[] columnNames, Object[][] data, MouseListener listMouseListener, MouseListener tableMouseListener) {
+    public MyTableModel(String[] columnNames, Object[][] data, PopupListener listMouseListener, PopupListener tableMouseListener) {
         this.columnNames = columnNames;
         this.data = data;
         this.listMouseListener = listMouseListener;
@@ -60,7 +62,7 @@ public class MyTableModel extends AbstractTableModel {
      */
     public boolean isCellEditable(int row, int col) {
 
-        if(getColumnClass(col).equals(DefaultListModel.class))
+        if (getColumnClass(col).equals(DefaultListModel.class))
             return true;
         return false;
     }
@@ -85,14 +87,14 @@ public class MyTableModel extends AbstractTableModel {
 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         ListRenderer lr = new ListRenderer();
-        lr.setShow(true);
+
         table.setDefaultRenderer(DefaultListModel.class, lr);
 
-        table.setDefaultEditor(DefaultListModel.class,new ListCellEditor(listMouseListener));
+        table.setDefaultEditor(DefaultListModel.class, new ListCellEditor(listMouseListener));
         table.addMouseListener(tableMouseListener);
 
         ProgressBarRenderer pr = new ProgressBarRenderer();
-        pr.setShow(true);
+
         table.setDefaultRenderer(Service.class, pr);
 
 

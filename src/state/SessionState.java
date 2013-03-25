@@ -1,12 +1,11 @@
 package state;
 
-import app.MediatorGUI;
+import mediator.MediatorGUI;
 import commands.CommandMenuItem;
 import models.*;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.util.List;
 
 /**
@@ -43,9 +42,9 @@ public abstract class SessionState {
 
     }
 
-    protected abstract MouseListener getTableMouseListener();
+    protected abstract PopupListener getTableMouseListener();
 
-    protected abstract MouseListener getListMouseListener();
+    protected abstract PopupListener getListMouseListener();
 
 
     protected Object[][] getDataFromServices(List<String> services) {
@@ -67,7 +66,8 @@ public abstract class SessionState {
         return data;
     }
 
-    protected MouseListener createMouseListener(MenuItemType type1,MenuItemType type2) {
+    protected PopupListener createMouseListener(PopupType popupType, MenuItemType type1,MenuItemType type2) {
+
         JMenuItem menuItem;
         JPopupMenu popupMenu = new JPopupMenu();
 
@@ -80,7 +80,7 @@ public abstract class SessionState {
 
         popupMenu.setLightWeightPopupEnabled(false);
 
-        return new PopupListener(popupMenu);
+        return PopupListener.popupListenerFactory(popupType,popupMenu);
     }
 
     public JTable getTable() {
@@ -88,7 +88,7 @@ public abstract class SessionState {
     }
 
     // se lanseaza o cerere de oferta
-    public abstract void launchOffer();
+    public abstract void launchOffer(int row);
 
 
 }

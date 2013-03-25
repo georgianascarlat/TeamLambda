@@ -1,7 +1,6 @@
 package commands;
 
-import app.GUIImpl;
-import app.MediatorGUI;
+import mediator.MediatorGUI;
 
 import javax.swing.*;
 import java.awt.*;

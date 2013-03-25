@@ -1,5 +1,8 @@
-package app;
+package mediator;
 
+import app.GUI;
+import app.Network;
+import app.WebServiceClient;
 import exceptions.NoSuchUserException;
 
 /**
@@ -22,13 +25,15 @@ public interface MediatorGUI {
 
     public void registerWebServiceClient(WebServiceClient webServiceClient);
 
+    public void registerNetwork(Network network);
+
     //un utilizator face log in / log out
     public void logIn();
 
     public void logOut();
 
     // se lanseaza o cerere de oferta
-    public void launchOffer();
+    public void launchOffer(String selectedService, int selectedServiceRow);
 
     // se anuleaza o cerere de oferta
     public void dropOffer();

@@ -1,6 +1,7 @@
 package app;
 
 import exceptions.NoSuchUserException;
+import models.LoginInfo;
 
 import java.util.List;
 

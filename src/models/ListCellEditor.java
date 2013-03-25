@@ -15,9 +15,9 @@ import java.awt.event.MouseListener;
 public class ListCellEditor extends AbstractCellEditor implements TableCellEditor {
 
     private ListModel currentValue;
-    private MouseListener mouseListener;
+    private PopupListener mouseListener;
 
-    public ListCellEditor(MouseListener listMouseListener) {
+    public ListCellEditor(PopupListener listMouseListener) {
            this.mouseListener = listMouseListener;
     }
 
@@ -25,6 +25,8 @@ public class ListCellEditor extends AbstractCellEditor implements TableCellEdito
     public Component getTableCellEditorComponent(JTable jTable, Object o, boolean b, int i, int i1) {
 
         this.currentValue = (ListModel) o;
+        mouseListener.setSelectedService((String) jTable.getModel().getValueAt(i,MyTableModel.SERVICE_COLUMN_NAME));
+        mouseListener.setSelectedServiceRow(i);
 
         if(o!= null){
             JList list = new JList((ListModel) o);

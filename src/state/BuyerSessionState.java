@@ -1,13 +1,9 @@
 package state;
 
-import app.MediatorGUI;
-import commands.CommandMenuItem;
-import models.MenuItemType;
-import models.PopupListener;
+import mediator.MediatorGUI;
+import models.*;
 
-import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.util.List;
 
 /**
@@ -29,25 +25,28 @@ public class BuyerSessionState extends SessionState {
     }
 
     @Override
-    protected MouseListener getTableMouseListener() {
+    protected PopupListener getTableMouseListener() {
 
-        return createMouseListener(MenuItemType.LaunchOfferRequest,MenuItemType.DropOfferRequest);
+        return createMouseListener(PopupType.TablePopup,
+                MenuItemType.LaunchOfferRequest,MenuItemType.DropOfferRequest);
     }
 
 
 
 
     @Override
-    protected MouseListener getListMouseListener() {
+    protected PopupListener getListMouseListener() {
 
 
-        return createMouseListener(MenuItemType.AcceptOffer,MenuItemType.RefuseOffer);
+        return createMouseListener(PopupType.ListPopup,
+                MenuItemType.AcceptOffer,MenuItemType.RefuseOffer);
 
     }
 
     @Override
-    public void launchOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void launchOffer(int row) {
+
+        table.getModel().setValueAt(StatusTypes.No_Offer,row, MyTableModel.STATUS_COLUMN);
     }
 
 }

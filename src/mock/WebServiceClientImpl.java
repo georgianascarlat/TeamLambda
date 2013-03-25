@@ -1,5 +1,7 @@
-package app;
+package mock;
 
+import models.LoginInfo;
+import app.WebServiceClient;
 import exceptions.NoSuchUserException;
 
 import java.io.File;

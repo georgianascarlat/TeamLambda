@@ -40,8 +40,8 @@ public class StateManager {
     }
 
     // se lanseaza o cerere de oferta
-    public void launchOffer() {
-        sessionState.launchOffer();
+    public void launchOffer(int row) {
+        sessionState.launchOffer(row);
     }
 
 

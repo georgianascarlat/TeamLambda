@@ -1,5 +1,7 @@
 package app;
 
+import models.LoginInfo;
+
 import java.util.List;
 
 /**
@@ -17,4 +19,6 @@ public interface GUI {
     public void logIn(LoginInfo info, List<String> services);
 
     public void logOut();
+
+    public void launchOffer(int row);
 }

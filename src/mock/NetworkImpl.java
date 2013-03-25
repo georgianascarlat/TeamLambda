@@ -1,5 +1,6 @@
-package app;
+package mock;
 
+import app.Network;
 import models.Service;
 import models.ServiceImpl;
 
@@ -11,6 +12,8 @@ import models.ServiceImpl;
  * To change this template use File | Settings | File Templates.
  */
 public class NetworkImpl implements Network {
+
+
 
     @Override
     public Service purchaseService(String name) {

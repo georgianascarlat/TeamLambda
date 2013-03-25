@@ -1,4 +1,4 @@
-package app;
+package models;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,38 +12,31 @@ public class LoginInfo {
     private String username, type, password;
     private String fileName;
 
-    LoginInfo(String username, String type, String password) {
+    public LoginInfo(String username, String type, String password) {
         this.username = username;
         this.type = type;
         this.password = password;
     }
 
-    String getFileName() {
+    public String getFileName() {
         return fileName;
     }
 
-    void setFileName(String fileName) {
+    public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    String getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    String getType() {
+    public String getType() {
         return type;
     }
 
-    String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    @Override
-    public String toString() {
-        return "LoginInfo{" +
-                "username='" + username + '\'' +
-                ", type='" + type + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+
 }

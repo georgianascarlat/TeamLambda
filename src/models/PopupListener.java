@@ -1,9 +1,12 @@
 package models;
 
+import commands.CommandMenuItem;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.security.InvalidParameterException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,18 +15,23 @@ import java.awt.event.MouseEvent;
  * Time: 3:32 PM
  * To change this template use File | Settings | File Templates.
  */
-public class PopupListener extends MouseAdapter {
+public abstract class PopupListener extends MouseAdapter {
     JPopupMenu popup;
+
 
     public PopupListener(JPopupMenu popupMenu) {
         popup = popupMenu;
     }
 
-
-
     public void mousePressed(MouseEvent e) {
         maybeShowPopup(e);
+        passPopupInfo(e);
     }
+
+    protected abstract void passPopupInfo(MouseEvent e);
+    protected void setSelectedService(String name){}
+    protected void setSelectedServiceRow(int row){}
+
 
     public void mouseReleased(MouseEvent e) {
         maybeShowPopup(e);
@@ -31,29 +39,24 @@ public class PopupListener extends MouseAdapter {
 
     private void maybeShowPopup(MouseEvent e) {
 
-        Component component = e.getComponent();
         if (e.isPopupTrigger()) {
-            popup.show(component, e.getX(), e.getY());
-
-
-//            if(component instanceof JList){
-//                JList list = (JList)component;
-//
-//                System.out.println(list.locationToIndex(e.getPoint()));
-//            }
-//
-//            if(component instanceof JTable){
-//                JTable table = (JTable)component;
-//                System.out.println(table.rowAtPoint(e.getPoint()));
-//            }
-
+            popup.show(e.getComponent(), e.getX(), e.getY());
         }
     }
 
-    @Override
-    public String toString() {
-        return "PopupListener{" +
-                "popup=" + popup +
-                '}';
+    public static PopupListener popupListenerFactory(PopupType type,JPopupMenu popupMenu){
+
+        switch (type) {
+
+            case ListPopup:
+                return new ListPopupListener(popupMenu);
+            case TablePopup:
+                return new TablePopupListener(popupMenu);
+            default:
+                throw new InvalidParameterException("Invalid PopupListener type "+type.toString());
+        }
+
     }
+
+
 }

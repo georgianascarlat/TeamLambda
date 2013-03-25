@@ -1,6 +1,6 @@
 package state;
 
-import app.MediatorGUI;
+import mediator.MediatorGUI;
 import exceptions.NoSuchUserTypeException;
 import models.UserType;
 

@@ -1,5 +1,10 @@
 package app;
 
+import mediator.Mediator;
+import mediator.MediatorGUI;
+import mock.NetworkImpl;
+import mock.WebServiceClientImpl;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -12,8 +17,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MediatorGUI mediator = new MediatorGUIImpl();
+        MediatorGUI mediator = new Mediator();
         mediator.registerWebServiceClient(new WebServiceClientImpl());
+        mediator.registerNetwork(new NetworkImpl());
+
 
         new GUIImpl(mediator);
     }

@@ -1,7 +1,8 @@
-package app;
+package mediator;
 
-import app.MediatorGUI;
+import app.*;
 import exceptions.NoSuchUserException;
+import models.LoginInfo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +15,11 @@ import java.util.List;
  * Time: 4:08 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MediatorGUIImpl implements MediatorGUI {
+public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServiceClient {
 
     protected GUI gui;
     protected WebServiceClient webServiceClient;
+    protected Network network;
 
 
     @Override
@@ -28,6 +30,11 @@ public class MediatorGUIImpl implements MediatorGUI {
     @Override
     public void registerWebServiceClient(WebServiceClient webServiceClient) {
         this.webServiceClient = webServiceClient;
+    }
+
+    @Override
+    public void registerNetwork(Network network) {
+        this.network = network;
     }
 
     @Override
@@ -58,8 +65,10 @@ public class MediatorGUIImpl implements MediatorGUI {
     }
 
     @Override
-    public void launchOffer() {
-        System.out.println("Offer lounched!");
+    public void launchOffer(String selectedService, int selectedServiceRow) {
+
+        gui.launchOffer(selectedServiceRow);
+
     }
 
     @Override
