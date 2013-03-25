@@ -5,9 +5,6 @@ import models.*;
 
 import java.util.List;
 import javax.swing.*;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,13 +20,10 @@ import java.awt.event.WindowEvent;
  */
 public class GUIImpl extends JFrame implements ActionListener, GUI {
 
-    public static final int PROGRESS_BAR_WIDTH = 300;
-    public static final int COLUMN_OFFSET = 12;
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
     private MediatorGUI mediator;
 
-    private JTable table;
 
 
     private JTextField tUserName = new JTextField(10);
@@ -43,6 +37,8 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     private JLabel labelUserName = new JLabel("Username: ");
     private JLabel labelPassword = new JLabel("Password: ");
     private JLabel labelType = new JLabel("User Type: ");
+
+    private MyTableModel tableModel = null;
 
 
 
@@ -151,14 +147,11 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         top.add(logoutButton);
 
 
-        Object[][] data = getDataFromServices(services);
-        table = new JTable(new MyTableModel(columnNames, data));
-
-        initTable(table);
+        tableModel = new MyTableModel(columnNames, getDataFromServices(services));
 
         bottom.removeAll();
 
-        bottom.add(new JScrollPane(table));
+        bottom.add(new JScrollPane(tableModel.createJTable()));
 
         this.paintAll(this.getGraphics());
 
@@ -187,48 +180,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     }
 
 
-    private void initTable(JTable table) {
 
-        int height = 0, width = 0;
-        TableColumn col = null;
-        Component comp;
-
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        ListRenderer lr = new ListRenderer();
-        table.setDefaultRenderer(DefaultListModel.class, lr);
-
-        ProgressBarRenderer pr = new ProgressBarRenderer();
-        table.setDefaultRenderer(Service.class, pr);
-
-
-        for (int i = 0; i < table.getColumnCount(); i++) {
-
-            col = table.getColumnModel().getColumn(i);
-            width = 0;
-
-
-            TableCellRenderer renderer = table.getTableHeader().getDefaultRenderer();
-            comp = renderer.getTableCellRendererComponent(
-                    null, col.getHeaderValue(),
-                    false, false, 0, 0);
-            width = Math.max(width, comp.getPreferredSize().width);
-
-            for (int r = 0; r < table.getRowCount(); r++) {
-                renderer = table.getCellRenderer(r, i);
-                comp = renderer.getTableCellRendererComponent(table, table.getValueAt(r, i),
-                        false, false, r, i);
-                width = Math.max(width, comp.getPreferredSize().width);
-                height = Math.max(height, comp.getPreferredSize().height);
-            }
-            col.setPreferredWidth(width + COLUMN_OFFSET);
-
-        }
-
-        if(col != null)
-            col.setPreferredWidth(PROGRESS_BAR_WIDTH);
-
-        table.setRowHeight(height);
-    }
 
     private Object[][] getDataFromServices(List<String> services) {
         int size = services.size();

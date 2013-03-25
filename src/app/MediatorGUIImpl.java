@@ -49,7 +49,6 @@ public class MediatorGUIImpl implements MediatorGUI {
             JOptionPane.showMessageDialog((Component) gui, "Invalid username or password.");
         }
 
-
     }
 
     @Override
