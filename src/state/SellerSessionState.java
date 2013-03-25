@@ -33,13 +33,19 @@ public class SellerSessionState extends SessionState {
     protected PopupListener getListMouseListener() {
 
         return createMouseListener(PopupType.ListPopup,
-                MenuItemType.MakeOffer,MenuItemType.DropAuction);
+                MenuItemType.MakeOffer, MenuItemType.DropAuction);
 
     }
 
     @Override
     public void launchOffer(int row) {
+        //does nothing
+        //does nothing
+    }
 
+    @Override
+    public void dropOffer(int row) {
+        //does nothing
     }
 
 

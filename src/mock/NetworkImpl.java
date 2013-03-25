@@ -4,6 +4,8 @@ import app.Network;
 import models.Service;
 import models.ServiceImpl;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -14,7 +16,6 @@ import models.ServiceImpl;
 public class NetworkImpl implements Network {
 
 
-
     @Override
     public Service purchaseService(String name) {
         return new ServiceImpl();
@@ -22,6 +23,21 @@ public class NetworkImpl implements Network {
 
     @Override
     public void offerLaunched(String username, String service) {
-        System.out.println("Launching offer for service "+service+" from user "+username);
+        System.out.println("[Network]Launching offer for service " + service + " from user " + username);
+    }
+
+    @Override
+    public void removeUserFromLists(String username) {
+        System.out.println("[Network]Removing user " + username + " from all lists");
+    }
+
+    @Override
+    public void offerDropped(String username, String service) {
+        System.out.println("[Network]Dropping offer for service " + service + " from user " + username);
+    }
+
+    @Override
+    public void newUser(String username, List<String> services) {
+        System.out.println("[Network]New user has entered the system: "+username);
     }
 }

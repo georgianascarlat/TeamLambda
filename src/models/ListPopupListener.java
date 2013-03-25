@@ -17,6 +17,7 @@ public class ListPopupListener extends PopupListener {
 
     private String selectedService;
     private int selectedServiceRow;
+    private StatusTypes statusType;
 
 
     @Override
@@ -35,9 +36,16 @@ public class ListPopupListener extends PopupListener {
             menuItem.setSelectedListElement((String) list.getModel().getElementAt(index));
             menuItem.setSelectedService(selectedService);
             menuItem.setSelectedServiceRow(selectedServiceRow);
+            menuItem.setStatusType(statusType);
 
 
         }
+    }
+
+    @Override
+    protected void setSelectedStatusType(StatusTypes statusType) {
+
+        this.statusType = statusType;
     }
 
     @Override

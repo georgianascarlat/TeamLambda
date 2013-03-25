@@ -36,7 +36,7 @@ public interface MediatorGUI {
     public void launchOffer(String selectedService, int selectedServiceRow);
 
     // se anuleaza o cerere de oferta
-    public void dropOffer();
+    public void dropOffer(String selectedService, int selectedServiceRow);
 
     //  se face o oferta
     public void makeOffer();

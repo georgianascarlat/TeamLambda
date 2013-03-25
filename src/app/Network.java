@@ -2,6 +2,8 @@ package app;
 
 import models.Service;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -14,4 +16,10 @@ public interface Network {
     public Service purchaseService(String name);
 
     public void offerLaunched(String username, String service);
+
+    public void removeUserFromLists(String username);
+
+    public void offerDropped(String username, String service);
+
+    public void newUser(String username, List<String> services);
 }

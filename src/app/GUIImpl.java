@@ -195,5 +195,10 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         stateManager.launchOffer(row);
     }
 
+    @Override
+    public void dropOffer(int row) {
+        stateManager.dropOffer(row);
+    }
+
 
 }

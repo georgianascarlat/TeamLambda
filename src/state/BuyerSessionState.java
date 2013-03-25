@@ -16,10 +16,8 @@ import java.util.List;
 public class BuyerSessionState extends SessionState {
 
 
-
     public BuyerSessionState(List<String> services, ActionListener actionListener, MediatorGUI mediatorGUI) {
-        super(services, actionListener,mediatorGUI);
-
+        super(services, actionListener, mediatorGUI);
 
 
     }
@@ -28,10 +26,8 @@ public class BuyerSessionState extends SessionState {
     protected PopupListener getTableMouseListener() {
 
         return createMouseListener(PopupType.TablePopup,
-                MenuItemType.LaunchOfferRequest,MenuItemType.DropOfferRequest);
+                MenuItemType.LaunchOfferRequest, MenuItemType.DropOfferRequest);
     }
-
-
 
 
     @Override
@@ -39,14 +35,20 @@ public class BuyerSessionState extends SessionState {
 
 
         return createMouseListener(PopupType.ListPopup,
-                MenuItemType.AcceptOffer,MenuItemType.RefuseOffer);
+                MenuItemType.AcceptOffer, MenuItemType.RefuseOffer);
 
     }
 
     @Override
     public void launchOffer(int row) {
 
-        table.getModel().setValueAt(StatusTypes.No_Offer,row, MyTableModel.STATUS_COLUMN);
+        table.getModel().setValueAt(StatusTypes.No_Offer, row, MyTableModel.STATUS_COLUMN);
+    }
+
+    @Override
+    public void dropOffer(int row) {
+
+        table.getModel().setValueAt(StatusTypes.Inactive, row, MyTableModel.STATUS_COLUMN);
     }
 
 }

@@ -29,8 +29,15 @@ public abstract class PopupListener extends MouseAdapter {
     }
 
     protected abstract void passPopupInfo(MouseEvent e);
-    protected void setSelectedService(String name){}
-    protected void setSelectedServiceRow(int row){}
+
+    protected void setSelectedService(String name) {
+    }
+
+    protected void setSelectedServiceRow(int row) {
+    }
+
+    protected void setSelectedStatusType(StatusTypes statusType) {
+    }
 
 
     public void mouseReleased(MouseEvent e) {
@@ -44,7 +51,7 @@ public abstract class PopupListener extends MouseAdapter {
         }
     }
 
-    public static PopupListener popupListenerFactory(PopupType type,JPopupMenu popupMenu){
+    public static PopupListener popupListenerFactory(PopupType type, JPopupMenu popupMenu) {
 
         switch (type) {
 
@@ -53,7 +60,7 @@ public abstract class PopupListener extends MouseAdapter {
             case TablePopup:
                 return new TablePopupListener(popupMenu);
             default:
-                throw new InvalidParameterException("Invalid PopupListener type "+type.toString());
+                throw new InvalidParameterException("Invalid PopupListener type " + type.toString());
         }
 
     }

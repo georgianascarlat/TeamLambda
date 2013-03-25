@@ -51,6 +51,8 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
             services = webServiceClient.getServices(info);
             gui.logIn(info, services);
 
+            network.newUser(info.getUsername(),services);
+
         } catch (NoSuchUserException e) {
 
             JOptionPane.showMessageDialog((Component) gui, "Invalid username or password.");
@@ -61,7 +63,15 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     @Override
     public void logOut() {
 
+        LoginInfo info = gui.getLoginInfo();
+
+        if (info == null)
+            return;
+
         gui.logOut();
+
+        network.removeUserFromLists(info.getUsername());
+
     }
 
     @Override
@@ -78,8 +88,16 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     }
 
     @Override
-    public void dropOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void dropOffer(String selectedService, int selectedServiceRow) {
+
+        LoginInfo info = gui.getLoginInfo();
+
+        if (info == null)
+            return;
+
+        gui.dropOffer(selectedServiceRow);
+        network.offerDropped(info.getUsername(),selectedService);
+
     }
 
     @Override

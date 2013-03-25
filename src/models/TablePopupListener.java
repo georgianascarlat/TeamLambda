@@ -22,16 +22,16 @@ public class TablePopupListener extends PopupListener {
         int index;
         JTable table = (JTable) e.getComponent();
         CommandMenuItem menuItem;
-        Component[] components =  popup.getComponents();
+        Component[] components = popup.getComponents();
 
         for (Component component : components) {
             index = table.rowAtPoint(e.getPoint());
-            menuItem =  (CommandMenuItem) component;
-            menuItem.setSelectedService((String) table.getModel().getValueAt(index,MyTableModel.SERVICE_COLUMN_NAME));
+            menuItem = (CommandMenuItem) component;
+            menuItem.setSelectedService((String) table.getModel().getValueAt(index, MyTableModel.SERVICE_COLUMN_NAME));
             menuItem.setSelectedServiceRow(index);
+            menuItem.setStatusType((StatusTypes) table.getModel().getValueAt(index, MyTableModel.STATUS_COLUMN));
         }
     }
-
 
 
     public TablePopupListener(JPopupMenu popupMenu) {

@@ -21,4 +21,6 @@ public interface GUI {
     public void logOut();
 
     public void launchOffer(int row);
+
+    public void dropOffer(int row);
 }

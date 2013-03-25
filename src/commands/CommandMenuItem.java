@@ -2,6 +2,7 @@ package commands;
 
 import mediator.MediatorGUI;
 import models.MenuItemType;
+import models.StatusTypes;
 
 import javax.swing.*;
 
@@ -18,6 +19,7 @@ public class CommandMenuItem extends JMenuItem implements Command {
     private MediatorGUI med;
     private String selectedService, selectedListElement;
     private int selectedServiceRow, selectedListElementIndex;
+    private StatusTypes statusType = StatusTypes.Inactive;
 
     public CommandMenuItem(MenuItemType type, MediatorGUI med) {
         super(type.getText());
@@ -25,6 +27,32 @@ public class CommandMenuItem extends JMenuItem implements Command {
         this.med = med;
 
 
+    }
+
+    public void setStatusType(StatusTypes statusType) {
+        this.statusType = statusType;
+
+        this.setVisible(true);
+
+        switch (type) {
+
+            case LaunchOfferRequest:
+                if (!statusType.equals(StatusTypes.Inactive))
+                    this.setVisible(false);
+                break;
+            case DropOfferRequest:
+                if (statusType.equals(StatusTypes.Inactive) || statusType.equals(StatusTypes.Offer_Accepted))
+                    this.setVisible(false);
+                break;
+            case AcceptOffer:
+                break;
+            case RefuseOffer:
+                break;
+            case MakeOffer:
+                break;
+            case DropAuction:
+                break;
+        }
     }
 
     public void setSelectedListElementIndex(int selectedListElementIndex) {
@@ -46,13 +74,18 @@ public class CommandMenuItem extends JMenuItem implements Command {
     @Override
     public void execute() {
 
+
         switch (type) {
 
             case LaunchOfferRequest:
-                med.launchOffer(selectedService,selectedServiceRow);
+
+                med.launchOffer(selectedService, selectedServiceRow);
+
                 break;
             case DropOfferRequest:
-                //med.dropOffer();
+
+                med.dropOffer(selectedService, selectedServiceRow);
+
                 break;
             case AcceptOffer:
                 // med.acceptOffer();

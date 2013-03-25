@@ -35,9 +35,8 @@ public abstract class SessionState {
         this.mediator = mediator;
 
         MyTableModel tableModel = new MyTableModel(columnNames,
-                getDataFromServices(services),getListMouseListener(),getTableMouseListener());
+                getDataFromServices(services), getListMouseListener(), getTableMouseListener());
         this.table = tableModel.createJTable();
-
 
 
     }
@@ -55,9 +54,9 @@ public abstract class SessionState {
 
             data[i][0] = services.get(i);
             data[i][1] = new DefaultListModel<String>();
-            ((DefaultListModel<String>)data[i][1]).addElement("Ana");
-            ((DefaultListModel<String>)data[i][1]).addElement("Bibi");
-            ((DefaultListModel<String>)data[i][1]).addElement("Bibi");
+            ((DefaultListModel<String>) data[i][1]).addElement("Ana");
+            ((DefaultListModel<String>) data[i][1]).addElement("Bibi");
+            ((DefaultListModel<String>) data[i][1]).addElement("Bibi");
             data[i][2] = StatusTypes.Inactive;
             data[i][3] = new ServiceImpl();
 
@@ -66,7 +65,7 @@ public abstract class SessionState {
         return data;
     }
 
-    protected PopupListener createMouseListener(PopupType popupType, MenuItemType type1,MenuItemType type2) {
+    protected PopupListener createMouseListener(PopupType popupType, MenuItemType type1, MenuItemType type2) {
 
         JMenuItem menuItem;
         JPopupMenu popupMenu = new JPopupMenu();
@@ -80,7 +79,7 @@ public abstract class SessionState {
 
         popupMenu.setLightWeightPopupEnabled(false);
 
-        return PopupListener.popupListenerFactory(popupType,popupMenu);
+        return PopupListener.popupListenerFactory(popupType, popupMenu);
     }
 
     public JTable getTable() {
@@ -91,4 +90,5 @@ public abstract class SessionState {
     public abstract void launchOffer(int row);
 
 
+    public abstract void dropOffer(int row);
 }

@@ -48,4 +48,8 @@ public class StateManager {
     public JTable getTable() {
         return sessionState.getTable();
     }
+
+    public void dropOffer(int row) {
+        sessionState.dropOffer(row);
+    }
 }
