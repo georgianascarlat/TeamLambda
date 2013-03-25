@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
  */
 public class LoginButton extends JButton implements Command {
 
-    MediatorGUI med;
+    private MediatorGUI med;
 
     public LoginButton(ActionListener act, MediatorGUI md) {
         super("Login");

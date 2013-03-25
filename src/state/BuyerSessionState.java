@@ -1,5 +1,13 @@
 package state;
 
+import app.MediatorGUI;
+import commands.CommandMenuItem;
+import models.MenuItemType;
+import models.PopupListener;
+
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 /**
@@ -10,42 +18,36 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class BuyerSessionState extends SessionState {
+
+
+
+    public BuyerSessionState(List<String> services, ActionListener actionListener, MediatorGUI mediatorGUI) {
+        super(services, actionListener,mediatorGUI);
+
+
+
+    }
+
+    @Override
+    protected MouseListener getTableMouseListener() {
+
+        return createMouseListener(MenuItemType.LaunchOfferRequest,MenuItemType.DropOfferRequest);
+    }
+
+
+
+
+    @Override
+    protected MouseListener getListMouseListener() {
+
+
+        return createMouseListener(MenuItemType.AcceptOffer,MenuItemType.RefuseOffer);
+
+    }
+
     @Override
     public void launchOffer() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    public void revokeOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void makeOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void acceptOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void surpassOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void refuseOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void doTransfer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    protected BuyerSessionState(List<String> services) {
-        super(services);
-    }
 }

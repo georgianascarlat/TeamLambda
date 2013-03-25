@@ -3,6 +3,7 @@ package models;
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.awt.event.MouseListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,9 +28,10 @@ public class ListRenderer extends JList implements TableCellRenderer {
     public Component getTableCellRendererComponent(JTable jTable, Object cellObject,
                                                    boolean isSelected, boolean hasFocus,
                                                    int row, int column) {
-        if(show){
+        if (show) {
             this.setModel((ListModel) cellObject);
         }
+
         return this;
     }
 }

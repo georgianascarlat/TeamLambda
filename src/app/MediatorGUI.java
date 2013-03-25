@@ -31,7 +31,7 @@ public interface MediatorGUI {
     public void launchOffer();
 
     // se anuleaza o cerere de oferta
-    public void revokeOffer();
+    public void dropOffer();
 
     //  se face o oferta
     public void makeOffer();
@@ -46,4 +46,5 @@ public interface MediatorGUI {
     // transferul de servicii/produse
     public void doTransfer();
 
+    public void dropAuction();
 }

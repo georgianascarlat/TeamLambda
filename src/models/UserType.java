@@ -33,6 +33,6 @@ public enum UserType {
                 }
             }
         }
-        throw new NoSuchUserTypeException();
+        throw new NoSuchUserTypeException(text);
     }
 }

@@ -1,5 +1,13 @@
 package state;
 
+import app.MediatorGUI;
+import commands.CommandMenuItem;
+import models.MenuItemType;
+import models.PopupListener;
+
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 /**
@@ -10,42 +18,28 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class SellerSessionState extends SessionState {
+
+
+    public SellerSessionState(List<String> services, ActionListener actionListener, MediatorGUI mediatorGUI) {
+        super(services, actionListener, mediatorGUI);
+    }
+
+    @Override
+    protected MouseListener getTableMouseListener() {
+        return new PopupListener(new JPopupMenu());
+    }
+
+    @Override
+    protected MouseListener getListMouseListener() {
+
+        return createMouseListener(MenuItemType.MakeOffer,MenuItemType.DropAuction);
+
+    }
+
     @Override
     public void launchOffer() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    public void revokeOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
 
-    @Override
-    public void makeOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void acceptOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void surpassOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void refuseOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void doTransfer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    protected SellerSessionState(List<String> services) {
-        super(services);
-    }
 }

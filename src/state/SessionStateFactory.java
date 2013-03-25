@@ -1,8 +1,10 @@
 package state;
 
+import app.MediatorGUI;
 import exceptions.NoSuchUserTypeException;
 import models.UserType;
 
+import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
@@ -14,17 +16,17 @@ import java.util.List;
  */
 public class SessionStateFactory {
 
-    public static SessionState createSessionState(String stateName,List<String> services) throws NoSuchUserTypeException {
+    public static SessionState createSessionState(String stateName, List<String> services, ActionListener actionListener, MediatorGUI mediator) throws NoSuchUserTypeException {
         UserType userType = UserType.fromString(stateName);
 
         switch (userType) {
 
             case BUYER:
-                return new BuyerSessionState(services);
+                return new BuyerSessionState(services, actionListener, mediator);
             case SELLER:
-                return new SellerSessionState(services);
+                return new SellerSessionState(services, actionListener, mediator);
             default:
-                throw new NoSuchUserTypeException();
+                throw new NoSuchUserTypeException(stateName);
         }
 
     }

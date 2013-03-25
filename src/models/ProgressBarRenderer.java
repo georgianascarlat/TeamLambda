@@ -28,10 +28,10 @@ public class ProgressBarRenderer extends JProgressBar implements TableCellRender
                                                    boolean isSelected, boolean hasFocus,
                                                    int row, int column) {
 
-        if(show && cellObject != null){
+        if (show && cellObject != null) {
             this.setMaximum(0);
             this.setMaximum(100);
-            this.setValue(((Service)cellObject).getPurchaseProgress());
+            this.setValue(((Service) cellObject).getPurchaseProgress());
         }
         return this;
     }

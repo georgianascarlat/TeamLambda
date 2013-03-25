@@ -5,6 +5,7 @@ import exceptions.NoSuchUserTypeException;
 import models.*;
 import state.SessionState;
 import state.SessionStateFactory;
+import state.StateManager;
 
 import java.util.List;
 import javax.swing.*;
@@ -13,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import static state.StateManager.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +31,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     private MediatorGUI mediator;
 
 
-
     private JTextField tUserName = new JTextField(10);
     private JTextField tType = new JTextField(10);
     private JPasswordField tPassword = new JPasswordField(10);
@@ -41,9 +43,8 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     private JLabel labelPassword = new JLabel("Password: ");
     private JLabel labelType = new JLabel("User Type: ");
 
-   private SessionState sessionState = null;
 
-
+    private StateManager stateManager;
 
 
     public GUIImpl(MediatorGUI mediator) {
@@ -104,7 +105,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         constraints.gridy = 1;
 
 
-
         jp.add(bottom, constraints);
 
         setSize(new Dimension(WIDTH, HEIGHT));
@@ -126,7 +126,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         String username = tUserName.getText(), type = tType.getText(), pass = String.valueOf(tPassword.getPassword());
 
         if ("".equals(username) || "".equals(pass) || "".equals(type)) {
-            JOptionPane.showMessageDialog(this,"Some fields are blank.");
+            JOptionPane.showMessageDialog(this, "Some fields are blank.");
             return null;
         }
 
@@ -142,10 +142,11 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
         try {
 
-            sessionState = SessionStateFactory.createSessionState(info.getType(),services);
+            SessionState sessionState = SessionStateFactory.createSessionState(info.getType(), services, this, mediator);
+            stateManager = setStateManager(stateManager, sessionState);
 
         } catch (NoSuchUserTypeException e) {
-            JOptionPane.showMessageDialog(this,"Invalid user type "+info.getType()+".");
+            JOptionPane.showMessageDialog(this, "Invalid user type " + e.getType() + ".");
             return;
         }
 
@@ -155,7 +156,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         top.add(logoutButton);
 
         bottom.removeAll();
-        bottom.add(new JScrollPane(sessionState.getTableModel().createJTable()));
+        bottom.add(new JScrollPane(stateManager.getTable()));
 
         this.paintAll(this.getGraphics());
 
@@ -184,23 +185,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     }
 
 
-
-
-    private Object[][] getDataFromServices(List<String> services) {
-        int size = services.size();
-        Object[][] data = new Object[size][4];
-
-        for(int i=0;i<size;i++){
-
-            data[i][0] = services.get(i);
-            data[i][1] = new DefaultListModel<String>();
-            data[i][2] = StatusTypes.Inactive;
-            data[i][3] =  new ServiceImpl();
-
-        }
-
-        return data;
-    }
 
 
 }

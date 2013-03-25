@@ -8,4 +8,14 @@ package exceptions;
  * To change this template use File | Settings | File Templates.
  */
 public class NoSuchUserTypeException extends Exception {
+
+    private String type;
+
+    public NoSuchUserTypeException(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

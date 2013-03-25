@@ -1,10 +1,12 @@
 package state;
 
-import models.MyTableModel;
-import models.ServiceImpl;
-import models.StatusTypes;
+import app.MediatorGUI;
+import commands.CommandMenuItem;
+import models.*;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 /**
@@ -16,57 +18,77 @@ import java.util.List;
  */
 public abstract class SessionState {
 
-    private MyTableModel tableModel;
-    private static final String[] columnNames = {"Service Name",
+
+    protected JTable table;
+    protected MediatorGUI mediator;
+    protected ActionListener actionListener;
+
+
+    protected static final String[] columnNames = {"Service Name",
             "Users List",
             "Auction Status",
             "Download Progress"};
 
 
+    public SessionState(List<String> services, ActionListener actionListener, MediatorGUI mediator) {
 
-    protected SessionState(List<String> services) {
-        this.tableModel = new MyTableModel(columnNames, getDataFromServices(services));
+        this.actionListener = actionListener;
+        this.mediator = mediator;
+
+        MyTableModel tableModel = new MyTableModel(columnNames,
+                getDataFromServices(services),getListMouseListener(),getTableMouseListener());
+        this.table = tableModel.createJTable();
+
+
+
     }
 
+    protected abstract MouseListener getTableMouseListener();
 
-    private Object[][] getDataFromServices(List<String> services) {
+    protected abstract MouseListener getListMouseListener();
+
+
+    protected Object[][] getDataFromServices(List<String> services) {
         int size = services.size();
         Object[][] data = new Object[size][4];
 
-        for(int i=0;i<size;i++){
+        for (int i = 0; i < size; i++) {
 
             data[i][0] = services.get(i);
             data[i][1] = new DefaultListModel<String>();
+            ((DefaultListModel<String>)data[i][1]).addElement("Ana");
+            ((DefaultListModel<String>)data[i][1]).addElement("Bibi");
+            ((DefaultListModel<String>)data[i][1]).addElement("Bibi");
             data[i][2] = StatusTypes.Inactive;
-            data[i][3] =  new ServiceImpl();
+            data[i][3] = new ServiceImpl();
 
         }
 
         return data;
     }
 
-    public MyTableModel getTableModel() {
-        return tableModel;
+    protected MouseListener createMouseListener(MenuItemType type1,MenuItemType type2) {
+        JMenuItem menuItem;
+        JPopupMenu popupMenu = new JPopupMenu();
+
+        menuItem = new CommandMenuItem(type1, mediator);
+        menuItem.addActionListener(actionListener);
+        popupMenu.add(menuItem);
+        menuItem = new CommandMenuItem(type2, mediator);
+        menuItem.addActionListener(actionListener);
+        popupMenu.add(menuItem);
+
+        popupMenu.setLightWeightPopupEnabled(false);
+
+        return new PopupListener(popupMenu);
+    }
+
+    public JTable getTable() {
+        return table;
     }
 
     // se lanseaza o cerere de oferta
     public abstract void launchOffer();
-
-    // se anuleaza o cerere de oferta
-    public abstract void revokeOffer();
-
-    //  se face o oferta
-    public abstract void makeOffer();
-
-    //oferta este acceptata/depasita/refuzata
-    public abstract void acceptOffer();
-
-    public abstract void surpassOffer();
-
-    public abstract void refuseOffer();
-
-    // transferul de servicii/produse
-    public abstract void doTransfer();
 
 
 }

@@ -14,9 +14,9 @@ import java.awt.event.ActionListener;
  * Time: 12:20 AM
  * To change this template use File | Settings | File Templates.
  */
-public class LogoutButton extends JButton implements Command  {
+public class LogoutButton extends JButton implements Command {
 
-    MediatorGUI med;
+    private MediatorGUI med;
 
     public LogoutButton(ActionListener act, MediatorGUI md) {
         super("Logout");
@@ -28,6 +28,6 @@ public class LogoutButton extends JButton implements Command  {
 
     @Override
     public void execute() {
-         med.logOut();
+        med.logOut();
     }
 }

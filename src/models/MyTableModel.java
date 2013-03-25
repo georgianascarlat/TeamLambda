@@ -5,6 +5,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.MouseListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,12 +17,16 @@ import java.awt.*;
 public class MyTableModel extends AbstractTableModel {
     private String[] columnNames;
     private Object[][] data;
+    private MouseListener listMouseListener;
+    private MouseListener tableMouseListener;
     private static final int COLUMN_OFFSET = 12;
     private static final int PROGRESS_BAR_WIDTH = 300;
 
-    public MyTableModel(String[] columnNames, Object[][] data) {
+    public MyTableModel(String[] columnNames, Object[][] data, MouseListener listMouseListener, MouseListener tableMouseListener) {
         this.columnNames = columnNames;
         this.data = data;
+        this.listMouseListener = listMouseListener;
+        this.tableMouseListener = tableMouseListener;
     }
 
     public int getColumnCount() {
@@ -43,7 +48,7 @@ public class MyTableModel extends AbstractTableModel {
     public Class getColumnClass(int c) {
         Class cls = getValueAt(0, c).getClass();
         Class[] interfaces = cls.getInterfaces();
-        if(interfaces.length > 0)
+        if (interfaces.length > 0)
             return interfaces[0];
 
         return cls;
@@ -54,6 +59,9 @@ public class MyTableModel extends AbstractTableModel {
      * editable.
      */
     public boolean isCellEditable(int row, int col) {
+
+        if(getColumnClass(col).equals(DefaultListModel.class))
+            return true;
         return false;
     }
 
@@ -77,9 +85,14 @@ public class MyTableModel extends AbstractTableModel {
 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         ListRenderer lr = new ListRenderer();
+        lr.setShow(true);
         table.setDefaultRenderer(DefaultListModel.class, lr);
 
+        table.setDefaultEditor(DefaultListModel.class,new ListCellEditor(listMouseListener));
+        table.addMouseListener(tableMouseListener);
+
         ProgressBarRenderer pr = new ProgressBarRenderer();
+        pr.setShow(true);
         table.setDefaultRenderer(Service.class, pr);
 
 
@@ -106,7 +119,7 @@ public class MyTableModel extends AbstractTableModel {
 
         }
 
-        if(col != null)
+        if (col != null)
             col.setPreferredWidth(PROGRESS_BAR_WIDTH);
 
         table.setRowHeight(height);

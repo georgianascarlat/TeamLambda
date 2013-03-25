@@ -1,5 +1,9 @@
 package state;
 
+import models.MyTableModel;
+
+import javax.swing.*;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -12,8 +16,18 @@ public class StateManager {
 
     private SessionState sessionState;
 
-    public StateManager(SessionState sessionState) {
+    StateManager(SessionState sessionState) {
         this.sessionState = sessionState;
+    }
+
+    public static StateManager setStateManager(StateManager stateManager, SessionState state) {
+        if (stateManager == null) {
+            return new StateManager(state);
+        } else {
+            stateManager.setSessionState(state);
+            return stateManager;
+        }
+
     }
 
 
@@ -23,5 +37,15 @@ public class StateManager {
 
     public void setSessionState(SessionState sessionState) {
         this.sessionState = sessionState;
+    }
+
+    // se lanseaza o cerere de oferta
+    public void launchOffer() {
+        sessionState.launchOffer();
+    }
+
+
+    public JTable getTable() {
+        return sessionState.getTable();
     }
 }

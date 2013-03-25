@@ -11,14 +11,14 @@ public class ServiceImpl implements Service {
 
     private int progress;
 
-    public ServiceImpl(){
+    public ServiceImpl() {
 
         progress = 0;
     }
 
     @Override
     public int getPurchaseProgress() {
-        progress = progress<100? (progress+1):progress;
+        progress = progress < 100 ? (progress + 1) : progress;
         return progress;
     }
 }
