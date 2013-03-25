@@ -19,4 +19,9 @@ public class NetworkImpl implements Network {
     public Service purchaseService(String name) {
         return new ServiceImpl();
     }
+
+    @Override
+    public void offerLaunched(String username, String service) {
+        System.out.println("Launching offer for service "+service+" from user "+username);
+    }
 }

@@ -12,4 +12,6 @@ import models.Service;
 public interface Network {
 
     public Service purchaseService(String name);
+
+    public void offerLaunched(String username, String service);
 }

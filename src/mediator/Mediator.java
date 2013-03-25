@@ -67,7 +67,13 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     @Override
     public void launchOffer(String selectedService, int selectedServiceRow) {
 
+        LoginInfo info = gui.getLoginInfo();
+
+        if (info == null)
+            return;
+
         gui.launchOffer(selectedServiceRow);
+        network.offerLaunched(info.getUsername(), selectedService);
 
     }
 
