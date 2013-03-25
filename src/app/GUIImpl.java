@@ -1,7 +1,10 @@
 package app;
 
 import commands.*;
+import exceptions.NoSuchUserTypeException;
 import models.*;
+import state.SessionState;
+import state.SessionStateFactory;
 
 import java.util.List;
 import javax.swing.*;
@@ -38,14 +41,10 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     private JLabel labelPassword = new JLabel("Password: ");
     private JLabel labelType = new JLabel("User Type: ");
 
-    private MyTableModel tableModel = null;
+   private SessionState sessionState = null;
 
 
 
-    private static final String[] columnNames = {"Service Name",
-            "Users List",
-            "Auction Status",
-            "Download Progress"};
 
     public GUIImpl(MediatorGUI mediator) {
         super("Auctions");
@@ -127,8 +126,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         String username = tUserName.getText(), type = tType.getText(), pass = String.valueOf(tPassword.getPassword());
 
         if ("".equals(username) || "".equals(pass) || "".equals(type)) {
-            JOptionPane.showMessageDialog(this,
-                    "Some fields are blank.");
+            JOptionPane.showMessageDialog(this,"Some fields are blank.");
             return null;
         }
 
@@ -140,18 +138,24 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
         JLabel label = new JLabel("Hi, " + info.getUsername() + "!");
         LogoutButton logoutButton = new LogoutButton(this, mediator);
+        MyTableModel tableModel;
+
+        try {
+
+            sessionState = SessionStateFactory.createSessionState(info.getType(),services);
+
+        } catch (NoSuchUserTypeException e) {
+            JOptionPane.showMessageDialog(this,"Invalid user type "+info.getType()+".");
+            return;
+        }
 
         top.removeAll();
 
         top.add(label);
         top.add(logoutButton);
 
-
-        tableModel = new MyTableModel(columnNames, getDataFromServices(services));
-
         bottom.removeAll();
-
-        bottom.add(new JScrollPane(tableModel.createJTable()));
+        bottom.add(new JScrollPane(sessionState.getTableModel().createJTable()));
 
         this.paintAll(this.getGraphics());
 

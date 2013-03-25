@@ -1,62 +1,15 @@
-package app;
+package state;
 
-import app.MediatorGUI;
-import exceptions.NoSuchUserException;
-
-import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
- * Date: 3/24/13
- * Time: 4:08 PM
+ * Date: 3/25/13
+ * Time: 12:18 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MediatorGUIImpl implements MediatorGUI {
-
-    protected GUI gui;
-    protected WebServiceClient webServiceClient;
-
-
-    @Override
-    public void registerGUI(GUI gui) {
-        this.gui = gui;
-    }
-
-    @Override
-    public void registerWebServiceClient(WebServiceClient webServiceClient) {
-        this.webServiceClient = webServiceClient;
-    }
-
-    @Override
-    public void logIn() {
-
-        LoginInfo info = gui.getLoginInfo();
-
-        if (info == null)
-            return;
-
-        List<String> services = null;
-        try {
-
-            services = webServiceClient.getServices(info);
-            gui.logIn(info, services);
-
-        } catch (NoSuchUserException e) {
-
-            JOptionPane.showMessageDialog((Component) gui, "Invalid username or password.");
-        }
-
-    }
-
-    @Override
-    public void logOut() {
-
-        gui.logOut();
-    }
-
+public class SellerSessionState extends SessionState {
     @Override
     public void launchOffer() {
         //To change body of implemented methods use File | Settings | File Templates.
@@ -90,5 +43,9 @@ public class MediatorGUIImpl implements MediatorGUI {
     @Override
     public void doTransfer() {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    protected SellerSessionState(List<String> services) {
+        super(services);
     }
 }

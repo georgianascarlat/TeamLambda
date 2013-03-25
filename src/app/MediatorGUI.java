@@ -41,7 +41,7 @@ public interface MediatorGUI {
 
     public void surpassOffer();
 
-    public void denyOffer();
+    public void refuseOffer();
 
     // transferul de servicii/produse
     public void doTransfer();
