@@ -22,7 +22,7 @@ public class MyTableModel extends AbstractTableModel {
     public static final int COLUMN_NUMBER = 4;
 
     public static final int COLUMN_OFFSET = 12;
-    public static final int PROGRESS_BAR_WIDTH = 300;
+    public static final int PROGRESS_BAR_WIDTH = 200;
     public static final int STATUS_COLUMN = 2;
     public static final int SERVICE_NAME_COLUMN = 0;
     public static final int ROW_HEIGHT = 50;
@@ -43,10 +43,6 @@ public class MyTableModel extends AbstractTableModel {
         this.data = getDataFromServices(services);
         this.listMouseListener = listMouseListener;
         this.tableMouseListener = tableMouseListener;
-    }
-
-    public List<String> getServices() {
-        return services;
     }
 
     public int getColumnCount() {
@@ -80,9 +76,7 @@ public class MyTableModel extends AbstractTableModel {
      */
     public boolean isCellEditable(int row, int col) {
 
-        if (getColumnClass(col).equals(DefaultListModel.class))
-            return true;
-        return false;
+        return getColumnClass(col).equals(DefaultListModel.class);
     }
 
     /*

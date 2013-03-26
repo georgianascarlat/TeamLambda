@@ -120,6 +120,7 @@ public abstract class SessionState {
         int rowCount = model.getRowCount();
         DefaultListModel listModel;
 
+        //System.out.println(SwingUtilities.isEventDispatchThread());
 
         if (type.equalsIgnoreCase(name))
             return;

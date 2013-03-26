@@ -8,6 +8,7 @@ import state.IdleSessionState;
 import state.SessionState;
 import state.SessionStateFactory;
 import state.StateManager;
+import worker.DispatchWorker;
 
 import java.util.List;
 import javax.swing.*;
@@ -45,6 +46,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
 
     private StateManager stateManager;
+    private DispatchWorker dispatchWorker;
 
 
     public GUIImpl(MediatorGUI mediator) {
@@ -55,7 +57,13 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
         this.stateManager = new StateManager(new IdleSessionState());
 
+        this.dispatchWorker = new DispatchWorker();
+
         init(mediator);
+
+        this.dispatchWorker.execute();
+
+
 
 
     }
@@ -140,74 +148,115 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     }
 
     @Override
-    public void logIn(LoginInfo info, List<String> services) {
+    public void logIn(final LoginInfo info, final List<String> services) {
 
-        JLabel label = new JLabel("Hi, " + info.getUsername() + "!");
-        LogoutButton logoutButton = new LogoutButton(this, mediator);
-        MyTableModel tableModel;
+        dispatchWorker.submitAction(new Command() {
+            @Override
+            public void execute() {
+                JLabel label = new JLabel("Hi, " + info.getUsername() + "!");
+                LogoutButton logoutButton = new LogoutButton(GUIImpl.this, mediator);
 
-        try {
+                try {
 
-            SessionState sessionState = SessionStateFactory.createSessionState(info.getType(), services, this, mediator);
-            stateManager.setSessionState(sessionState);
+                    SessionState sessionState = SessionStateFactory.createSessionState(info.getType(), services, GUIImpl.this, mediator);
+                    stateManager.setSessionState(sessionState);
 
-        } catch (NoSuchUserTypeException e) {
-            JOptionPane.showMessageDialog(this, "Invalid user type " + e.getType() + ".");
-            return;
-        }
+                } catch (NoSuchUserTypeException e) {
+                    JOptionPane.showMessageDialog(GUIImpl.this, "Invalid user type " + e.getType() + ".");
+                    return;
+                }
 
-        top.removeAll();
+                top.removeAll();
 
-        top.add(label);
-        top.add(logoutButton);
+                top.add(label);
+                top.add(logoutButton);
 
-        bottom.removeAll();
-        bottom.add(new JScrollPane(stateManager.getTable()));
+                bottom.removeAll();
+                bottom.add(new JScrollPane(stateManager.getTable()));
 
-        this.paintAll(this.getGraphics());
+                GUIImpl.this.paintAll(GUIImpl.this.getGraphics());
+            }
+        });
+
+
 
     }
 
     @Override
     public void logOut() {
 
-        LoginButton loginButton = new LoginButton(this, mediator);
+        dispatchWorker.submitAction(new Command() {
+            @Override
+            public void execute() {
+                LoginButton loginButton = new LoginButton(GUIImpl.this, mediator);
 
-        top.removeAll();
+                top.removeAll();
 
-        top.add(labelUserName);
-        top.add(tUserName);
-        top.add(labelType);
-        top.add(tType);
-        top.add(labelPassword);
-        top.add(tPassword);
-        top.add(loginButton);
+                top.add(labelUserName);
+                top.add(tUserName);
+                top.add(labelType);
+                top.add(tType);
+                top.add(labelPassword);
+                top.add(tPassword);
+                top.add(loginButton);
 
-        bottom.removeAll();
+                bottom.removeAll();
 
 
-        this.paintAll(this.getGraphics());
+                GUIImpl.this.paintAll(GUIImpl.this.getGraphics());
+            }
+        });
+
+
 
     }
 
     @Override
-    public void launchOffer(int row) {
-        stateManager.launchOffer(row);
+    public void launchOffer(final int row) {
+
+        dispatchWorker.submitAction(new Command() {
+            @Override
+            public void execute() {
+                stateManager.launchOffer(row);
+            }
+        });
+
     }
 
     @Override
-    public void dropOffer(int row) {
-        stateManager.dropOffer(row);
+    public void dropOffer(final int row) {
+
+        dispatchWorker.submitAction(new Command() {
+            @Override
+            public void execute() {
+                stateManager.dropOffer(row);
+            }
+        });
+
     }
 
     @Override
-    public void addUser(String username, String type, List<String> services) {
-        stateManager.addUser(username, type, services);
+    public void addUser(final String username, final String type, final List<String> services) {
+
+        dispatchWorker.submitAction(new Command() {
+            @Override
+            public void execute() {
+                stateManager.addUser(username, type, services);
+            }
+        });
+
     }
 
     @Override
-    public void removeUser(String name, String type) {
-        stateManager.removeUser(name, type);
+    public void removeUser(final String name, final String type) {
+
+        dispatchWorker.submitAction(new Command() {
+            @Override
+            public void execute() {
+                stateManager.removeUser(name, type);
+            }
+        });
+
     }
 
 
