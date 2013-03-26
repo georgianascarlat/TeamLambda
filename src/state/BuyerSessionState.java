@@ -3,6 +3,7 @@ package state;
 import mediator.MediatorGUI;
 import models.*;
 
+import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -16,8 +17,8 @@ import java.util.List;
 public class BuyerSessionState extends SessionState {
 
 
-    public BuyerSessionState(List<String> services, ActionListener actionListener, MediatorGUI mediatorGUI) {
-        super(services, actionListener, mediatorGUI);
+    public BuyerSessionState(String stateName, List<String> services, ActionListener actionListener, MediatorGUI mediatorGUI) {
+        super(stateName, services, actionListener, mediatorGUI);
 
 
     }
@@ -43,12 +44,18 @@ public class BuyerSessionState extends SessionState {
     public void launchOffer(int row) {
 
         table.getModel().setValueAt(StatusTypes.No_Offer, row, MyTableModel.STATUS_COLUMN);
+
+
     }
 
     @Override
     public void dropOffer(int row) {
 
         table.getModel().setValueAt(StatusTypes.Inactive, row, MyTableModel.STATUS_COLUMN);
+
     }
 
+    protected boolean canAddUser(TableModel model, int row) {
+        return !model.getValueAt(row, MyTableModel.STATUS_COLUMN).equals(StatusTypes.Inactive);
+    }
 }

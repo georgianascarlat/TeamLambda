@@ -14,23 +14,15 @@ import java.awt.event.MouseListener;
  */
 public class ListRenderer extends JList implements TableCellRenderer {
 
-    private boolean show = false;
-
-    public boolean doesShow() {
-        return show;
-    }
-
-    public void setShow(boolean show) {
-        this.show = show;
-    }
 
     @Override
     public Component getTableCellRendererComponent(JTable jTable, Object cellObject,
                                                    boolean isSelected, boolean hasFocus,
                                                    int row, int column) {
-        if (show) {
+
+        if (cellObject != null)
             this.setModel((ListModel) cellObject);
-        }
+
 
         return this;
     }

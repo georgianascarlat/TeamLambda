@@ -5,6 +5,7 @@ import commands.CommandMenuItem;
 import models.*;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public abstract class SessionState {
     protected JTable table;
     protected MediatorGUI mediator;
     protected ActionListener actionListener;
+    protected String name;
 
 
     protected static final String[] columnNames = {"Service Name",
@@ -29,13 +31,18 @@ public abstract class SessionState {
             "Download Progress"};
 
 
-    public SessionState(List<String> services, ActionListener actionListener, MediatorGUI mediator) {
+    public SessionState() {
+
+    }
+
+    public SessionState(String name, List<String> services, ActionListener actionListener, MediatorGUI mediator) {
 
         this.actionListener = actionListener;
         this.mediator = mediator;
+        this.name = name;
 
         MyTableModel tableModel = new MyTableModel(columnNames,
-                getDataFromServices(services), getListMouseListener(), getTableMouseListener());
+                services, getListMouseListener(), getTableMouseListener());
         this.table = tableModel.createJTable();
 
 
@@ -45,25 +52,6 @@ public abstract class SessionState {
 
     protected abstract PopupListener getListMouseListener();
 
-
-    protected Object[][] getDataFromServices(List<String> services) {
-        int size = services.size();
-        Object[][] data = new Object[size][4];
-
-        for (int i = 0; i < size; i++) {
-
-            data[i][0] = services.get(i);
-            data[i][1] = new DefaultListModel<String>();
-            ((DefaultListModel<String>) data[i][1]).addElement("Ana");
-            ((DefaultListModel<String>) data[i][1]).addElement("Bibi");
-            ((DefaultListModel<String>) data[i][1]).addElement("Bibi");
-            data[i][2] = StatusTypes.Inactive;
-            data[i][3] = new ServiceImpl();
-
-        }
-
-        return data;
-    }
 
     protected PopupListener createMouseListener(PopupType popupType, MenuItemType type1, MenuItemType type2) {
 
@@ -91,4 +79,53 @@ public abstract class SessionState {
 
 
     public abstract void dropOffer(int row);
+
+    public void newUserAppeared(String username, String type, List<String> services) {
+
+        TableModel model = table.getModel();
+        int rowCount = model.getRowCount();
+        DefaultListModel listModel;
+
+
+        if (type.equalsIgnoreCase(name))
+            return;
+
+        for (int row = 0; row < rowCount; row++) {
+            if (canAddUser(model, row)&&
+                    services.contains(model.getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN))) {
+
+                listModel = (DefaultListModel) model.getValueAt(row, MyTableModel.USER_LIST_COLUMN);
+                listModel.addElement(username);
+
+            }
+        }
+
+        table.repaint();
+
+
+    }
+
+    protected abstract boolean canAddUser(TableModel model, int row);
+
+
+    public void removeUser(String name, String type) {
+
+        TableModel model = table.getModel();
+        int rowCount = model.getRowCount();
+        DefaultListModel listModel;
+
+
+        if (type.equalsIgnoreCase(name))
+            return;
+
+        for (int row = 0; row < rowCount; row++) {
+
+            listModel = (DefaultListModel) model.getValueAt(row, MyTableModel.USER_LIST_COLUMN);
+            listModel.removeElement(name);
+
+
+        }
+
+        table.repaint();
+    }
 }

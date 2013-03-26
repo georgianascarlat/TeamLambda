@@ -1,5 +1,7 @@
 package mediator;
 
+import app.WebServiceClient;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -8,4 +10,7 @@ package mediator;
  * To change this template use File | Settings | File Templates.
  */
 public interface MediatorWebServiceClient {
+
+    public void registerWebServiceClient(WebServiceClient webServiceClient);
+
 }

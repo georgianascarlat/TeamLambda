@@ -1,5 +1,9 @@
 package mediator;
 
+import app.Network;
+
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -8,4 +12,10 @@ package mediator;
  * To change this template use File | Settings | File Templates.
  */
 public interface MediatorNetwork {
+
+    public void registerNetwork(Network network);
+
+    public void userLoggedIn(String username, String type, List<String> services);
+
+    public void userLoggedOut(String name, String type);
 }

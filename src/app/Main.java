@@ -17,11 +17,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MediatorGUI mediator = new Mediator();
-        mediator.registerWebServiceClient(new WebServiceClientImpl());
-        mediator.registerNetwork(new NetworkImpl());
+        Mediator mediator = new Mediator();
 
+        mediator.registerWebServiceClient(new WebServiceClientImpl());
 
         new GUIImpl(mediator);
+
+        new Thread(new NetworkImpl(mediator)).start();
+
+
     }
 }

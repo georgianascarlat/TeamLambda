@@ -25,7 +25,7 @@ public class ListCellEditor extends AbstractCellEditor implements TableCellEdito
     public Component getTableCellEditorComponent(JTable jTable, Object o, boolean b, int i, int i1) {
 
         this.currentValue = (ListModel) o;
-        mouseListener.setSelectedService((String) jTable.getModel().getValueAt(i, MyTableModel.SERVICE_COLUMN_NAME));
+        mouseListener.setSelectedService((String) jTable.getModel().getValueAt(i, MyTableModel.SERVICE_NAME_COLUMN));
         mouseListener.setSelectedServiceRow(i);
         mouseListener.setSelectedStatusType((StatusTypes) jTable.getModel().getValueAt(i, MyTableModel.STATUS_COLUMN));
 

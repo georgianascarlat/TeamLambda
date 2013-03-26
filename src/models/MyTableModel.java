@@ -6,6 +6,8 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.MouseListener;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,20 +17,32 @@ import java.awt.event.MouseListener;
  * To change this template use File | Settings | File Templates.
  */
 public class MyTableModel extends AbstractTableModel {
-    private String[] columnNames;
+    public static final int USER_LIST_COLUMN = 1;
+    public static final int PROGRESS_BAR_COLUMN = 3;
+    public static final int COLUMN_NUMBER = 4;
+
+    public static final int COLUMN_OFFSET = 12;
+    public static final int PROGRESS_BAR_WIDTH = 300;
+    public static final int STATUS_COLUMN = 2;
+    public static final int SERVICE_NAME_COLUMN = 0;
+    public static final int ROW_HEIGHT = 50;
+
     private Object[][] data;
+    private String[] columnNames;
+    private List<String> services;
     private PopupListener listMouseListener;
     private PopupListener tableMouseListener;
-    private static final int COLUMN_OFFSET = 12;
-    private static final int PROGRESS_BAR_WIDTH = 300;
-    public static final int STATUS_COLUMN = 2;
-    public static final int SERVICE_COLUMN_NAME = 0;
 
-    public MyTableModel(String[] columnNames, Object[][] data, PopupListener listMouseListener, PopupListener tableMouseListener) {
+    public MyTableModel(String[] columnNames, List<String> services, PopupListener listMouseListener, PopupListener tableMouseListener) {
         this.columnNames = columnNames;
-        this.data = data;
+        this.services = services;
+        this.data = getDataFromServices(services);
         this.listMouseListener = listMouseListener;
         this.tableMouseListener = tableMouseListener;
+    }
+
+    public List<String> getServices() {
+        return services;
     }
 
     public int getColumnCount() {
@@ -124,9 +138,25 @@ public class MyTableModel extends AbstractTableModel {
         if (col != null)
             col.setPreferredWidth(PROGRESS_BAR_WIDTH);
 
-        table.setRowHeight(height);
+        table.setRowHeight(ROW_HEIGHT);
 
         return table;
+    }
+
+    private Object[][] getDataFromServices(java.util.List<String> services) {
+        int size = services.size();
+        Object[][] data = new Object[size][COLUMN_NUMBER];
+
+        for (int i = 0; i < size; i++) {
+
+            data[i][SERVICE_NAME_COLUMN] = services.get(i);
+            data[i][USER_LIST_COLUMN] = new DefaultListModel<String>();
+            data[i][STATUS_COLUMN] = StatusTypes.Inactive;
+            data[i][PROGRESS_BAR_COLUMN] = new ServiceImpl();
+
+        }
+
+        return data;
     }
 
 

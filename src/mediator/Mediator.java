@@ -51,7 +51,7 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
             services = webServiceClient.getServices(info);
             gui.logIn(info, services);
 
-            network.newUser(info.getUsername(),services);
+            network.newUser(info.getUsername(), info.getType(), services);
 
         } catch (NoSuchUserException e) {
 
@@ -70,7 +70,7 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
 
         gui.logOut();
 
-        network.removeUserFromLists(info.getUsername());
+        network.removeUserFromLists(info.getUsername(), info.getType());
 
     }
 
@@ -96,7 +96,7 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
             return;
 
         gui.dropOffer(selectedServiceRow);
-        network.offerDropped(info.getUsername(),selectedService);
+        network.offerDropped(info.getUsername(), selectedService);
 
     }
 
@@ -107,7 +107,7 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
 
     @Override
     public void acceptOffer() {
-        System.out.println("Offer accepted");
+
     }
 
     @Override
@@ -128,5 +128,17 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     @Override
     public void dropAuction() {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void userLoggedIn(String username, String type, List<String> services) {
+
+        gui.newUserAppeared(username, type, services);
+    }
+
+    @Override
+    public void userLoggedOut(String name, String type) {
+
+        gui.removeUser(name, type);
     }
 }

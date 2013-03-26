@@ -23,9 +23,6 @@ public interface MediatorGUI {
 
     public void registerGUI(GUI gui);
 
-    public void registerWebServiceClient(WebServiceClient webServiceClient);
-
-    public void registerNetwork(Network network);
 
     //un utilizator face log in / log out
     public void logIn();

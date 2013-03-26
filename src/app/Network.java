@@ -17,9 +17,9 @@ public interface Network {
 
     public void offerLaunched(String username, String service);
 
-    public void removeUserFromLists(String username);
+    public void removeUserFromLists(String username, String type);
 
     public void offerDropped(String username, String service);
 
-    public void newUser(String username, List<String> services);
+    public void newUser(String username, String type, List<String> services);
 }

@@ -3,6 +3,7 @@ package state;
 import models.MyTableModel;
 
 import javax.swing.*;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,18 +17,8 @@ public class StateManager {
 
     private SessionState sessionState;
 
-    StateManager(SessionState sessionState) {
+    public StateManager(SessionState sessionState) {
         this.sessionState = sessionState;
-    }
-
-    public static StateManager setStateManager(StateManager stateManager, SessionState state) {
-        if (stateManager == null) {
-            return new StateManager(state);
-        } else {
-            stateManager.setSessionState(state);
-            return stateManager;
-        }
-
     }
 
 
@@ -51,5 +42,13 @@ public class StateManager {
 
     public void dropOffer(int row) {
         sessionState.dropOffer(row);
+    }
+
+    public void newUserAppeared(String username, String type, List<String> services) {
+        sessionState.newUserAppeared(username, type, services);
+    }
+
+    public void removeUser(String name, String type) {
+        sessionState.removeUser(name, type);
     }
 }

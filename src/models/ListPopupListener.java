@@ -27,10 +27,14 @@ public class ListPopupListener extends PopupListener {
         CommandMenuItem menuItem;
         int index;
 
+        index = list.locationToIndex(e.getPoint());
+
+        if (index < 0)
+            return;
+
         for (Component component : components) {
 
             menuItem = ((CommandMenuItem) component);
-            index = list.locationToIndex(e.getPoint());
 
             menuItem.setSelectedListElementIndex(index);
             menuItem.setSelectedListElement((String) list.getModel().getElementAt(index));

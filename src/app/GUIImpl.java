@@ -4,6 +4,7 @@ import commands.*;
 import exceptions.NoSuchUserTypeException;
 import mediator.MediatorGUI;
 import models.*;
+import state.IdleSessionState;
 import state.SessionState;
 import state.SessionStateFactory;
 import state.StateManager;
@@ -54,6 +55,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         this.mediator = mediator;
         this.mediator.registerGUI(this);
 
+        this.stateManager = new StateManager(new IdleSessionState());
 
         init(mediator);
 
@@ -149,7 +151,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         try {
 
             SessionState sessionState = SessionStateFactory.createSessionState(info.getType(), services, this, mediator);
-            stateManager = setStateManager(stateManager, sessionState);
+            stateManager.setSessionState(sessionState);
 
         } catch (NoSuchUserTypeException e) {
             JOptionPane.showMessageDialog(this, "Invalid user type " + e.getType() + ".");
@@ -198,6 +200,16 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     @Override
     public void dropOffer(int row) {
         stateManager.dropOffer(row);
+    }
+
+    @Override
+    public void newUserAppeared(String username, String type, List<String> services) {
+        stateManager.newUserAppeared(username, type, services);
+    }
+
+    @Override
+    public void removeUser(String name, String type) {
+        stateManager.removeUser(name, type);
     }
 
 

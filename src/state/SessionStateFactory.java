@@ -22,9 +22,9 @@ public class SessionStateFactory {
         switch (userType) {
 
             case BUYER:
-                return new BuyerSessionState(services, actionListener, mediator);
+                return new BuyerSessionState(stateName, services, actionListener, mediator);
             case SELLER:
-                return new SellerSessionState(services, actionListener, mediator);
+                return new SellerSessionState(stateName, services, actionListener, mediator);
             default:
                 throw new NoSuchUserTypeException(stateName);
         }

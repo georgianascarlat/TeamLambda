@@ -1,12 +1,10 @@
 package state;
 
 import mediator.MediatorGUI;
-import models.MenuItemType;
-import models.PopupListener;
-import models.PopupType;
-import models.TablePopupListener;
+import models.*;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -20,8 +18,10 @@ import java.util.List;
 public class SellerSessionState extends SessionState {
 
 
-    public SellerSessionState(List<String> services, ActionListener actionListener, MediatorGUI mediatorGUI) {
-        super(services, actionListener, mediatorGUI);
+    public SellerSessionState(String stateName, List<String> services, ActionListener actionListener, MediatorGUI mediatorGUI) {
+        super(stateName, services, actionListener, mediatorGUI);
+
+
     }
 
     @Override
@@ -40,12 +40,17 @@ public class SellerSessionState extends SessionState {
     @Override
     public void launchOffer(int row) {
         //does nothing
-        //does nothing
+
     }
 
     @Override
     public void dropOffer(int row) {
         //does nothing
+    }
+
+    @Override
+    protected boolean canAddUser(TableModel model, int row) {
+        return true;
     }
 
 
