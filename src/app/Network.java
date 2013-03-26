@@ -1,5 +1,6 @@
 package app;
 
+import models.Auction;
 import models.Service;
 
 import java.util.List;
@@ -24,4 +25,7 @@ public interface Network {
     public void newUser(String username, String type, List<String> services);
 
     public List<String> inquireService(String service);
+
+
+    public void auctionStatusChanged(String sourceUser, String sourceUserType, String service, Auction auction);
 }

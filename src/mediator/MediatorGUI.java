@@ -4,6 +4,7 @@ import app.GUI;
 import app.Network;
 import app.WebServiceClient;
 import exceptions.NoSuchUserException;
+import models.Auction;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public interface MediatorGUI {
     public void dropOffer(String selectedService, int selectedServiceRow);
 
     //  se face o oferta
-    public void makeOffer();
+    public void makeOffer(String selectedService, int selectedServiceRow, Auction selectedUser, int selectedUserIndex);
 
     //oferta este acceptata/depasita/refuzata
     public void acceptOffer();

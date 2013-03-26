@@ -2,6 +2,7 @@ package mock;
 
 import app.Network;
 import mediator.MediatorNetwork;
+import models.Auction;
 import models.Service;
 import models.ServiceImpl;
 
@@ -85,6 +86,13 @@ public class NetworkImpl implements Network, Runnable {
 
 
     }
+
+    @Override
+    public void auctionStatusChanged(String sourceUser, String sourceUserType, String service, Auction auction) {
+        System.out.println("[Network]Auction status changed by "+sourceUser+" for service "+service+" into "+auction.getStatus());
+    }
+
+
 
     @Override
     public void run() {

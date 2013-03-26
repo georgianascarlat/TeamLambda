@@ -2,6 +2,7 @@ package mediator;
 
 import app.*;
 import exceptions.NoSuchUserException;
+import models.Auction;
 import models.LoginInfo;
 
 import javax.swing.*;
@@ -20,6 +21,7 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     protected GUI gui;
     protected WebServiceClient webServiceClient;
     protected Network network;
+    protected LoginInfo info;
 
 
     @Override
@@ -40,7 +42,7 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     @Override
     public void logIn() {
 
-        LoginInfo info = gui.getLoginInfo();
+        info = gui.getLoginInfo();
 
         if (info == null)
             return;
@@ -63,11 +65,6 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     @Override
     public void logOut() {
 
-        LoginInfo info = gui.getLoginInfo();
-
-        if (info == null)
-            return;
-
         gui.logOut();
 
         network.removeUserFromLists(info.getUsername(), info.getType());
@@ -77,11 +74,6 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     @Override
     public void launchOffer(String selectedService, int selectedServiceRow) {
 
-        LoginInfo info = gui.getLoginInfo();
-
-        if (info == null)
-            return;
-
         gui.launchOffer(selectedServiceRow);
         network.offerLaunched(info.getUsername(), selectedService);
 
@@ -90,19 +82,18 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     @Override
     public void dropOffer(String selectedService, int selectedServiceRow) {
 
-        LoginInfo info = gui.getLoginInfo();
-
-        if (info == null)
-            return;
-
         gui.dropOffer(selectedServiceRow);
         network.offerDropped(info.getUsername(), selectedService);
 
     }
 
     @Override
-    public void makeOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void makeOffer(String selectedService, int selectedServiceRow, Auction selectedUser, int selectedUserIndex) {
+
+
+        gui.auctionStatusChanged(selectedServiceRow, selectedUserIndex,selectedUser);
+
+        network.auctionStatusChanged(info.getUsername(),info.getType(),selectedService, selectedUser);
     }
 
     @Override

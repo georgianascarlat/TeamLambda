@@ -1,5 +1,6 @@
 package app;
 
+import models.Auction;
 import models.LoginInfo;
 
 import java.util.List;
@@ -27,4 +28,7 @@ public interface GUI {
     public void addUser(String username, String type, List<String> services);
 
     public void removeUser(String name, String type);
+
+
+    public void auctionStatusChanged(int serviceRow, int userIndex, Auction auction);
 }

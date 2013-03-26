@@ -87,13 +87,11 @@ public abstract class SessionState {
                 listModel.addElement(element);
             }
         }
+        table.repaint();
     }
 
 
-    public abstract void launchOffer(int row);
 
-
-    public abstract void dropOffer(int row);
 
     public void addUser(String username, String type, List<String> services) {
 
@@ -157,9 +155,18 @@ public abstract class SessionState {
         table.repaint();
     }
 
+    public abstract void launchOffer(int row);
+
+    public abstract void dropOffer(int row);
+
     public abstract void login();
+
+    public abstract void auctionStatusChanged(int serviceRow, int userIndex, Auction auction);
 
     protected abstract void verifyStatus(int row);
 
     protected abstract boolean canAddUser(TableModel model, int row);
+
+
+
 }

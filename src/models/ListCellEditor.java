@@ -24,21 +24,25 @@ public class ListCellEditor extends AbstractCellEditor implements TableCellEdito
     @Override
     public Component getTableCellEditorComponent(JTable jTable, Object o, boolean b, int i, int i1) {
 
+
         this.currentValue = (ListModel) o;
-        mouseListener.setSelectedService((String) jTable.getModel().getValueAt(i, MyTableModel.SERVICE_NAME_COLUMN));
-        mouseListener.setSelectedServiceRow(i);
-        mouseListener.setSelectedStatusType((StatusTypes) jTable.getModel().getValueAt(i, MyTableModel.STATUS_COLUMN));
+
+
 
         if (o != null) {
             JList list = new JList((ListModel) o);
 
-            list.addMouseListener(mouseListener);
+
             JScrollPane pane = new JScrollPane(list);
             list.setSelectionBackground(Color.white);
             list.setCellRenderer(new MyListCellRenderer());
+            list.addMouseListener(mouseListener);
+            mouseListener.selectRow(jTable,i);
 
             return pane;
         }
+
+
         return null;
     }
 

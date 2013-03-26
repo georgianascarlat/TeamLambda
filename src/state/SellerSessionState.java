@@ -11,6 +11,7 @@ import java.util.List;
 import static models.MyTableModel.*;
 import static models.StatusTypes.Inactive;
 import static models.StatusTypes.No_Offer;
+import static models.StatusTypes.Offer_Made;
 
 /**
  * Created with IntelliJ IDEA.
@@ -63,12 +64,36 @@ public class SellerSessionState extends SessionState {
 
         int rowCount = table.getRowCount();
 
-        for(int row=0;row< rowCount;row++){
+        for(int row = 0;row < rowCount;row++){
 
             inquire(row);
 
             verifyStatus(row);
         }
+
+        table.repaint();
+    }
+
+    @Override
+    public void auctionStatusChanged(int serviceRow, int userIndex, Auction auction) {
+
+        DefaultListModel listModel = (DefaultListModel) table.getModel().getValueAt(serviceRow,USER_LIST_COLUMN);
+
+
+        switch (auction.getStatus()) {
+
+            case Offer_Made:
+                table.getModel().setValueAt(Offer_Made,serviceRow, STATUS_COLUMN);
+                listModel.removeElement(auction);
+                listModel.addElement(auction);
+                break;
+
+            default:
+                throw new IllegalArgumentException("Cannot change auction to state "+auction.getStatus());
+        }
+
+        table.repaint();
+
     }
 
     @Override
@@ -81,6 +106,8 @@ public class SellerSessionState extends SessionState {
         } else if (Inactive.equals(table.getModel().getValueAt(row, STATUS_COLUMN))){
             table.getModel().setValueAt(No_Offer,row, STATUS_COLUMN);
         }
+
+
     }
 
 

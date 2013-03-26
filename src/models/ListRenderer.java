@@ -28,7 +28,7 @@ public class ListRenderer extends JList implements TableCellRenderer {
             this.setCellRenderer(new MyListCellRenderer());
 
 
-            adjustTableDimensions(jTable, row, column, listModel);
+            //adjustTableDimensions(jTable, row, column, listModel);
 
 
         }
@@ -38,6 +38,7 @@ public class ListRenderer extends JList implements TableCellRenderer {
     }
 
     private void adjustTableDimensions(JTable jTable, int row, int column, ListModel listModel) {
+
         int heigth;
         int width;
         heigth = listModel.getSize() * MyTableModel.LIST_ELEM_HEIGHT;

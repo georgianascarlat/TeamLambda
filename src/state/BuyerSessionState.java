@@ -73,6 +73,12 @@ public class BuyerSessionState extends SessionState {
     }
 
     @Override
+    public void auctionStatusChanged(int serviceRow, int userIndex, Auction auction) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+
+    @Override
     protected void verifyStatus(int row) {
         //does nothing
     }

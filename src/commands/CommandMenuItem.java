@@ -7,6 +7,8 @@ import models.StatusTypes;
 
 import javax.swing.*;
 
+import static models.StatusTypes.*;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -21,7 +23,7 @@ public class CommandMenuItem extends JMenuItem implements Command {
     private String selectedService;
     private Auction selectedListElement;
     private int selectedServiceRow, selectedListElementIndex;
-    private StatusTypes statusType = StatusTypes.Inactive;
+    private StatusTypes statusType = Inactive;
 
     public CommandMenuItem(MenuItemType type, MediatorGUI med) {
         super(type.getText());
@@ -46,13 +48,13 @@ public class CommandMenuItem extends JMenuItem implements Command {
 
             case LaunchOfferRequest:
 
-                if (!statusType.equals(StatusTypes.Inactive))
+                if (!statusType.equals(Inactive))
                     this.setVisible(false);
 
                 break;
             case DropOfferRequest:
 
-                if (statusType.equals(StatusTypes.Inactive) || statusType.equals(StatusTypes.Offer_Accepted))
+                if (statusType.equals(Inactive) || statusType.equals(Offer_Accepted))
                     this.setVisible(false);
 
                 break;
@@ -62,6 +64,10 @@ public class CommandMenuItem extends JMenuItem implements Command {
             case RefuseOffer:
                 break;
             case MakeOffer:
+
+                if (statusType.equals(Inactive))
+                    this.setVisible(false);
+
                 break;
             case DropAuction:
                 break;
@@ -107,7 +113,10 @@ public class CommandMenuItem extends JMenuItem implements Command {
                 // med.refuseOffer();
                 break;
             case MakeOffer:
-                // med.makeOffer();
+
+                selectedListElement.setStatus(StatusTypes.Offer_Made);
+                selectedListElement.setPrice(30);
+                med.makeOffer(selectedService,selectedServiceRow,selectedListElement,selectedListElementIndex);
                 break;
             case DropAuction:
                 // med.dropAuction();

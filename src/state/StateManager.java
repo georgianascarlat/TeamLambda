@@ -1,5 +1,6 @@
 package state;
 
+import models.Auction;
 import models.PopupListener;
 
 import javax.swing.*;
@@ -56,6 +57,12 @@ public class StateManager {
             }
 
             @Override
+            public void auctionStatusChanged(int serviceRow, int userIndex, Auction auction) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+
+            @Override
             protected void verifyStatus(int row) {
 
             }
@@ -95,5 +102,10 @@ public class StateManager {
 
     public void login() {
         sessionState.login();
+    }
+
+
+    public void auctionStatusChanged(int serviceRow, int userIndex, Auction auction) {
+        sessionState.auctionStatusChanged(serviceRow,userIndex,auction);
     }
 }

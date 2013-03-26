@@ -219,6 +219,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
             @Override
             public void execute() {
                 stateManager.launchOffer(row);
+
             }
         });
 
@@ -231,6 +232,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
             @Override
             public void execute() {
                 stateManager.dropOffer(row);
+
             }
         });
 
@@ -243,6 +245,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
             @Override
             public void execute() {
                 stateManager.addUser(username, type, services);
+
             }
         });
 
@@ -255,9 +258,21 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
             @Override
             public void execute() {
                 stateManager.removeUser(name, type);
+
             }
         });
 
+    }
+
+    @Override
+    public void auctionStatusChanged(final int serviceRow, final int userIndex, final Auction auction) {
+        dispatchWorker.submitAction(new Command() {
+            @Override
+            public void execute() {
+                stateManager.auctionStatusChanged(serviceRow,userIndex,auction);
+
+            }
+        });
     }
 
 

@@ -26,7 +26,7 @@ public class MyTableModel extends AbstractTableModel {
     public static final int STATUS_COLUMN = 2;
     public static final int SERVICE_NAME_COLUMN = 0;
     public static final int ROW_HEIGHT = 50;
-    private static final int USER_LIST_WIDTH = 80;
+    private static final int USER_LIST_WIDTH = 150;
     public static final int LIST_ELEM_HEIGHT = 25;
 
     private Object[][] data;
