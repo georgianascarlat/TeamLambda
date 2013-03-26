@@ -5,6 +5,8 @@ import app.Network;
 import app.WebServiceClient;
 import exceptions.NoSuchUserException;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -49,4 +51,6 @@ public interface MediatorGUI {
     public void doTransfer();
 
     public void dropAuction();
+
+    public List<String> inquireService(String service);
 }

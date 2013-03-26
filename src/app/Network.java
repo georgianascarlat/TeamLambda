@@ -22,4 +22,6 @@ public interface Network {
     public void offerDropped(String username, String service);
 
     public void newUser(String username, String type, List<String> services);
+
+    public List<String> inquireService(String service);
 }

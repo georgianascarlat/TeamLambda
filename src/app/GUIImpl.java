@@ -4,7 +4,6 @@ import commands.*;
 import exceptions.NoSuchUserTypeException;
 import mediator.MediatorGUI;
 import models.*;
-import state.IdleSessionState;
 import state.SessionState;
 import state.SessionStateFactory;
 import state.StateManager;
@@ -55,7 +54,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         this.mediator = mediator;
         this.mediator.registerGUI(this);
 
-        this.stateManager = new StateManager(new IdleSessionState());
+        this.stateManager = new StateManager();
 
         this.dispatchWorker = new DispatchWorker();
 
@@ -173,6 +172,8 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
                 bottom.removeAll();
                 bottom.add(new JScrollPane(stateManager.getTable()));
+
+                stateManager.login();
 
                 GUIImpl.this.paintAll(GUIImpl.this.getGraphics());
             }

@@ -131,6 +131,12 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     }
 
     @Override
+    public List<String> inquireService(String service) {
+
+        return network.inquireService(service);
+    }
+
+    @Override
     public void userLoggedIn(String username, String type, List<String> services) {
 
         gui.addUser(username, type, services);

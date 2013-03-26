@@ -5,8 +5,10 @@ import mediator.MediatorNetwork;
 import models.Service;
 import models.ServiceImpl;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,11 +20,26 @@ import java.util.List;
 public class NetworkImpl implements Network, Runnable {
 
     MediatorNetwork mediator;
+    Map<String,List<String>> user_services = new HashMap<String, List<String>>();
 
 
     public NetworkImpl(MediatorNetwork mediator) {
         this.mediator = mediator;
         mediator.registerNetwork(this);
+
+        List<String> services = new LinkedList<String>();
+        services.add("serviciu3");
+        services.add("serviciu5");
+
+        user_services.put("Gogu",services);
+
+        services = new LinkedList<String>();
+        services.add("serviciu9");
+        services.add("serviciu10");
+
+        user_services.put("Lola",services);
+
+
     }
 
     @Override
@@ -52,6 +69,21 @@ public class NetworkImpl implements Network, Runnable {
         System.out.println("[Network]New " + type + " has entered the system: " + username);
 
         mediator.userLoggedIn(username, type, services);
+    }
+
+    @Override
+    public List<String> inquireService(String service) {
+
+        List<String> users = new LinkedList<String>();
+
+        for(Map.Entry<String,List<String>> entry:user_services.entrySet()){
+            if(entry.getValue().contains(service))
+                users.add(entry.getKey());
+        }
+
+        return users;
+
+
     }
 
     @Override
@@ -87,6 +119,9 @@ public class NetworkImpl implements Network, Runnable {
 
         removeUserFromLists("Kiki", "buyer");
         removeUserFromLists("Miki", "seller");
+
+        removeUserFromLists("Shiki", "seller");
+        removeUserFromLists("Biki VickiShi Mooul", "buyer");
 
 
     }

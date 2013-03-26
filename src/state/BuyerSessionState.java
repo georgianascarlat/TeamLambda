@@ -3,6 +3,7 @@ package state;
 import mediator.MediatorGUI;
 import models.*;
 
+import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -44,20 +45,35 @@ public class BuyerSessionState extends SessionState {
     public void launchOffer(int row) {
 
         table.getModel().setValueAt(StatusTypes.No_Offer, row, MyTableModel.STATUS_COLUMN);
+
+        inquire(row);
         table.repaint();
 
 
     }
 
+
     @Override
     public void dropOffer(int row) {
 
         table.getModel().setValueAt(StatusTypes.Inactive, row, MyTableModel.STATUS_COLUMN);
+        DefaultListModel listModel = (DefaultListModel) table.getModel().getValueAt(row, MyTableModel.USER_LIST_COLUMN);
+        listModel.removeAllElements();
         table.repaint();
 
     }
 
     protected boolean canAddUser(TableModel model, int row) {
         return !model.getValueAt(row, MyTableModel.STATUS_COLUMN).equals(StatusTypes.Inactive);
+    }
+
+    @Override
+    public void login() {
+        //does nothing
+    }
+
+    @Override
+    protected void verifyStatus(int row) {
+        //does nothing
     }
 }

@@ -74,10 +74,25 @@ public abstract class SessionState {
         return table;
     }
 
-    // se lanseaza o cerere de oferta
+    public void inquire(int row) {
+        List<String> users = mediator.inquireService((String) table.getModel().getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN));
+
+        DefaultListModel listModel = (DefaultListModel) table.getModel().getValueAt(row, MyTableModel.USER_LIST_COLUMN);
+
+        for(String user:users){
+            Auction element = new Auction(user);
+
+            if(!listModel.contains(element)) {
+
+                listModel.addElement(element);
+            }
+        }
+    }
+
+
     public abstract void launchOffer(int row);
 
-    // se renunta la o cerere de oferta
+
     public abstract void dropOffer(int row);
 
     public void addUser(String username, String type, List<String> services) {
@@ -93,11 +108,15 @@ public abstract class SessionState {
         for (int row = 0; row < rowCount; row++) {
             listModel = (DefaultListModel) model.getValueAt(row, MyTableModel.USER_LIST_COLUMN);
 
-            if (canAddUser(username, services, model, listModel, row)) {
+            Auction element = new Auction(username);
 
-                listModel.addElement(new Auction(username));
+            if (canAddUser(element, services, model, listModel, row)) {
+
+                listModel.addElement(element);
 
             }
+
+            verifyStatus(row);
         }
 
         table.repaint();
@@ -105,13 +124,13 @@ public abstract class SessionState {
 
     }
 
-    private boolean canAddUser(String username, List<String> services, TableModel model, DefaultListModel listModel, int row) {
+    private boolean canAddUser(Auction element, List<String> services, TableModel model, DefaultListModel listModel, int row) {
         return canAddUser(model, row)&&
                 services.contains(model.getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN))&&
-                !listModel.contains(username);
+                !listModel.contains(element);
     }
 
-    protected abstract boolean canAddUser(TableModel model, int row);
+
 
 
     public void removeUser(String name, String type) {
@@ -120,7 +139,6 @@ public abstract class SessionState {
         int rowCount = model.getRowCount();
         DefaultListModel listModel;
 
-        //System.out.println(SwingUtilities.isEventDispatchThread());
 
         if (type.equalsIgnoreCase(name))
             return;
@@ -130,9 +148,18 @@ public abstract class SessionState {
             listModel = (DefaultListModel) model.getValueAt(row, MyTableModel.USER_LIST_COLUMN);
             listModel.removeElement(new Auction(name));
 
+            verifyStatus(row);
+
+
 
         }
 
         table.repaint();
     }
+
+    public abstract void login();
+
+    protected abstract void verifyStatus(int row);
+
+    protected abstract boolean canAddUser(TableModel model, int row);
 }

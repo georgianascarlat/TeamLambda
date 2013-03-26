@@ -37,11 +37,11 @@ public class MyListCellRenderer implements ListCellRenderer {
 
         // name
         gbc.weightx = 0;
-        panel.add(new JLabel("" + auction.getUser()), gbc);
+        panel.add(new JLabel("" + auction.getUser()+"   "), gbc);
 
         // status
         gbc.weightx = 1;
-        panel.add(new JLabel("" + auction.getStatus()), gbc);
+        panel.add(new JLabel("" + auction.getStatus()+"   "), gbc);
 
         // price
         if(auction.getPrice() > 0 ) {

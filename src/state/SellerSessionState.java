@@ -8,6 +8,10 @@ import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import static models.MyTableModel.*;
+import static models.StatusTypes.Inactive;
+import static models.StatusTypes.No_Offer;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -51,6 +55,32 @@ public class SellerSessionState extends SessionState {
     @Override
     protected boolean canAddUser(TableModel model, int row) {
         return true;
+    }
+
+
+    @Override
+    public void login() {
+
+        int rowCount = table.getRowCount();
+
+        for(int row=0;row< rowCount;row++){
+
+            inquire(row);
+
+            verifyStatus(row);
+        }
+    }
+
+    @Override
+    protected void verifyStatus(int row) {
+
+        DefaultListModel listModel = (DefaultListModel) table.getModel().getValueAt(row, USER_LIST_COLUMN);
+
+        if(listModel.getSize() == 0){
+            table.getModel().setValueAt(Inactive,row, STATUS_COLUMN);
+        } else if (Inactive.equals(table.getModel().getValueAt(row, STATUS_COLUMN))){
+            table.getModel().setValueAt(No_Offer,row, STATUS_COLUMN);
+        }
     }
 
 

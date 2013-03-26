@@ -1,6 +1,9 @@
 package state;
 
+import models.PopupListener;
+
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.util.List;
 
 /**
@@ -17,6 +20,46 @@ public class StateManager {
 
     public StateManager(SessionState sessionState) {
         this.sessionState = sessionState;
+    }
+
+    public StateManager() {
+
+        this.sessionState = new SessionState() {
+            @Override
+            protected PopupListener getTableMouseListener() {
+                return null;
+            }
+
+            @Override
+            protected PopupListener getListMouseListener() {
+                return null;
+            }
+
+            @Override
+            public void launchOffer(int row) {
+
+            }
+
+            @Override
+            public void dropOffer(int row) {
+
+            }
+
+            @Override
+            protected boolean canAddUser(TableModel model, int row) {
+                return false;
+            }
+
+            @Override
+            public void login() {
+
+            }
+
+            @Override
+            protected void verifyStatus(int row) {
+
+            }
+        };
     }
 
 
@@ -48,5 +91,9 @@ public class StateManager {
 
     public void removeUser(String name, String type) {
         sessionState.removeUser(name, type);
+    }
+
+    public void login() {
+        sessionState.login();
     }
 }
