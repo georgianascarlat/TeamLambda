@@ -38,5 +38,4 @@ public class LoginInfo {
         return password;
     }
 
-
 }

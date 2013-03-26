@@ -1,6 +1,7 @@
 package commands;
 
 import mediator.MediatorGUI;
+import models.Auction;
 import models.MenuItemType;
 import models.StatusTypes;
 
@@ -17,7 +18,8 @@ public class CommandMenuItem extends JMenuItem implements Command {
 
     private MenuItemType type;
     private MediatorGUI med;
-    private String selectedService, selectedListElement;
+    private String selectedService;
+    private Auction selectedListElement;
     private int selectedServiceRow, selectedListElementIndex;
     private StatusTypes statusType = StatusTypes.Inactive;
 
@@ -32,19 +34,30 @@ public class CommandMenuItem extends JMenuItem implements Command {
     public void setStatusType(StatusTypes statusType) {
         this.statusType = statusType;
 
+        if(selectedListElementIndex < 0 || selectedServiceRow <0){
+            this.setVisible(false);
+            return;
+
+        }
+
         this.setVisible(true);
 
         switch (type) {
 
             case LaunchOfferRequest:
+
                 if (!statusType.equals(StatusTypes.Inactive))
                     this.setVisible(false);
+
                 break;
             case DropOfferRequest:
+
                 if (statusType.equals(StatusTypes.Inactive) || statusType.equals(StatusTypes.Offer_Accepted))
                     this.setVisible(false);
+
                 break;
             case AcceptOffer:
+
                 break;
             case RefuseOffer:
                 break;
@@ -67,7 +80,7 @@ public class CommandMenuItem extends JMenuItem implements Command {
         this.selectedService = selectedService;
     }
 
-    public void setSelectedListElement(String selectedListElement) {
+    public void setSelectedListElement(Auction selectedListElement) {
         this.selectedListElement = selectedListElement;
     }
 

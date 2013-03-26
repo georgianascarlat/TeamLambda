@@ -29,19 +29,20 @@ public class ListPopupListener extends PopupListener {
 
         index = list.locationToIndex(e.getPoint());
 
-        if (index < 0)
-            return;
+
 
         for (Component component : components) {
 
             menuItem = ((CommandMenuItem) component);
 
             menuItem.setSelectedListElementIndex(index);
-            menuItem.setSelectedListElement((String) list.getModel().getElementAt(index));
             menuItem.setSelectedService(selectedService);
             menuItem.setSelectedServiceRow(selectedServiceRow);
             menuItem.setStatusType(statusType);
 
+            if(index >= 0){
+                menuItem.setSelectedListElement((Auction) list.getModel().getElementAt(index));
+            }
 
         }
     }

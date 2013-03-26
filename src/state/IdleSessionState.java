@@ -36,7 +36,7 @@ public class IdleSessionState extends SessionState {
     }
 
     @Override
-    public void newUserAppeared(String username, String type, List<String> services) {
+    public void addUser(String username, String type, List<String> services) {
 
     }
 

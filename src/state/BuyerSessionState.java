@@ -44,6 +44,7 @@ public class BuyerSessionState extends SessionState {
     public void launchOffer(int row) {
 
         table.getModel().setValueAt(StatusTypes.No_Offer, row, MyTableModel.STATUS_COLUMN);
+        table.repaint();
 
 
     }
@@ -52,6 +53,7 @@ public class BuyerSessionState extends SessionState {
     public void dropOffer(int row) {
 
         table.getModel().setValueAt(StatusTypes.Inactive, row, MyTableModel.STATUS_COLUMN);
+        table.repaint();
 
     }
 

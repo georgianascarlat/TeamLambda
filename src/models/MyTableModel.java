@@ -26,12 +26,16 @@ public class MyTableModel extends AbstractTableModel {
     public static final int STATUS_COLUMN = 2;
     public static final int SERVICE_NAME_COLUMN = 0;
     public static final int ROW_HEIGHT = 50;
+    private static final int USER_LIST_WIDTH = 80;
+    public static final int LIST_ELEM_HEIGHT = 25;
 
     private Object[][] data;
     private String[] columnNames;
     private List<String> services;
     private PopupListener listMouseListener;
     private PopupListener tableMouseListener;
+
+
 
     public MyTableModel(String[] columnNames, List<String> services, PopupListener listMouseListener, PopupListener tableMouseListener) {
         this.columnNames = columnNames;
@@ -92,12 +96,7 @@ public class MyTableModel extends AbstractTableModel {
 
     public JTable createJTable() {
 
-        JTable table;
-        int height = 0, width;
-        TableColumn col = null;
-        Component comp;
-
-        table = new JTable(this);
+        JTable table = new JTable(this);
 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         ListRenderer lr = new ListRenderer();
@@ -111,6 +110,16 @@ public class MyTableModel extends AbstractTableModel {
 
         table.setDefaultRenderer(Service.class, pr);
 
+
+        adjustTableDimensions(table);
+
+        return table;
+    }
+
+    private void adjustTableDimensions(JTable table) {
+        int width;
+        TableColumn col = null;
+        Component comp;
 
         for (int i = 0; i < table.getColumnCount(); i++) {
 
@@ -129,9 +138,12 @@ public class MyTableModel extends AbstractTableModel {
                 comp = renderer.getTableCellRendererComponent(table, table.getValueAt(r, i),
                         false, false, r, i);
                 width = Math.max(width, comp.getPreferredSize().width);
-                height = Math.max(height, comp.getPreferredSize().height);
+
             }
             col.setPreferredWidth(width + COLUMN_OFFSET);
+
+            if(i == USER_LIST_COLUMN)
+                col.setPreferredWidth(USER_LIST_WIDTH);
 
         }
 
@@ -139,8 +151,6 @@ public class MyTableModel extends AbstractTableModel {
             col.setPreferredWidth(PROGRESS_BAR_WIDTH);
 
         table.setRowHeight(ROW_HEIGHT);
-
-        return table;
     }
 
     private Object[][] getDataFromServices(java.util.List<String> services) {

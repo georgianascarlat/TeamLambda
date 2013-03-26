@@ -35,6 +35,7 @@ public class ListCellEditor extends AbstractCellEditor implements TableCellEdito
             list.addMouseListener(mouseListener);
             JScrollPane pane = new JScrollPane(list);
             list.setSelectionBackground(Color.white);
+            list.setCellRenderer(new MyListCellRenderer());
 
             return pane;
         }

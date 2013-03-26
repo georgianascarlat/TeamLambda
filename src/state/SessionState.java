@@ -77,10 +77,10 @@ public abstract class SessionState {
     // se lanseaza o cerere de oferta
     public abstract void launchOffer(int row);
 
-
+    // se renunta la o cerere de oferta
     public abstract void dropOffer(int row);
 
-    public void newUserAppeared(String username, String type, List<String> services) {
+    public void addUser(String username, String type, List<String> services) {
 
         TableModel model = table.getModel();
         int rowCount = model.getRowCount();
@@ -91,11 +91,11 @@ public abstract class SessionState {
             return;
 
         for (int row = 0; row < rowCount; row++) {
-            if (canAddUser(model, row)&&
-                    services.contains(model.getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN))) {
+            listModel = (DefaultListModel) model.getValueAt(row, MyTableModel.USER_LIST_COLUMN);
 
-                listModel = (DefaultListModel) model.getValueAt(row, MyTableModel.USER_LIST_COLUMN);
-                listModel.addElement(username);
+            if (canAddUser(username, services, model, listModel, row)) {
+
+                listModel.addElement(new Auction(username));
 
             }
         }
@@ -103,6 +103,12 @@ public abstract class SessionState {
         table.repaint();
 
 
+    }
+
+    private boolean canAddUser(String username, List<String> services, TableModel model, DefaultListModel listModel, int row) {
+        return canAddUser(model, row)&&
+                services.contains(model.getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN))&&
+                !listModel.contains(username);
     }
 
     protected abstract boolean canAddUser(TableModel model, int row);
@@ -121,7 +127,7 @@ public abstract class SessionState {
         for (int row = 0; row < rowCount; row++) {
 
             listModel = (DefaultListModel) model.getValueAt(row, MyTableModel.USER_LIST_COLUMN);
-            listModel.removeElement(name);
+            listModel.removeElement(new Auction(name));
 
 
         }

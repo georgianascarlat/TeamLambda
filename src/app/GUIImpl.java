@@ -17,8 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import static state.StateManager.*;
-
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -203,8 +201,8 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     }
 
     @Override
-    public void newUserAppeared(String username, String type, List<String> services) {
-        stateManager.newUserAppeared(username, type, services);
+    public void addUser(String username, String type, List<String> services) {
+        stateManager.addUser(username, type, services);
     }
 
     @Override

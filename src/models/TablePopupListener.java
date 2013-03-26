@@ -25,15 +25,22 @@ public class TablePopupListener extends PopupListener {
         Component[] components = popup.getComponents();
 
         index = table.rowAtPoint(e.getPoint());
-        if (index < 0)
-            return;
+
 
         for (Component component : components) {
 
             menuItem = (CommandMenuItem) component;
-            menuItem.setSelectedService((String) table.getModel().getValueAt(index, MyTableModel.SERVICE_NAME_COLUMN));
+
             menuItem.setSelectedServiceRow(index);
-            menuItem.setStatusType((StatusTypes) table.getModel().getValueAt(index, MyTableModel.STATUS_COLUMN));
+
+            if (index >= 0){
+
+                menuItem.setSelectedService((String) table.getModel().getValueAt(index, MyTableModel.SERVICE_NAME_COLUMN));
+                menuItem.setStatusType((StatusTypes) table.getModel().getValueAt(index, MyTableModel.STATUS_COLUMN));
+            }
+
+
+
         }
     }
 

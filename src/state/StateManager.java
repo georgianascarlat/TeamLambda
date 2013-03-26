@@ -1,7 +1,5 @@
 package state;
 
-import models.MyTableModel;
-
 import javax.swing.*;
 import java.util.List;
 
@@ -44,8 +42,8 @@ public class StateManager {
         sessionState.dropOffer(row);
     }
 
-    public void newUserAppeared(String username, String type, List<String> services) {
-        sessionState.newUserAppeared(username, type, services);
+    public void addUser(String username, String type, List<String> services) {
+        sessionState.addUser(username, type, services);
     }
 
     public void removeUser(String name, String type) {

@@ -45,7 +45,7 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
         if (info == null)
             return;
 
-        List<String> services = null;
+        List<String> services;
         try {
 
             services = webServiceClient.getServices(info);
@@ -133,7 +133,7 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     @Override
     public void userLoggedIn(String username, String type, List<String> services) {
 
-        gui.newUserAppeared(username, type, services);
+        gui.addUser(username, type, services);
     }
 
     @Override

@@ -24,7 +24,7 @@ public interface GUI {
 
     public void dropOffer(int row);
 
-    public void newUserAppeared(String username, String type, List<String> services);
+    public void addUser(String username, String type, List<String> services);
 
     public void removeUser(String name, String type);
 }

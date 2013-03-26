@@ -75,7 +75,7 @@ public class NetworkImpl implements Network, Runnable {
         newUser("Kiki", "buyer", services);
 
         newUser("Shiki", "seller", services);
-        newUser("Biki", "buyer", services);
+        newUser("Biki VickiShi Mooul", "buyer", services);
 
 
         sleep();
