@@ -88,6 +88,10 @@ public class SellerSessionState extends SessionState {
                 listModel.addElement(auction);
                 break;
 
+            case Inactive:
+                listModel.removeElement(auction);
+                break;
+
             default:
                 throw new IllegalArgumentException("Cannot change auction to state "+auction.getStatus());
         }

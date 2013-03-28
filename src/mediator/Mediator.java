@@ -117,8 +117,11 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     }
 
     @Override
-    public void dropAuction() {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void dropAuction(String selectedService, int selectedServiceRow, Auction selectedUser, int selectedUserIndex) {
+
+        gui.auctionStatusChanged(selectedServiceRow, selectedUserIndex,selectedUser);
+
+        network.auctionStatusChanged(info.getUsername(),info.getType(),selectedService, selectedUser);
     }
 
     @Override

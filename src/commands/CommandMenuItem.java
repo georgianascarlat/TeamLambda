@@ -93,7 +93,7 @@ public class CommandMenuItem extends JMenuItem implements Command {
     @Override
     public void execute() {
 
-
+        StatusTypes status;
         switch (type) {
 
             case LaunchOfferRequest:
@@ -114,6 +114,11 @@ public class CommandMenuItem extends JMenuItem implements Command {
                 break;
             case MakeOffer:
 
+                status = selectedListElement.getStatus();
+                if(status!= No_Offer && status!= Offer_Exceeded && status!=Offer_Refused){
+                    JOptionPane.showMessageDialog(null,"Can't make offer","Error",JOptionPane.ERROR_MESSAGE);
+                    break;
+                }
                 float  price = getPriceFromUser();
 
                 selectedListElement.setStatus(StatusTypes.Offer_Made);
@@ -122,7 +127,15 @@ public class CommandMenuItem extends JMenuItem implements Command {
                 med.makeOffer(selectedService, selectedServiceRow, selectedListElement, selectedListElementIndex);
                 break;
             case DropAuction:
-                // med.dropAuction();
+
+                status = selectedListElement.getStatus();
+                if(status!= Offer_Exceeded ){
+                    JOptionPane.showMessageDialog(null,"Can't drop offer","Error",JOptionPane.ERROR_MESSAGE);
+                    break;
+                }
+                selectedListElement.setStatus(StatusTypes.Inactive);
+
+                med.dropAuction(selectedService, selectedServiceRow, selectedListElement, selectedListElementIndex);
                 break;
         }
     }

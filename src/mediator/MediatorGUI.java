@@ -51,7 +51,7 @@ public interface MediatorGUI {
     // transferul de servicii/produse
     public void doTransfer();
 
-    public void dropAuction();
+    public void dropAuction(String service, int serviceRow, Auction auction, int listIndex);
 
     public List<String> inquireService(String service);
 }
