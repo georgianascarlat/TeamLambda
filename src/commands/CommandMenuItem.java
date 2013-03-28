@@ -36,7 +36,7 @@ public class CommandMenuItem extends JMenuItem implements Command {
     public void setStatusType(StatusTypes statusType) {
         this.statusType = statusType;
 
-        if(selectedListElementIndex < 0 || selectedServiceRow <0){
+        if (selectedListElementIndex < 0 || selectedServiceRow < 0) {
             this.setVisible(false);
             return;
 
@@ -114,14 +114,48 @@ public class CommandMenuItem extends JMenuItem implements Command {
                 break;
             case MakeOffer:
 
+                float  price = getPriceFromUser();
+
                 selectedListElement.setStatus(StatusTypes.Offer_Made);
-                selectedListElement.setPrice(30);
-                med.makeOffer(selectedService,selectedServiceRow,selectedListElement,selectedListElementIndex);
+                selectedListElement.setPrice(price);
+
+                med.makeOffer(selectedService, selectedServiceRow, selectedListElement, selectedListElementIndex);
                 break;
             case DropAuction:
                 // med.dropAuction();
                 break;
         }
+    }
+
+    private float getPriceFromUser() {
+
+        float price;
+        String s, message = "Choose the price:\n";
+        String  errorMessage = "Please insert a valid price!\n";
+        int type = JOptionPane.PLAIN_MESSAGE;
+
+        while(true){
+            s = (String) JOptionPane.showInputDialog(
+                    null,
+                    message,
+                    "Customized Dialog",
+                    type,
+                    null,
+                    null,
+                    "service price");
+
+            try{
+                price = Float.parseFloat(s);
+                if(price > 0)
+                    break;
+
+            } catch (NumberFormatException e){
+                message = errorMessage ;
+                type = JOptionPane.ERROR_MESSAGE;
+            }
+
+        }
+        return price;
     }
 
 }
