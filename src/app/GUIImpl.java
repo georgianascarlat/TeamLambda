@@ -265,11 +265,11 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     }
 
     @Override
-    public void auctionStatusChanged(final int serviceRow, final int userIndex, final Auction auction) {
+    public void auctionStatusChanged(final String service, final Auction auction) {
         dispatchWorker.submitAction(new Command() {
             @Override
             public void execute() {
-                stateManager.auctionStatusChanged(serviceRow,userIndex,auction);
+                stateManager.auctionStatusChanged(service,auction);
 
             }
         });

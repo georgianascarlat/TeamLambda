@@ -94,6 +94,9 @@ public class CommandMenuItem extends JMenuItem implements Command {
     public void execute() {
 
         StatusTypes status;
+
+
+
         switch (type) {
 
             case LaunchOfferRequest:
@@ -107,10 +110,30 @@ public class CommandMenuItem extends JMenuItem implements Command {
 
                 break;
             case AcceptOffer:
-                // med.acceptOffer();
+
+                status = selectedListElement.getStatus();
+                if(status!= Offer_Made){
+                    JOptionPane.showMessageDialog(null,"Can't accept offer","Error",JOptionPane.ERROR_MESSAGE);
+                    break;
+                }
+
+                selectedListElement.setStatus(Offer_Accepted);
+                med.auctionStatusChangeInform(selectedService,selectedListElement);
+
                 break;
+
             case RefuseOffer:
-                // med.refuseOffer();
+
+                status = selectedListElement.getStatus();
+
+                if(status!= Offer_Made){
+                    JOptionPane.showMessageDialog(null,"Can't refuse offer","Error",JOptionPane.ERROR_MESSAGE);
+                    break;
+                }
+
+                selectedListElement.setStatus(Inactive);
+                med.auctionStatusChangeInform(selectedService,selectedListElement);
+
                 break;
             case MakeOffer:
 
@@ -124,19 +147,22 @@ public class CommandMenuItem extends JMenuItem implements Command {
                 selectedListElement.setStatus(StatusTypes.Offer_Made);
                 selectedListElement.setPrice(price);
 
-                med.makeOffer(selectedService, selectedServiceRow, selectedListElement, selectedListElementIndex);
+                med.auctionStatusChangeInform(selectedService, selectedListElement);
                 break;
             case DropAuction:
 
                 status = selectedListElement.getStatus();
-                if(status!= Offer_Exceeded ){
+                if(status!= Offer_Exceeded || status != Offer_Refused){
                     JOptionPane.showMessageDialog(null,"Can't drop offer","Error",JOptionPane.ERROR_MESSAGE);
                     break;
                 }
                 selectedListElement.setStatus(StatusTypes.Inactive);
 
-                med.dropAuction(selectedService, selectedServiceRow, selectedListElement, selectedListElementIndex);
+                med.auctionStatusChangeInform(selectedService,selectedListElement);
                 break;
+
+            default:
+                throw new IllegalArgumentException("Invalid type "+type);
         }
     }
 

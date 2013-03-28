@@ -38,20 +38,12 @@ public interface MediatorGUI {
     // se anuleaza o cerere de oferta
     public void dropOffer(String selectedService, int selectedServiceRow);
 
-    //  se face o oferta
-    public void makeOffer(String selectedService, int selectedServiceRow, Auction selectedUser, int selectedUserIndex);
-
-    //oferta este acceptata/depasita/refuzata
-    public void acceptOffer();
-
-    public void surpassOffer();
-
-    public void refuseOffer();
-
-    // transferul de servicii/produse
-    public void doTransfer();
-
-    public void dropAuction(String service, int serviceRow, Auction auction, int listIndex);
 
     public List<String> inquireService(String service);
+
+    public void auctionStatusChangeRequest(String service, Auction auction);
+
+    public void auctionStatusChangeInform(String service, Auction auction);
+
+
 }

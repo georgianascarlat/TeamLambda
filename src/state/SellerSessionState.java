@@ -9,9 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import static models.MyTableModel.*;
-import static models.StatusTypes.Inactive;
-import static models.StatusTypes.No_Offer;
-import static models.StatusTypes.Offer_Made;
+import static models.StatusTypes.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -75,21 +73,49 @@ public class SellerSessionState extends SessionState {
     }
 
     @Override
-    public void auctionStatusChanged(int serviceRow, int userIndex, Auction auction) {
+    public void auctionStatusChanged(String service, Auction auction) {
 
-        DefaultListModel listModel = (DefaultListModel) table.getModel().getValueAt(serviceRow,USER_LIST_COLUMN);
+        int serviceRow = getServiceRow(service);
+        DefaultListModel listModel ;
 
+        if(serviceRow < 0){
+            return;
+        }
+
+        listModel = (DefaultListModel) table.getModel().getValueAt(serviceRow,USER_LIST_COLUMN);
 
         switch (auction.getStatus()) {
 
             case Offer_Made:
-                table.getModel().setValueAt(Offer_Made,serviceRow, STATUS_COLUMN);
+
                 listModel.removeElement(auction);
                 listModel.addElement(auction);
+
                 break;
 
             case Inactive:
+
                 listModel.removeElement(auction);
+                verifyStatus(serviceRow);
+
+                break;
+
+            case Offer_Exceeded:
+
+                if(Offer_Made.equals(table.getModel().getValueAt(serviceRow, STATUS_COLUMN))){
+                    listModel.removeElement(auction);
+                    listModel.addElement(auction);
+                }
+
+                break;
+
+            case Offer_Refused:
+
+                if(Offer_Made.equals(table.getModel().getValueAt(serviceRow, STATUS_COLUMN))){
+                    listModel.removeElement(auction);
+                    listModel.addElement(auction);
+                }
+
                 break;
 
             default:
@@ -100,6 +126,8 @@ public class SellerSessionState extends SessionState {
 
     }
 
+
+
     @Override
     protected void verifyStatus(int row) {
 
@@ -108,7 +136,7 @@ public class SellerSessionState extends SessionState {
         if(listModel.getSize() == 0){
             table.getModel().setValueAt(Inactive,row, STATUS_COLUMN);
         } else if (Inactive.equals(table.getModel().getValueAt(row, STATUS_COLUMN))){
-            table.getModel().setValueAt(No_Offer,row, STATUS_COLUMN);
+            table.getModel().setValueAt(Active,row, STATUS_COLUMN);
         }
 
 

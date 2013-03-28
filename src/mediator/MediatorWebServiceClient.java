@@ -13,4 +13,5 @@ public interface MediatorWebServiceClient {
 
     public void registerWebServiceClient(WebServiceClient webServiceClient);
 
+
 }

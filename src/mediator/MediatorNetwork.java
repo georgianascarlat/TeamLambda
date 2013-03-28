@@ -1,6 +1,7 @@
 package mediator;
 
 import app.Network;
+import models.Auction;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface MediatorNetwork {
     public void userLoggedIn(String username, String type, List<String> services);
 
     public void userLoggedOut(String name, String type);
+
+    public void auctionStatusChangeInform(String service, Auction auction);
 }

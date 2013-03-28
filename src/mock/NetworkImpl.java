@@ -5,11 +5,9 @@ import mediator.MediatorNetwork;
 import models.Auction;
 import models.Service;
 import models.ServiceImpl;
+import models.StatusTypes;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -88,10 +86,16 @@ public class NetworkImpl implements Network, Runnable {
     }
 
     @Override
-    public void auctionStatusChanged(String sourceUser, String sourceUserType, String service, Auction auction) {
+    public void auctionStatusChangeRequest(String sourceUser, String sourceUserType, String service, Auction auction) {
         System.out.println("[Network]Auction status changed by "+sourceUser+" for service "+service+" into "+auction.getStatus());
+
     }
 
+    @Override
+    public void auctionStatusChangeReply(String sourceUser, String sourceUserType, String service, Auction auction) {
+
+         mediator.auctionStatusChangeInform(service, auction);
+    }
 
 
     @Override
@@ -117,6 +121,16 @@ public class NetworkImpl implements Network, Runnable {
         newUser("Shiki", "seller", services);
         newUser("Biki VickiShi Mooul", "buyer", services);
 
+
+        sleep();
+
+        auctionStatusChangeReply("Ana", "buyer", "serviciu1", new Auction("Relu", StatusTypes.Offer_Made, 12));
+
+        auctionStatusChangeReply("Ana", "buyer", "serviciu4", new Auction("Miki", StatusTypes.Offer_Made, 54));
+
+        sleep();
+
+        auctionStatusChangeReply("Ana", "buyer", "serviciu1", new Auction("Relu", StatusTypes.Inactive, 12));
 
         sleep();
 

@@ -29,6 +29,5 @@ public interface GUI {
 
     public void removeUser(String name, String type);
 
-
-    public void auctionStatusChanged(int serviceRow, int userIndex, Auction auction);
+    public void auctionStatusChanged(String service, Auction auction);
 }

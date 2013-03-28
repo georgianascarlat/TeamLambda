@@ -37,7 +37,7 @@ public class Auction {
         return user.hashCode();
     }
 
-    public Auction(String user, StatusTypes status, int price) {
+    public Auction(String user, StatusTypes status, float price) {
         this.user = user;
         this.status = status;
         this.price = price;

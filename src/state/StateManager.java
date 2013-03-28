@@ -56,9 +56,10 @@ public class StateManager {
 
             }
 
+
             @Override
-            public void auctionStatusChanged(int serviceRow, int userIndex, Auction auction) {
-                //To change body of implemented methods use File | Settings | File Templates.
+            public void auctionStatusChanged(String service, Auction auction) {
+
             }
 
 
@@ -66,6 +67,18 @@ public class StateManager {
             protected void verifyStatus(int row) {
 
             }
+
+            @Override
+            public void addUser(String username, String type, List<String> services) {
+
+            }
+
+            @Override
+            public void removeUser(String name, String type) {
+
+            }
+
+
         };
     }
 
@@ -105,7 +118,9 @@ public class StateManager {
     }
 
 
-    public void auctionStatusChanged(int serviceRow, int userIndex, Auction auction) {
-        sessionState.auctionStatusChanged(serviceRow,userIndex,auction);
+    public void auctionStatusChanged(String service, Auction auction) {
+        sessionState.auctionStatusChanged(service,auction);
     }
+
+
 }

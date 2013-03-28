@@ -18,6 +18,6 @@ public enum StatusTypes {
     Transfer_Started,
     Transfer_In_Progress,
     Transfer_Completed,
-    Transfer_Failed
+    Active, Transfer_Failed
 
 }

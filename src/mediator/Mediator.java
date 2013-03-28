@@ -34,6 +34,8 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
         this.webServiceClient = webServiceClient;
     }
 
+
+
     @Override
     public void registerNetwork(Network network) {
         this.network = network;
@@ -87,48 +89,27 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
 
     }
 
-    @Override
-    public void makeOffer(String selectedService, int selectedServiceRow, Auction selectedUser, int selectedUserIndex) {
-
-
-        gui.auctionStatusChanged(selectedServiceRow, selectedUserIndex,selectedUser);
-
-        network.auctionStatusChanged(info.getUsername(),info.getType(),selectedService, selectedUser);
-    }
-
-    @Override
-    public void acceptOffer() {
-
-    }
-
-    @Override
-    public void surpassOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void refuseOffer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void doTransfer() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void dropAuction(String selectedService, int selectedServiceRow, Auction selectedUser, int selectedUserIndex) {
-
-        gui.auctionStatusChanged(selectedServiceRow, selectedUserIndex,selectedUser);
-
-        network.auctionStatusChanged(info.getUsername(),info.getType(),selectedService, selectedUser);
-    }
 
     @Override
     public List<String> inquireService(String service) {
 
         return network.inquireService(service);
     }
+
+    @Override
+    public void auctionStatusChangeRequest(String service, Auction auction) {
+        gui.auctionStatusChanged(service,auction);
+    }
+
+    @Override
+    public void auctionStatusChangeInform(String service, Auction auction) {
+
+        gui.auctionStatusChanged(service, auction);
+
+        network.auctionStatusChangeRequest(info.getUsername(), info.getType(), service, auction);
+    }
+
+
 
     @Override
     public void userLoggedIn(String username, String type, List<String> services) {

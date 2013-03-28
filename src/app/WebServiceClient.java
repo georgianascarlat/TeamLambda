@@ -15,4 +15,6 @@ import java.util.List;
 public interface WebServiceClient {
 
     public List<String> getServices(LoginInfo loginInfo) throws NoSuchUserException;
+
+
 }

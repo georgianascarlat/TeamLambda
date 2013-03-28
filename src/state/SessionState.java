@@ -9,6 +9,10 @@ import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import static models.MyTableModel.SERVICE_NAME_COLUMN;
+import static models.MyTableModel.STATUS_COLUMN;
+import static models.MyTableModel.USER_LIST_COLUMN;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -74,7 +78,7 @@ public abstract class SessionState {
         return table;
     }
 
-    public void inquire(int row) {
+    protected void inquire(int row) {
         List<String> users = mediator.inquireService((String) table.getModel().getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN));
 
         DefaultListModel listModel = (DefaultListModel) table.getModel().getValueAt(row, MyTableModel.USER_LIST_COLUMN);
@@ -128,6 +132,16 @@ public abstract class SessionState {
                 !listModel.contains(element);
     }
 
+    protected int getServiceRow(String service) {
+        for(int i=0;i<table.getRowCount();i++){
+            String s = (String) table.getModel().getValueAt(i,SERVICE_NAME_COLUMN);
+            if(service.equals(s))
+                return i;
+        }
+        return -1;
+    }
+
+
 
 
 
@@ -148,12 +162,11 @@ public abstract class SessionState {
 
             verifyStatus(row);
 
-
-
         }
 
         table.repaint();
     }
+
 
     public abstract void launchOffer(int row);
 
@@ -161,7 +174,9 @@ public abstract class SessionState {
 
     public abstract void login();
 
-    public abstract void auctionStatusChanged(int serviceRow, int userIndex, Auction auction);
+
+
+    public abstract void auctionStatusChanged(String service, Auction auction);
 
     protected abstract void verifyStatus(int row);
 
