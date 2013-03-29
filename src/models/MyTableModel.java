@@ -20,11 +20,11 @@ public class MyTableModel extends AbstractTableModel {
     public static final int COLUMN_NUMBER = 4;
 
     public static final int COLUMN_OFFSET = 12;
-    public static final int PROGRESS_BAR_WIDTH = 200;
+    public static final int PROGRESS_BAR_WIDTH = 225;
     public static final int STATUS_COLUMN = 2;
     public static final int SERVICE_NAME_COLUMN = 0;
-    public static final int ROW_HEIGHT = 50;
-    private static final int USER_LIST_WIDTH = 150;
+    public static final int ROW_HEIGHT = 70;
+    private static final int USER_LIST_WIDTH = 230;
     public static final int LIST_ELEM_HEIGHT = 25;
 
     private Object[][] data;

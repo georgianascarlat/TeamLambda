@@ -28,6 +28,8 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
+    public static final int TABLE_WITH = 700;
+    public static final int TABLE_HEIGHT = 400;
     private MediatorGUI mediator;
 
 
@@ -112,6 +114,8 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         top.add(tPassword);
         top.add(loginButton);
 
+        top.setBackground(new Color(70,130,200));
+
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 0;
@@ -119,6 +123,9 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
 
         jp.add(bottom, constraints);
+
+
+
 
         setSize(new Dimension(WIDTH, HEIGHT));
         setVisible(true);
@@ -169,7 +176,13 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
                 top.add(logoutButton);
 
                 bottom.removeAll();
-                bottom.add(new JScrollPane(stateManager.getTable()));
+
+                stateManager.getTable().setBackground(new Color(200,100,160));
+                JScrollPane scrollPane = new JScrollPane(stateManager.getTable());
+
+                scrollPane.setPreferredSize(new Dimension(TABLE_WITH, TABLE_HEIGHT));
+
+                bottom.add(scrollPane);
 
                 stateManager.login();
 
