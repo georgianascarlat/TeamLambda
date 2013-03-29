@@ -9,5 +9,15 @@ package models;
  */
 public interface Service {
 
+    public StatusTypes getPurchaseStatus();
+
+    public void setPurchaseProgress(int progress);
+
     public int getPurchaseProgress();
+
+    public void setPurchaseStatus(StatusTypes status);
+
+    public String getName();
+
+    public String getSourceUser();
 }

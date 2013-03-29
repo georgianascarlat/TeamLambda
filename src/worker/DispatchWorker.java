@@ -19,7 +19,7 @@ public class DispatchWorker extends SwingWorker<Void, Command> {
 
     private Queue<Command> commandQueue = new LinkedList<Command>();
 
-    public void submitAction(Command command){
+    public void submitAction(Command command) {
 
         synchronized (commandQueue) {
             commandQueue.add(command);
@@ -32,8 +32,7 @@ public class DispatchWorker extends SwingWorker<Void, Command> {
     protected Void doInBackground() {
 
 
-
-        while (!isCancelled()){
+        while (!isCancelled()) {
             synchronized (commandQueue) {
                 while (commandQueue.isEmpty() && (!isCancelled())) {
                     try {
@@ -54,7 +53,7 @@ public class DispatchWorker extends SwingWorker<Void, Command> {
     @Override
     protected void process(List<Command> commands) {
 
-        for(Command command:commands){
+        for (Command command : commands) {
             command.execute();
         }
     }

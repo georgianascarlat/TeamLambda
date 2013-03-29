@@ -3,8 +3,6 @@ package mock;
 import app.Network;
 import mediator.MediatorNetwork;
 import models.Auction;
-import models.Service;
-import models.ServiceImpl;
 import models.StatusTypes;
 
 import java.util.*;
@@ -19,7 +17,7 @@ import java.util.*;
 public class NetworkImpl implements Network, Runnable {
 
     MediatorNetwork mediator;
-    Map<String,List<String>> user_services = new HashMap<String, List<String>>();
+    Map<String, List<String>> user_services = new HashMap<String, List<String>>();
 
 
     public NetworkImpl(MediatorNetwork mediator) {
@@ -30,21 +28,17 @@ public class NetworkImpl implements Network, Runnable {
         services.add("serviciu3");
         services.add("serviciu5");
 
-        user_services.put("Gogu",services);
+        user_services.put("Gogu", services);
 
         services = new LinkedList<String>();
         services.add("serviciu9");
         services.add("serviciu10");
 
-        user_services.put("Lola",services);
+        user_services.put("Lola", services);
 
 
     }
 
-    @Override
-    public Service purchaseService(String name) {
-        return new ServiceImpl();
-    }
 
     @Override
     public void offerLaunched(String username, String service) {
@@ -55,7 +49,7 @@ public class NetworkImpl implements Network, Runnable {
     public void removeUserFromLists(String username, String type) {
         System.out.println("[Network]Removing user " + username + " from all lists");
 
-        mediator.userLoggedOut(username,type);
+        mediator.userLoggedOut(username, type);
     }
 
     @Override
@@ -75,8 +69,8 @@ public class NetworkImpl implements Network, Runnable {
 
         List<String> users = new LinkedList<String>();
 
-        for(Map.Entry<String,List<String>> entry:user_services.entrySet()){
-            if(entry.getValue().contains(service))
+        for (Map.Entry<String, List<String>> entry : user_services.entrySet()) {
+            if (entry.getValue().contains(service))
                 users.add(entry.getKey());
         }
 
@@ -87,14 +81,14 @@ public class NetworkImpl implements Network, Runnable {
 
     @Override
     public void auctionStatusChangeRequest(String sourceUser, String sourceUserType, String service, Auction auction) {
-        System.out.println("[Network]Auction status changed by "+sourceUser+" for service "+service+" into "+auction.getStatus());
+        System.out.println("[Network]Auction status changed by " + sourceUser + " for service " + service + " into " + auction.getStatus());
 
     }
 
     @Override
-    public void auctionStatusChangeReply(String sourceUser, String sourceUserType, String service, Auction auction) {
+    public void auctionStatusChangeInform(String sourceUser, String sourceUserType, String service, Auction auction) {
 
-         mediator.auctionStatusChangeInform(service, auction);
+        mediator.auctionStatusChangeInform(service, auction);
     }
 
 
@@ -119,18 +113,22 @@ public class NetworkImpl implements Network, Runnable {
         newUser("Kiki", "buyer", services);
 
         newUser("Shiki", "seller", services);
-        newUser("Biki VickiShi Mooul", "buyer", services);
+        newUser("Biki ", "buyer", services);
 
 
         sleep();
 
-        auctionStatusChangeReply("Ana", "buyer", "serviciu1", new Auction("Relu", StatusTypes.Offer_Made, 12));
+        auctionStatusChangeInform("Ana", "buyer", "serviciu4", new Auction("Relu", StatusTypes.Offer_Made, 12));
 
-        auctionStatusChangeReply("Ana", "buyer", "serviciu4", new Auction("Miki", StatusTypes.Offer_Made, 54));
+        auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Offer_Made, 54));
 
         sleep();
 
-        auctionStatusChangeReply("Ana", "buyer", "serviciu1", new Auction("Relu", StatusTypes.Inactive, 12));
+        //auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Inactive, 12));
+
+        //auctionStatusChangeInform("Ana", "seller", "serviciu1", new Auction("Kiki", StatusTypes.Offer_Accepted, 12));
+        //auctionStatusChangeInform("Ana", "seller", "serviciu4", new Auction("Bicu", StatusTypes.Offer_Accepted, 12));
+
 
         sleep();
 
@@ -138,12 +136,13 @@ public class NetworkImpl implements Network, Runnable {
         removeUserFromLists("Bicu", "buyer");
 
         sleep();
+        sleep();
 
         removeUserFromLists("Kiki", "buyer");
         removeUserFromLists("Miki", "seller");
 
         removeUserFromLists("Shiki", "seller");
-        removeUserFromLists("Biki VickiShi Mooul", "buyer");
+        removeUserFromLists("Biki ", "buyer");
 
 
     }

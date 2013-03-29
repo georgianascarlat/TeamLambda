@@ -4,6 +4,7 @@ import app.*;
 import exceptions.NoSuchUserException;
 import models.Auction;
 import models.LoginInfo;
+import models.Service;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +34,6 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     public void registerWebServiceClient(WebServiceClient webServiceClient) {
         this.webServiceClient = webServiceClient;
     }
-
 
 
     @Override
@@ -98,7 +98,10 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
 
     @Override
     public void auctionStatusChangeRequest(String service, Auction auction) {
-        gui.auctionStatusChanged(service,auction);
+
+        gui.auctionStatusChanged(service, auction);
+
+        network.auctionStatusChangeRequest(info.getUsername(), info.getType(), service, auction);
     }
 
     @Override
@@ -106,9 +109,14 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
 
         gui.auctionStatusChanged(service, auction);
 
-        network.auctionStatusChangeRequest(info.getUsername(), info.getType(), service, auction);
+
     }
 
+    @Override
+    public Service serviceTransfer(String service, Auction auction) {
+
+        return webServiceClient.serviceTransfer(info.getUsername(), service, auction);
+    }
 
 
     @Override

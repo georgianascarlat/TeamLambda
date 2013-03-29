@@ -28,7 +28,6 @@ public class ListCellEditor extends AbstractCellEditor implements TableCellEdito
         this.currentValue = (ListModel) o;
 
 
-
         if (o != null) {
             JList list = new JList((ListModel) o);
 
@@ -37,7 +36,7 @@ public class ListCellEditor extends AbstractCellEditor implements TableCellEdito
             list.setSelectionBackground(Color.white);
             list.setCellRenderer(new MyListCellRenderer());
             list.addMouseListener(mouseListener);
-            mouseListener.selectRow(jTable,i);
+            mouseListener.selectRow(jTable, i);
 
             return pane;
         }

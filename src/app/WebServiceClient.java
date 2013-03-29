@@ -1,7 +1,9 @@
 package app;
 
 import exceptions.NoSuchUserException;
+import models.Auction;
 import models.LoginInfo;
+import models.Service;
 
 import java.util.List;
 
@@ -17,4 +19,5 @@ public interface WebServiceClient {
     public List<String> getServices(LoginInfo loginInfo) throws NoSuchUserException;
 
 
+    public Service serviceTransfer(String username, String service, Auction auction);
 }

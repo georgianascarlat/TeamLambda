@@ -30,11 +30,11 @@ public abstract class PopupListener extends MouseAdapter {
 
     protected abstract void passPopupInfo(MouseEvent e);
 
-    protected void selectRow(JTable table, int row){
+    protected void selectRow(JTable table, int row) {
 
-       setSelectedService((String) table.getModel().getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN));
-       setSelectedServiceRow(row);
-       setSelectedStatusType((StatusTypes) table.getModel().getValueAt(row, MyTableModel.STATUS_COLUMN));
+        setSelectedService((String) table.getModel().getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN));
+        setSelectedServiceRow(row);
+        setSelectedStatusType((StatusTypes) table.getModel().getValueAt(row, MyTableModel.STATUS_COLUMN));
     }
 
     protected void setSelectedService(String name) {

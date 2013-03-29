@@ -2,6 +2,7 @@ package state;
 
 import mediator.MediatorGUI;
 import models.*;
+import worker.FileTransferWorker;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -62,7 +63,7 @@ public class SellerSessionState extends SessionState {
 
         int rowCount = table.getRowCount();
 
-        for(int row = 0;row < rowCount;row++){
+        for (int row = 0; row < rowCount; row++) {
 
             inquire(row);
 
@@ -76,50 +77,62 @@ public class SellerSessionState extends SessionState {
     public void auctionStatusChanged(String service, Auction auction) {
 
         int serviceRow = getServiceRow(service);
-        DefaultListModel listModel ;
+        DefaultListModel listModel;
 
-        if(serviceRow < 0){
+        if (serviceRow < 0) {
             return;
         }
 
-        listModel = (DefaultListModel) table.getModel().getValueAt(serviceRow,USER_LIST_COLUMN);
+        listModel = (DefaultListModel) table.getModel().getValueAt(serviceRow, USER_LIST_COLUMN);
 
         switch (auction.getStatus()) {
 
             case Offer_Made:
 
-                listModel.removeElement(auction);
-                listModel.addElement(auction);
+                if (listModel.removeElement(auction))
+                    listModel.addElement(auction);
 
                 break;
 
             case Inactive:
 
                 listModel.removeElement(auction);
+
+                resetTransfer(auction.getUser(),table.getModel(),serviceRow);
+
                 verifyStatus(serviceRow);
 
                 break;
 
             case Offer_Exceeded:
 
-                if(Offer_Made.equals(table.getModel().getValueAt(serviceRow, STATUS_COLUMN))){
-                    listModel.removeElement(auction);
+
+                if (listModel.removeElement(auction))
                     listModel.addElement(auction);
-                }
+
 
                 break;
 
             case Offer_Refused:
 
-                if(Offer_Made.equals(table.getModel().getValueAt(serviceRow, STATUS_COLUMN))){
-                    listModel.removeElement(auction);
+
+                if (listModel.removeElement(auction))
                     listModel.addElement(auction);
+
+
+                break;
+
+            case Offer_Accepted:
+
+                if (listModel.removeElement(auction)) {
+                    listModel.addElement(auction);
+                    new FileTransferWorker(mediator, service, auction, table, serviceRow).execute();
                 }
 
                 break;
 
             default:
-                throw new IllegalArgumentException("Cannot change auction to state "+auction.getStatus());
+                throw new IllegalArgumentException("Cannot change auction to state " + auction.getStatus());
         }
 
         table.repaint();
@@ -127,16 +140,15 @@ public class SellerSessionState extends SessionState {
     }
 
 
-
     @Override
     protected void verifyStatus(int row) {
 
         DefaultListModel listModel = (DefaultListModel) table.getModel().getValueAt(row, USER_LIST_COLUMN);
 
-        if(listModel.getSize() == 0){
-            table.getModel().setValueAt(Inactive,row, STATUS_COLUMN);
-        } else if (Inactive.equals(table.getModel().getValueAt(row, STATUS_COLUMN))){
-            table.getModel().setValueAt(Active,row, STATUS_COLUMN);
+        if (listModel.getSize() == 0) {
+            table.getModel().setValueAt(Inactive, row, STATUS_COLUMN);
+        } else if (Inactive.equals(table.getModel().getValueAt(row, STATUS_COLUMN))) {
+            table.getModel().setValueAt(Active, row, STATUS_COLUMN);
         }
 
 

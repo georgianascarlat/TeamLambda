@@ -1,15 +1,12 @@
 package mock;
 
-import models.LoginInfo;
+import models.*;
 import app.WebServiceClient;
 import exceptions.NoSuchUserException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,9 +18,11 @@ import java.util.Scanner;
 public class WebServiceClientImpl implements WebServiceClient {
 
     private HashMap<String, String> user_config_file_assoc;
+    private List<Service> servicesInProgress;
 
     public WebServiceClientImpl() {
         this.user_config_file_assoc = new HashMap<String, String>();
+        this.servicesInProgress = new LinkedList<Service>();
         this.user_config_file_assoc.put("ana", "config_files/ana_config.txt");
     }
 
@@ -57,5 +56,42 @@ public class WebServiceClientImpl implements WebServiceClient {
                 scanner.close();
         }
 
+    }
+
+    @Override
+    public synchronized Service serviceTransfer(String username, String serviceName, Auction auction) {
+
+        int progress;
+        Service service;
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (Iterator<Service> it = servicesInProgress.iterator(); it.hasNext(); ) {
+            service = it.next();
+            if (service.getName().equals(serviceName)) {
+
+                progress = service.getPurchaseProgress();
+                if (progress >= 100) {
+
+                    service.setPurchaseStatus(StatusTypes.Transfer_Completed);
+                    service.setPurchaseProgress(100);
+                    it.remove();
+
+                } else {
+                    service.setPurchaseStatus(StatusTypes.Transfer_In_Progress);
+                    service.setPurchaseProgress(progress + 1);
+                }
+
+                return service;
+            }
+        }
+
+        service = new ServiceImpl(serviceName, StatusTypes.Transfer_Started, auction.getUser());
+        servicesInProgress.add(service);
+        return service;
     }
 }

@@ -2,12 +2,14 @@ package state;
 
 import mediator.MediatorGUI;
 import models.*;
+import worker.FileTransferWorker;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import static models.MyTableModel.PROGRESS_BAR_COLUMN;
 import static models.MyTableModel.STATUS_COLUMN;
 import static models.MyTableModel.USER_LIST_COLUMN;
 import static models.StatusTypes.Offer_Made;
@@ -81,44 +83,46 @@ public class BuyerSessionState extends SessionState {
     public void auctionStatusChanged(String service, Auction auction) {
 
         int serviceRow = getServiceRow(service);
-        DefaultListModel listModel ;
+        DefaultListModel listModel;
 
-        if(serviceRow < 0){
+        if (serviceRow < 0) {
             return;
         }
 
-        listModel = (DefaultListModel) table.getModel().getValueAt(serviceRow,USER_LIST_COLUMN);
+        listModel = (DefaultListModel) table.getModel().getValueAt(serviceRow, USER_LIST_COLUMN);
         StatusTypes status = auction.getStatus();
-        switch (status){
+        switch (status) {
             case Offer_Made:
 
-                listModel.removeElement(auction);
-                listModel.addElement(auction);
+                if (listModel.removeElement(auction))
+                    listModel.addElement(auction);
 
                 break;
             case Inactive:
 
                 listModel.removeElement(auction);
 
+                resetTransfer(auction.getUser(),table.getModel(),serviceRow);
+
                 break;
             case Offer_Accepted:
 
-                listModel.removeAllElements();
-                auction.setStatus(Transfer_Started);
-                listModel.addElement(auction);
-
+                if (listModel.removeElement(auction)) {
+                    listModel.clear();
+                    listModel.addElement(auction);
+                    new FileTransferWorker(mediator, service, auction, table, serviceRow).execute();
+                }
                 break;
             default:
-                throw new IllegalArgumentException("Cannot change auction to state "+auction.getStatus());
+                throw new IllegalArgumentException("Cannot change auction to state " + auction.getStatus());
         }
 
         table.repaint();
     }
 
 
-
     @Override
     protected void verifyStatus(int row) {
-        //does nothing
+
     }
 }

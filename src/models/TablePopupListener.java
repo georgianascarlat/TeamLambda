@@ -33,12 +33,11 @@ public class TablePopupListener extends PopupListener {
 
             menuItem.setSelectedServiceRow(index);
 
-            if (index >= 0){
+            if (index >= 0) {
 
                 menuItem.setSelectedService((String) table.getModel().getValueAt(index, MyTableModel.SERVICE_NAME_COLUMN));
                 menuItem.setStatusType((StatusTypes) table.getModel().getValueAt(index, MyTableModel.STATUS_COLUMN));
             }
-
 
 
         }

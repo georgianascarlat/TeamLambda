@@ -96,7 +96,6 @@ public class CommandMenuItem extends JMenuItem implements Command {
         StatusTypes status;
 
 
-
         switch (type) {
 
             case LaunchOfferRequest:
@@ -112,13 +111,13 @@ public class CommandMenuItem extends JMenuItem implements Command {
             case AcceptOffer:
 
                 status = selectedListElement.getStatus();
-                if(status!= Offer_Made){
-                    JOptionPane.showMessageDialog(null,"Can't accept offer","Error",JOptionPane.ERROR_MESSAGE);
+                if (status != Offer_Made) {
+                    JOptionPane.showMessageDialog(null, "Can't accept offer", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
 
                 selectedListElement.setStatus(Offer_Accepted);
-                med.auctionStatusChangeInform(selectedService,selectedListElement);
+                med.auctionStatusChangeRequest(selectedService, selectedListElement);
 
                 break;
 
@@ -126,43 +125,43 @@ public class CommandMenuItem extends JMenuItem implements Command {
 
                 status = selectedListElement.getStatus();
 
-                if(status!= Offer_Made){
-                    JOptionPane.showMessageDialog(null,"Can't refuse offer","Error",JOptionPane.ERROR_MESSAGE);
+                if (status != Offer_Made) {
+                    JOptionPane.showMessageDialog(null, "Can't refuse offer", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
 
                 selectedListElement.setStatus(Inactive);
-                med.auctionStatusChangeInform(selectedService,selectedListElement);
+                med.auctionStatusChangeRequest(selectedService, selectedListElement);
 
                 break;
             case MakeOffer:
 
                 status = selectedListElement.getStatus();
-                if(status!= No_Offer && status!= Offer_Exceeded && status!=Offer_Refused){
-                    JOptionPane.showMessageDialog(null,"Can't make offer","Error",JOptionPane.ERROR_MESSAGE);
+                if (status != No_Offer && status != Offer_Exceeded && status != Offer_Refused) {
+                    JOptionPane.showMessageDialog(null, "Can't make offer", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
-                float  price = getPriceFromUser();
+                float price = getPriceFromUser();
 
                 selectedListElement.setStatus(StatusTypes.Offer_Made);
                 selectedListElement.setPrice(price);
 
-                med.auctionStatusChangeInform(selectedService, selectedListElement);
+                med.auctionStatusChangeRequest(selectedService, selectedListElement);
                 break;
             case DropAuction:
 
                 status = selectedListElement.getStatus();
-                if(status!= Offer_Exceeded || status != Offer_Refused){
-                    JOptionPane.showMessageDialog(null,"Can't drop offer","Error",JOptionPane.ERROR_MESSAGE);
+                if (status != Offer_Exceeded || status != Offer_Refused) {
+                    JOptionPane.showMessageDialog(null, "Can't drop offer", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
                 selectedListElement.setStatus(StatusTypes.Inactive);
 
-                med.auctionStatusChangeInform(selectedService,selectedListElement);
+                med.auctionStatusChangeRequest(selectedService, selectedListElement);
                 break;
 
             default:
-                throw new IllegalArgumentException("Invalid type "+type);
+                throw new IllegalArgumentException("Invalid type " + type);
         }
     }
 
@@ -170,10 +169,10 @@ public class CommandMenuItem extends JMenuItem implements Command {
 
         float price;
         String s, message = "Choose the price:\n";
-        String  errorMessage = "Please insert a valid price!\n";
+        String errorMessage = "Please insert a valid price!\n";
         int type = JOptionPane.PLAIN_MESSAGE;
 
-        while(true){
+        while (true) {
             s = (String) JOptionPane.showInputDialog(
                     null,
                     message,
@@ -183,13 +182,13 @@ public class CommandMenuItem extends JMenuItem implements Command {
                     null,
                     "service price");
 
-            try{
+            try {
                 price = Float.parseFloat(s);
-                if(price > 0)
+                if (price > 0)
                     break;
 
-            } catch (NumberFormatException e){
-                message = errorMessage ;
+            } catch (NumberFormatException e) {
+                message = errorMessage;
                 type = JOptionPane.ERROR_MESSAGE;
             }
 

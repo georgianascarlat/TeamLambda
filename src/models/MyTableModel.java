@@ -5,8 +5,6 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.MouseListener;
-import java.util.*;
 import java.util.List;
 
 /**
@@ -34,7 +32,6 @@ public class MyTableModel extends AbstractTableModel {
     private List<String> services;
     private PopupListener listMouseListener;
     private PopupListener tableMouseListener;
-
 
 
     public MyTableModel(String[] columnNames, List<String> services, PopupListener listMouseListener, PopupListener tableMouseListener) {
@@ -136,7 +133,7 @@ public class MyTableModel extends AbstractTableModel {
             }
             col.setPreferredWidth(width + COLUMN_OFFSET);
 
-            if(i == USER_LIST_COLUMN)
+            if (i == USER_LIST_COLUMN)
                 col.setPreferredWidth(USER_LIST_WIDTH);
 
         }

@@ -14,8 +14,6 @@ import java.util.List;
  */
 public interface Network {
 
-    public Service purchaseService(String name);
-
     public void offerLaunched(String username, String service);
 
     public void removeUserFromLists(String username, String type);
@@ -28,7 +26,7 @@ public interface Network {
 
     public void auctionStatusChangeRequest(String sourceUser, String sourceUserType, String service, Auction auction);
 
-    public void auctionStatusChangeReply(String sourceUser, String sourceUserType, String service, Auction auction);
+    public void auctionStatusChangeInform(String sourceUser, String sourceUserType, String service, Auction auction);
 
 
 }

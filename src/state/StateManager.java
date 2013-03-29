@@ -119,7 +119,7 @@ public class StateManager {
 
 
     public void auctionStatusChanged(String service, Auction auction) {
-        sessionState.auctionStatusChanged(service,auction);
+        sessionState.auctionStatusChanged(service, auction);
     }
 
 

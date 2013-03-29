@@ -63,8 +63,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         this.dispatchWorker.execute();
 
 
-
-
     }
 
     private void init(MediatorGUI mediator) {
@@ -180,7 +178,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         });
 
 
-
     }
 
     @Override
@@ -207,7 +204,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
                 GUIImpl.this.paintAll(GUIImpl.this.getGraphics());
             }
         });
-
 
 
     }
@@ -269,7 +265,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         dispatchWorker.submitAction(new Command() {
             @Override
             public void execute() {
-                stateManager.auctionStatusChanged(service,auction);
+                stateManager.auctionStatusChanged(service, auction);
 
             }
         });

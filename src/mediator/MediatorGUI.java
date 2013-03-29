@@ -5,6 +5,7 @@ import app.Network;
 import app.WebServiceClient;
 import exceptions.NoSuchUserException;
 import models.Auction;
+import models.Service;
 
 import java.util.List;
 
@@ -43,7 +44,6 @@ public interface MediatorGUI {
 
     public void auctionStatusChangeRequest(String service, Auction auction);
 
-    public void auctionStatusChangeInform(String service, Auction auction);
 
-
+    public Service serviceTransfer(String service, Auction auction);
 }

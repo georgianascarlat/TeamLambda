@@ -9,9 +9,7 @@ import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import static models.MyTableModel.SERVICE_NAME_COLUMN;
-import static models.MyTableModel.STATUS_COLUMN;
-import static models.MyTableModel.USER_LIST_COLUMN;
+import static models.MyTableModel.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -83,18 +81,16 @@ public abstract class SessionState {
 
         DefaultListModel listModel = (DefaultListModel) table.getModel().getValueAt(row, MyTableModel.USER_LIST_COLUMN);
 
-        for(String user:users){
+        for (String user : users) {
             Auction element = new Auction(user);
 
-            if(!listModel.contains(element)) {
+            if (!listModel.contains(element)) {
 
                 listModel.addElement(element);
             }
         }
         table.repaint();
     }
-
-
 
 
     public void addUser(String username, String type, List<String> services) {
@@ -127,22 +123,19 @@ public abstract class SessionState {
     }
 
     private boolean canAddUser(Auction element, List<String> services, TableModel model, DefaultListModel listModel, int row) {
-        return canAddUser(model, row)&&
-                services.contains(model.getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN))&&
+        return canAddUser(model, row) &&
+                services.contains(model.getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN)) &&
                 !listModel.contains(element);
     }
 
     protected int getServiceRow(String service) {
-        for(int i=0;i<table.getRowCount();i++){
-            String s = (String) table.getModel().getValueAt(i,SERVICE_NAME_COLUMN);
-            if(service.equals(s))
+        for (int i = 0; i < table.getRowCount(); i++) {
+            String s = (String) table.getModel().getValueAt(i, SERVICE_NAME_COLUMN);
+            if (service.equals(s))
                 return i;
         }
         return -1;
     }
-
-
-
 
 
     public void removeUser(String name, String type) {
@@ -152,19 +145,29 @@ public abstract class SessionState {
         DefaultListModel listModel;
 
 
-        if (type.equalsIgnoreCase(name))
+
+        if (type.equalsIgnoreCase(this.name))
             return;
 
         for (int row = 0; row < rowCount; row++) {
 
-            listModel = (DefaultListModel) model.getValueAt(row, MyTableModel.USER_LIST_COLUMN);
+            listModel = (DefaultListModel) model.getValueAt(row, USER_LIST_COLUMN);
             listModel.removeElement(new Auction(name));
+            resetTransfer(name, model, row);
 
             verifyStatus(row);
 
         }
 
         table.repaint();
+    }
+
+    protected void resetTransfer(String name, TableModel model, int row) {
+        Service service = (Service) model.getValueAt(row, PROGRESS_BAR_COLUMN);
+
+        if (name.equals(service.getSourceUser())) {
+            model.setValueAt(new ServiceImpl(), row, PROGRESS_BAR_COLUMN);
+        }
     }
 
 
@@ -175,13 +178,11 @@ public abstract class SessionState {
     public abstract void login();
 
 
-
     public abstract void auctionStatusChanged(String service, Auction auction);
 
     protected abstract void verifyStatus(int row);
 
     protected abstract boolean canAddUser(TableModel model, int row);
-
 
 
 }

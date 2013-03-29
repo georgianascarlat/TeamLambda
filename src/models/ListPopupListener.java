@@ -30,7 +30,6 @@ public class ListPopupListener extends PopupListener {
         index = list.locationToIndex(e.getPoint());
 
 
-
         for (Component component : components) {
 
             menuItem = ((CommandMenuItem) component);
@@ -40,7 +39,7 @@ public class ListPopupListener extends PopupListener {
             menuItem.setSelectedServiceRow(selectedServiceRow);
             menuItem.setStatusType(statusType);
 
-            if(index >= 0){
+            if (index >= 0) {
                 menuItem.setSelectedListElement((Auction) list.getModel().getElementAt(index));
             }
 

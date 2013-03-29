@@ -69,9 +69,9 @@ public class Auction {
 
     @Override
     public String toString() {
-        String s = user+" "+status;
-        if(price > 0 && !StatusTypes.No_Offer.equals(status))
-            s+=" "+price+"$";
+        String s = user + " " + status;
+        if (price > 0 && !StatusTypes.No_Offer.equals(status))
+            s += " " + price + "$";
 
         return s;
     }

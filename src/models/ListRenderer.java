@@ -22,7 +22,7 @@ public class ListRenderer extends JList implements TableCellRenderer {
         ListModel listModel = (ListModel) cellObject;
         int heigth, width;
 
-        if (cellObject != null)  {
+        if (cellObject != null) {
 
             this.setModel(listModel);
             this.setCellRenderer(new MyListCellRenderer());
@@ -42,9 +42,9 @@ public class ListRenderer extends JList implements TableCellRenderer {
         int heigth;
         int width;
         heigth = listModel.getSize() * MyTableModel.LIST_ELEM_HEIGHT;
-        jTable.setRowHeight(row,Math.max(heigth,jTable.getRowHeight()));
+        jTable.setRowHeight(row, Math.max(heigth, jTable.getRowHeight()));
         width = this.getPreferredSize().width;
-        jTable.getColumnModel().getColumn(column).setPreferredWidth(Math.max(width,jTable.getColumnModel().getColumn(column).getWidth()));
+        jTable.getColumnModel().getColumn(column).setPreferredWidth(Math.max(width, jTable.getColumnModel().getColumn(column).getWidth()));
     }
 
 
