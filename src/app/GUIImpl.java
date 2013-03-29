@@ -50,7 +50,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
     private DispatchWorker dispatchWorker;
 
 
-    public GUIImpl(MediatorGUI mediator) {
+    public GUIImpl(MediatorGUI mediator,String type) {
         super("Auctions");
 
         this.mediator = mediator;
@@ -59,6 +59,8 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         this.stateManager = new StateManager();
 
         this.dispatchWorker = new DispatchWorker();
+
+        tType.setText(type);
 
         init(mediator);
 

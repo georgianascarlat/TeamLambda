@@ -26,7 +26,7 @@ public class Main {
 
         mediator.registerWebServiceClient(new WebServiceClientImpl());
 
-        new GUIImpl(mediator);
+        new GUIImpl(mediator,args[0]);
 
         new Thread(new NetworkImpl(mediator,args[0])).start();
 
