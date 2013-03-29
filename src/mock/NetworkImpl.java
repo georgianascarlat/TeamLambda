@@ -18,10 +18,12 @@ public class NetworkImpl implements Network, Runnable {
 
     MediatorNetwork mediator;
     Map<String, List<String>> user_services = new HashMap<String, List<String>>();
+    String userType;
 
 
-    public NetworkImpl(MediatorNetwork mediator) {
+    public NetworkImpl(MediatorNetwork mediator,String userType) {
         this.mediator = mediator;
+        this.userType = userType;
         mediator.registerNetwork(this);
 
         List<String> services = new LinkedList<String>();
@@ -100,11 +102,13 @@ public class NetworkImpl implements Network, Runnable {
         services.add("serviciu8");
 
         sleep();
+        sleep();
 
         newUser("Relu", "seller", services);
-        newUser("Bicu", "buyer", services);
+        newUser("Nicu", "buyer", services);
 
         sleep();
+
         services.add("serviciu1");
         services.add("serviciu2");
 
@@ -118,32 +122,90 @@ public class NetworkImpl implements Network, Runnable {
 
         sleep();
 
-        //auctionStatusChangeInform("Ana", "buyer", "serviciu4", new Auction("Relu", StatusTypes.Offer_Made, 12));
 
-        //auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Offer_Made, 54));
+        if(userType.equals("buyer")){
 
-        //sleep();
-
-        //auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Inactive, 12));
-
-        auctionStatusChangeInform("Ana", "seller", "serviciu1", new Auction("Biki", StatusTypes.Offer_Accepted, 12));
-        auctionStatusChangeInform("Ana", "seller", "serviciu1", new Auction("Kiki", StatusTypes.Offer_Accepted, 12));
-        auctionStatusChangeInform("Ana", "seller", "serviciu4", new Auction("Bicu", StatusTypes.Offer_Accepted, 12));
+            user_services.put("Relu",services);
+            user_services.put("Miki",services);
+            user_services.put("Shiki",services);
 
 
-        sleep();
+            auctionStatusChangeInform("Ana", "buyer", "serviciu4", new Auction("Relu", StatusTypes.Offer_Made, 12));
+            auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Offer_Made, 54));
 
-        removeUserFromLists("Relu", "seller");
-        //removeUserFromLists("Bicu", "buyer");
+            sleep();
 
-        sleep();
-        sleep();
+            auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Shiki", StatusTypes.Offer_Made, 60));
+            auctionStatusChangeInform("Ana", "buyer", "serviciu4", new Auction("Shiki", StatusTypes.Offer_Made, 60));
 
-        //removeUserFromLists("Kiki", "buyer");
-        removeUserFromLists("Miki", "seller");
+            sleep();
+            sleep();
 
-        removeUserFromLists("Shiki", "seller");
-        //removeUserFromLists("Biki ", "buyer");
+            removeUserFromLists("Relu", "seller");
+            sleep();
+
+
+            removeUserFromLists("Miki", "seller");
+            removeUserFromLists("Shiki", "seller");
+
+
+        }
+
+        if(userType.equals("seller")){
+            user_services.put("Nicu",services);
+            user_services.put("Kiki",services);
+            user_services.put("Biki",services);
+        }
+
+//        List<String> services = new LinkedList<String>();
+//        services.add("serviciu4");
+//        services.add("serviciu8");
+//
+//        sleep();
+//
+//        newUser("Relu", "seller", services);
+//        newUser("Bicu", "buyer", services);
+//
+//        sleep();
+//        services.add("serviciu1");
+//        services.add("serviciu2");
+//
+//
+//        newUser("Miki", "seller", services);
+//        newUser("Kiki", "buyer", services);
+//
+//        newUser("Shiki", "seller", services);
+//        newUser("Biki", "buyer", services);
+//
+//
+//        sleep();
+//
+//        //auctionStatusChangeInform("Ana", "buyer", "serviciu4", new Auction("Relu", StatusTypes.Offer_Made, 12));
+//
+//        //auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Offer_Made, 54));
+//
+//        //sleep();
+//
+//        //auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Inactive, 12));
+//
+//        auctionStatusChangeInform("Ana", "seller", "serviciu1", new Auction("Biki", StatusTypes.Offer_Accepted, 12));
+//        auctionStatusChangeInform("Ana", "seller", "serviciu1", new Auction("Kiki", StatusTypes.Offer_Accepted, 12));
+//        auctionStatusChangeInform("Ana", "seller", "serviciu4", new Auction("Bicu", StatusTypes.Offer_Accepted, 12));
+//
+//
+//        sleep();
+//
+//        removeUserFromLists("Relu", "seller");
+//        //removeUserFromLists("Bicu", "buyer");
+//
+//        sleep();
+//        sleep();
+//
+//        //removeUserFromLists("Kiki", "buyer");
+//        removeUserFromLists("Miki", "seller");
+//
+//        removeUserFromLists("Shiki", "seller");
+//        //removeUserFromLists("Biki ", "buyer");
 
 
     }

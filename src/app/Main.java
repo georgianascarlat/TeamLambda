@@ -17,13 +17,18 @@ public class Main {
 
     public static void main(String[] args) {
 
+        if(args.length != 1){
+            System.out.println("Program receives a user type argument");
+            System.exit(1);
+        }
+
         Mediator mediator = new Mediator();
 
         mediator.registerWebServiceClient(new WebServiceClientImpl());
 
         new GUIImpl(mediator);
 
-        new Thread(new NetworkImpl(mediator)).start();
+        new Thread(new NetworkImpl(mediator,args[0])).start();
 
 
     }

@@ -116,8 +116,7 @@ public class CommandMenuItem extends JMenuItem implements Command {
                     break;
                 }
 
-                selectedListElement.setStatus(Offer_Accepted);
-                med.auctionStatusChangeRequest(selectedService, selectedListElement);
+                med.auctionStatusChangeRequest(selectedService, new Auction(selectedListElement.getUser(),Offer_Accepted,selectedListElement.getPrice()));
 
                 break;
 
@@ -130,8 +129,7 @@ public class CommandMenuItem extends JMenuItem implements Command {
                     break;
                 }
 
-                selectedListElement.setStatus(Inactive);
-                med.auctionStatusChangeRequest(selectedService, selectedListElement);
+                med.auctionStatusChangeRequest(selectedService, new Auction(selectedListElement.getUser(),Inactive,selectedListElement.getPrice()));
 
                 break;
             case MakeOffer:
@@ -143,10 +141,7 @@ public class CommandMenuItem extends JMenuItem implements Command {
                 }
                 float price = getPriceFromUser();
 
-                selectedListElement.setStatus(StatusTypes.Offer_Made);
-                selectedListElement.setPrice(price);
-
-                med.auctionStatusChangeRequest(selectedService, selectedListElement);
+                med.auctionStatusChangeRequest(selectedService, new Auction(selectedListElement.getUser(),Offer_Made,price));
                 break;
             case DropAuction:
 
@@ -155,9 +150,8 @@ public class CommandMenuItem extends JMenuItem implements Command {
                     JOptionPane.showMessageDialog(null, "Can't drop offer", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
-                selectedListElement.setStatus(StatusTypes.Inactive);
 
-                med.auctionStatusChangeRequest(selectedService, selectedListElement);
+                med.auctionStatusChangeRequest(selectedService, new Auction(selectedListElement.getUser(),Inactive,selectedListElement.getPrice()));
                 break;
 
             default:

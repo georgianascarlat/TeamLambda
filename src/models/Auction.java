@@ -20,6 +20,8 @@ public class Auction {
 
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -170,7 +170,7 @@ public abstract class SessionState {
         }
     }
 
-    protected boolean alreadyHasTransfer(String service, Auction auction, DefaultListModel<Auction> listModel) {
+    protected boolean alreadyHasBeenAccepted(String service, Auction auction, DefaultListModel<Auction> listModel) {
 
         for(int i=0;i<listModel.size();i++){
             StatusTypes status = listModel.getElementAt(i).getStatus();
@@ -179,6 +179,7 @@ public abstract class SessionState {
                     Transfer_In_Progress.equals(status) || Transfer_Started.equals(status)) {
                 auction.setStatus(Transfer_Failed);
                 mediator.auctionStatusChangeRequest(service,auction);
+
                 return true;
             }
         }

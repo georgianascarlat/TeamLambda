@@ -83,7 +83,7 @@ public class WebServiceClientImpl implements WebServiceClient {
 
                 } else {
                     service.setPurchaseStatus(StatusTypes.Transfer_In_Progress);
-                    service.setPurchaseProgress(progress + 1);
+                    service.setPurchaseProgress(progress + 5);
                 }
 
                 return service;

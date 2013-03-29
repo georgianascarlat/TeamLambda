@@ -9,12 +9,8 @@ import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import static models.MyTableModel.PROGRESS_BAR_COLUMN;
-import static models.MyTableModel.STATUS_COLUMN;
+import static models.MyTableModel.SERVICE_NAME_COLUMN;
 import static models.MyTableModel.USER_LIST_COLUMN;
-import static models.StatusTypes.Offer_Made;
-
-import static models.StatusTypes.Transfer_Started;
 
 /**
  * Created with IntelliJ IDEA.
@@ -64,8 +60,17 @@ public class BuyerSessionState extends SessionState {
     @Override
     public void dropOffer(int row) {
 
-        table.getModel().setValueAt(StatusTypes.Inactive, row, MyTableModel.STATUS_COLUMN);
         DefaultListModel listModel = (DefaultListModel) table.getModel().getValueAt(row, MyTableModel.USER_LIST_COLUMN);
+        String service = (String) table.getModel().getValueAt(row,SERVICE_NAME_COLUMN);
+
+        if(alreadyHasBeenAccepted(service,new Auction(""),listModel)) {
+            JOptionPane.showMessageDialog(null, "Can't drop accepted offer", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
+        table.getModel().setValueAt(StatusTypes.Inactive, row, MyTableModel.STATUS_COLUMN);
+
         listModel.removeAllElements();
         table.repaint();
 
@@ -108,8 +113,7 @@ public class BuyerSessionState extends SessionState {
                 break;
             case Offer_Accepted:
 
-
-                if (alreadyHasTransfer(service, auction, listModel)) {
+                if (alreadyHasBeenAccepted(service, auction, listModel)) {
                     JOptionPane.showMessageDialog(null, "Can't accept another offer", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }

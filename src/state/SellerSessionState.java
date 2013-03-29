@@ -124,7 +124,7 @@ public class SellerSessionState extends SessionState {
 
             case Offer_Accepted:
 
-                if (alreadyHasTransfer(service, auction, listModel)) return;
+                if (alreadyHasBeenAccepted(service, auction, listModel)) return;
 
                 if (listModel.removeElement(auction)) {
 
