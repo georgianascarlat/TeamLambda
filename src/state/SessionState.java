@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import static models.MyTableModel.*;
+import static models.StatusTypes.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -145,7 +146,6 @@ public abstract class SessionState {
         DefaultListModel listModel;
 
 
-
         if (type.equalsIgnoreCase(this.name))
             return;
 
@@ -169,6 +169,22 @@ public abstract class SessionState {
             model.setValueAt(new ServiceImpl(), row, PROGRESS_BAR_COLUMN);
         }
     }
+
+    protected boolean alreadyHasTransfer(String service, Auction auction, DefaultListModel<Auction> listModel) {
+
+        for(int i=0;i<listModel.size();i++){
+            StatusTypes status = listModel.getElementAt(i).getStatus();
+
+            if(Offer_Accepted.equals(status) ||
+                    Transfer_In_Progress.equals(status) || Transfer_Started.equals(status)) {
+                auction.setStatus(Transfer_Failed);
+                mediator.auctionStatusChangeRequest(service,auction);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     public abstract void launchOffer(int row);

@@ -113,43 +113,44 @@ public class NetworkImpl implements Network, Runnable {
         newUser("Kiki", "buyer", services);
 
         newUser("Shiki", "seller", services);
-        newUser("Biki ", "buyer", services);
+        newUser("Biki", "buyer", services);
 
 
         sleep();
 
-        auctionStatusChangeInform("Ana", "buyer", "serviciu4", new Auction("Relu", StatusTypes.Offer_Made, 12));
+        //auctionStatusChangeInform("Ana", "buyer", "serviciu4", new Auction("Relu", StatusTypes.Offer_Made, 12));
 
-        auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Offer_Made, 54));
+        //auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Offer_Made, 54));
 
-        sleep();
+        //sleep();
 
         //auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Inactive, 12));
 
-        //auctionStatusChangeInform("Ana", "seller", "serviciu1", new Auction("Kiki", StatusTypes.Offer_Accepted, 12));
-        //auctionStatusChangeInform("Ana", "seller", "serviciu4", new Auction("Bicu", StatusTypes.Offer_Accepted, 12));
+        auctionStatusChangeInform("Ana", "seller", "serviciu1", new Auction("Biki", StatusTypes.Offer_Accepted, 12));
+        auctionStatusChangeInform("Ana", "seller", "serviciu1", new Auction("Kiki", StatusTypes.Offer_Accepted, 12));
+        auctionStatusChangeInform("Ana", "seller", "serviciu4", new Auction("Bicu", StatusTypes.Offer_Accepted, 12));
 
 
         sleep();
 
         removeUserFromLists("Relu", "seller");
-        removeUserFromLists("Bicu", "buyer");
+        //removeUserFromLists("Bicu", "buyer");
 
         sleep();
         sleep();
 
-        removeUserFromLists("Kiki", "buyer");
+        //removeUserFromLists("Kiki", "buyer");
         removeUserFromLists("Miki", "seller");
 
         removeUserFromLists("Shiki", "seller");
-        removeUserFromLists("Biki ", "buyer");
+        //removeUserFromLists("Biki ", "buyer");
 
 
     }
 
     private void sleep() {
         try {
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

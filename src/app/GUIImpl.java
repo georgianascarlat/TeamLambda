@@ -114,7 +114,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
         top.add(tPassword);
         top.add(loginButton);
 
-        top.setBackground(new Color(70,130,200));
+        top.setBackground(new Color(70, 130, 200));
 
 
         constraints.fill = GridBagConstraints.BOTH;
@@ -123,8 +123,6 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
 
         jp.add(bottom, constraints);
-
-
 
 
         setSize(new Dimension(WIDTH, HEIGHT));
@@ -177,7 +175,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
                 bottom.removeAll();
 
-                stateManager.getTable().setBackground(new Color(200,100,160));
+                stateManager.getTable().setBackground(new Color(200, 100, 160));
                 JScrollPane scrollPane = new JScrollPane(stateManager.getTable());
 
                 scrollPane.setPreferredSize(new Dimension(TABLE_WITH, TABLE_HEIGHT));

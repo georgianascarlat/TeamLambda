@@ -74,10 +74,10 @@ public class SellerSessionState extends SessionState {
     }
 
     @Override
-    public void auctionStatusChanged(String service, Auction auction) {
+    public synchronized  void auctionStatusChanged(String service, Auction auction) {
 
         int serviceRow = getServiceRow(service);
-        DefaultListModel listModel;
+        DefaultListModel<Auction> listModel;
 
         if (serviceRow < 0) {
             return;
@@ -98,7 +98,7 @@ public class SellerSessionState extends SessionState {
 
                 listModel.removeElement(auction);
 
-                resetTransfer(auction.getUser(),table.getModel(),serviceRow);
+                resetTransfer(auction.getUser(), table.getModel(), serviceRow);
 
                 verifyStatus(serviceRow);
 
@@ -124,11 +124,21 @@ public class SellerSessionState extends SessionState {
 
             case Offer_Accepted:
 
+                if (alreadyHasTransfer(service, auction, listModel)) return;
+
                 if (listModel.removeElement(auction)) {
+
                     listModel.addElement(auction);
                     new FileTransferWorker(mediator, service, auction, table, serviceRow).execute();
                 }
 
+
+                break;
+            case Transfer_Failed:
+                if (listModel.removeElement(auction)) {
+                    resetTransfer(auction.getUser(), table.getModel(), serviceRow);
+                    listModel.addElement(auction);
+                }
                 break;
 
             default:
@@ -138,6 +148,7 @@ public class SellerSessionState extends SessionState {
         table.repaint();
 
     }
+
 
 
     @Override

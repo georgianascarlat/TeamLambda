@@ -13,6 +13,7 @@ import static models.MyTableModel.PROGRESS_BAR_COLUMN;
 import static models.MyTableModel.STATUS_COLUMN;
 import static models.MyTableModel.USER_LIST_COLUMN;
 import static models.StatusTypes.Offer_Made;
+
 import static models.StatusTypes.Transfer_Started;
 
 /**
@@ -80,10 +81,10 @@ public class BuyerSessionState extends SessionState {
     }
 
     @Override
-    public void auctionStatusChanged(String service, Auction auction) {
+    public synchronized void auctionStatusChanged(String service, Auction auction) {
 
         int serviceRow = getServiceRow(service);
-        DefaultListModel listModel;
+        DefaultListModel<Auction> listModel;
 
         if (serviceRow < 0) {
             return;
@@ -102,15 +103,27 @@ public class BuyerSessionState extends SessionState {
 
                 listModel.removeElement(auction);
 
-                resetTransfer(auction.getUser(),table.getModel(),serviceRow);
+                resetTransfer(auction.getUser(), table.getModel(), serviceRow);
 
                 break;
             case Offer_Accepted:
+
+
+                if (alreadyHasTransfer(service, auction, listModel)) {
+                    JOptionPane.showMessageDialog(null, "Can't accept another offer", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 if (listModel.removeElement(auction)) {
                     listModel.clear();
                     listModel.addElement(auction);
                     new FileTransferWorker(mediator, service, auction, table, serviceRow).execute();
+                }
+                break;
+            case Transfer_Failed:
+                if (listModel.removeElement(auction)) {
+                    resetTransfer(auction.getUser(), table.getModel(), serviceRow);
+                    listModel.addElement(auction);
                 }
                 break;
             default:
