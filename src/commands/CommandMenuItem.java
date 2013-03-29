@@ -146,7 +146,7 @@ public class CommandMenuItem extends JMenuItem implements Command {
             case DropAuction:
 
                 status = selectedListElement.getStatus();
-                if (status != Offer_Exceeded || status != Offer_Refused) {
+                if (!Offer_Exceeded.equals(status) && !Offer_Refused.equals(status)) {
                     JOptionPane.showMessageDialog(null, "Can't drop offer", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
@@ -161,7 +161,7 @@ public class CommandMenuItem extends JMenuItem implements Command {
 
     private float getPriceFromUser() {
 
-        float price;
+        float price = 0;
         String s, message = "Choose the price:\n";
         String errorMessage = "Please insert a valid price!\n";
         int type = JOptionPane.PLAIN_MESSAGE;
@@ -177,6 +177,8 @@ public class CommandMenuItem extends JMenuItem implements Command {
                     "service price");
 
             try {
+                if(s == null)
+                    continue;
                 price = Float.parseFloat(s);
                 if (price > 0)
                     break;

@@ -107,6 +107,7 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     @Override
     public void auctionStatusChangeInform(String service, Auction auction) {
 
+
         gui.auctionStatusChanged(service, auction);
 
 
