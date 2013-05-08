@@ -1,5 +1,11 @@
 package models;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nogai
@@ -11,11 +17,44 @@ public class LoginInfo {
 
     private String username, type, password;
     private String fileName;
+    private List<String> serviceNames;
 
-    public LoginInfo(String username, String type, String password) {
+    public LoginInfo(String username, String fileName, String password) {
         this.username = username;
-        this.type = type;
+        this.fileName = fileName;
         this.password = password;
+        serviceNames = new LinkedList<String>();
+    }
+
+    @Override
+    public String toString() {
+        return "LoginInfo{" +
+                "username='" + username + '\'' +
+                ", type='" + type + '\'' +
+                ", password='" + password + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", serviceNames=" + serviceNames +
+                '}';
+    }
+
+    public void readServicesFromWishList() throws FileNotFoundException {
+
+        Scanner scanner = new Scanner(new File(fileName));
+
+        this.type = scanner.nextLine().trim();
+
+        while(scanner.hasNext()){
+            serviceNames.add(scanner.nextLine().trim());
+        }
+
+    }
+
+    public List<String> getServiceNames() {
+        return serviceNames;
+    }
+
+    public void setServiceNames(List<String> serviceNames) {
+        this.serviceNames = serviceNames;
     }
 
     public String getFileName() {

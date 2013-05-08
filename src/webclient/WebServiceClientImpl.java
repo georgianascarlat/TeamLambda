@@ -1,11 +1,12 @@
-package mock;
+package webclient;
 
 import models.*;
 import app.WebServiceClient;
-import exceptions.NoSuchUserException;
+import webclient.LambdaWebServiceServiceLocator;
+import webclient.LambdaWebService_PortType;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import javax.xml.rpc.ServiceException;
+import java.rmi.RemoteException;
 import java.util.*;
 
 /**
@@ -17,45 +18,31 @@ import java.util.*;
  */
 public class WebServiceClientImpl implements WebServiceClient {
 
-    private HashMap<String, String> user_config_file_assoc;
-    private List<Service> servicesInProgress;
 
-    public WebServiceClientImpl() {
-        this.user_config_file_assoc = new HashMap<String, String>();
+    private List<Service> servicesInProgress;
+    private LambdaWebService_PortType service;
+
+    public WebServiceClientImpl() throws ServiceException {
+
+        LambdaWebServiceServiceLocator locator = new LambdaWebServiceServiceLocator();
+        service = locator.getLambdaWebService();
+
         this.servicesInProgress = new LinkedList<Service>();
-        this.user_config_file_assoc.put("ana", "config_files/ana_config.txt");
     }
 
+
     @Override
-    public List<String> getServices(LoginInfo loginInfo) throws NoSuchUserException {
-
-        List<String> services = new LinkedList<String>();
-        String fileName = user_config_file_assoc.get(loginInfo.getUsername());
-        Scanner scanner = null;
-
-        if (fileName == null)
-            throw new NoSuchUserException();
+    public boolean addUserToDB(LoginInfo loginInfo) {
+        boolean  ok;
 
         try {
-
-            scanner = new Scanner(new File(fileName));
-            int n = scanner.nextInt();
-            scanner.nextLine();
-
-            for (int i = 0; i < n; i++) {
-                services.add(scanner.nextLine());
-            }
-
-
-            return services;
-        } catch (FileNotFoundException e) {
+            ok = service.loginUser(loginInfo.getUsername(),loginInfo.getType(),loginInfo.getPassword(), loginInfo.getServiceNames().toArray(new String[0]));
+        } catch (RemoteException e) {
             e.printStackTrace();
-            throw new NoSuchUserException();
-        } finally {
-            if (scanner != null)
-                scanner.close();
+            ok = false;
         }
 
+        return ok;
     }
 
     @Override
@@ -93,5 +80,31 @@ public class WebServiceClientImpl implements WebServiceClient {
         service = new ServiceImpl(serviceName, StatusTypes.Transfer_Started, auction.getUser());
         servicesInProgress.add(service);
         return service;
+    }
+
+    @Override
+    public List<String> getRelevantUsers(String type, String serviceName) {
+
+        List<String> result;
+
+        try {
+            String users[] =  service.relevantUsers(type,serviceName);
+            result = Arrays.asList(users);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            result = null;
+        }
+
+        return result;
+    }
+
+    @Override
+    public void makeUserInactive(String username) {
+
+        try {
+            service.logoutUser(username);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }

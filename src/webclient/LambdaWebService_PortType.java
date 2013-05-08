@@ -8,7 +8,7 @@
 package webclient;
 
 public interface LambdaWebService_PortType extends java.rmi.Remote {
-    public java.lang.String[] logoutUser(java.lang.String username) throws java.rmi.RemoteException;
-    public boolean loginUser(java.lang.String username, java.lang.String userType, java.lang.String password, java.lang.Object[] services) throws java.rmi.RemoteException;
-    public webclient.SimpleUser[] relevantUsers(java.lang.String username) throws java.rmi.RemoteException;
+    public java.lang.String[] relevantUsers(java.lang.String type, java.lang.String serviceName) throws java.rmi.RemoteException;
+    public boolean loginUser(java.lang.String username, java.lang.String userType, java.lang.String password, java.lang.String[] services) throws java.rmi.RemoteException;
+    public java.lang.String[] logoutUser(java.lang.String user) throws java.rmi.RemoteException;
 }

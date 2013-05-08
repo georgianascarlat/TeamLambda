@@ -1,0 +1,6 @@
+seller
+serviciu1
+serviciu2
+serviciu3
+serviciu4
+serviciu5

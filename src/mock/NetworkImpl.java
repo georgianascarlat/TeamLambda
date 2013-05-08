@@ -68,21 +68,6 @@ public class NetworkImpl implements Network, Runnable {
     }
 
     @Override
-    public List<String> inquireService(String service) {
-
-        List<String> users = new LinkedList<String>();
-
-        for (Map.Entry<String, List<String>> entry : user_services.entrySet()) {
-            if (entry.getValue().contains(service))
-                users.add(entry.getKey());
-        }
-
-        return users;
-
-
-    }
-
-    @Override
     public void auctionStatusChangeRequest(String sourceUser, String sourceUserType, String service, Auction auction) {
         System.out.println("[Network]Auction status changed by " + sourceUser + " for service " + service + " into " + auction.getStatus());
 

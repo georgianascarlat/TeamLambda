@@ -17,7 +17,7 @@ public interface GUI {
 
     public LoginInfo getLoginInfo();
 
-    public void logIn(LoginInfo info, List<String> services);
+    public void logIn(LoginInfo info);
 
     public void logOut();
 

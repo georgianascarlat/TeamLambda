@@ -10,6 +10,8 @@
       <root url="jar://$PROJECT_DIR$/lib/wsdl4j-1.5.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/commons-discovery-0.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/axis-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/activation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.mail.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

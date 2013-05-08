@@ -1,196 +1,190 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions targetNamespace="http://lambda" xmlns:apachesoap="http://xml.apache.org/xml-soap"
-                  xmlns:impl="http://lambda" xmlns:intf="http://lambda" xmlns:tns1="http://models.persistance"
-                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
-                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://xml.apache.org/xml-soap ">
-    <!--WSDL created by Apache Axis version: 1.4
+<wsdl:definitions targetNamespace="http://lambda" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://lambda" xmlns:intf="http://lambda" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
 Built on Apr 22, 2006 (06:55:48 PDT)-->
-    <wsdl:types>
-        <schema elementFormDefault="qualified" targetNamespace="http://lambda" xmlns="http://www.w3.org/2001/XMLSchema">
-            <import namespace="http://models.persistance"/>
-            <element name="username" type="xsd:string"/>
-            <element name="logoutUserReturn">
-                <complexType>
-                    <sequence>
-                        <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:string"/>
-                    </sequence>
-                </complexType>
-            </element>
-            <element name="username1" type="xsd:string"/>
-            <element name="userType" type="xsd:string"/>
-            <element name="password" type="xsd:string"/>
-            <complexType name="ArrayOf_xsd_anyType">
-                <sequence>
-                    <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
-                </sequence>
-            </complexType>
-            <element name="services" type="impl:ArrayOf_xsd_anyType"/>
-            <element name="loginUserReturn" type="xsd:boolean"/>
-            <element name="username2" type="xsd:string"/>
-            <complexType name="ArrayOf_tns1_SimpleUser">
-                <sequence>
-                    <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:SimpleUser"/>
-                </sequence>
-            </complexType>
-            <element name="relevantUsersReturn">
-                <complexType>
-                    <sequence>
-                        <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:SimpleUser"/>
-                    </sequence>
-                </complexType>
-            </element>
-        </schema>
-        <schema elementFormDefault="qualified" targetNamespace="http://models.persistance"
-                xmlns="http://www.w3.org/2001/XMLSchema">
-            <import namespace="http://lambda"/>
-            <complexType name="SimpleUser">
-                <sequence>
-                    <element name="name" nillable="true" type="xsd:string"/>
-                    <element name="serviceNames" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
-                </sequence>
-            </complexType>
-        </schema>
-    </wsdl:types>
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://lambda" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="relevantUsers">
+    <complexType>
+     <sequence>
+      <element name="type" type="xsd:string"/>
+      <element name="serviceName" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="relevantUsersResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="relevantUsersReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="loginUser">
+    <complexType>
+     <sequence>
+      <element name="username" type="xsd:string"/>
+      <element name="userType" type="xsd:string"/>
+      <element name="password" type="xsd:string"/>
+      <element maxOccurs="unbounded" name="services" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="loginUserResponse">
+    <complexType>
+     <sequence>
+      <element name="loginUserReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="logoutUser">
+    <complexType>
+     <sequence>
+      <element name="user" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="logoutUserResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="logoutUserReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
 
-    <wsdl:message name="relevantUsersRequest">
+   <wsdl:message name="logoutUserRequest">
 
-        <wsdl:part element="impl:username2" name="username"/>
+      <wsdl:part element="impl:logoutUser" name="parameters"/>
 
-    </wsdl:message>
+   </wsdl:message>
 
-    <wsdl:message name="logoutUserRequest">
+   <wsdl:message name="relevantUsersRequest">
 
-        <wsdl:part element="impl:username" name="username"/>
+      <wsdl:part element="impl:relevantUsers" name="parameters"/>
 
-    </wsdl:message>
+   </wsdl:message>
 
-    <wsdl:message name="loginUserResponse">
+   <wsdl:message name="loginUserResponse">
 
-        <wsdl:part element="impl:loginUserReturn" name="loginUserReturn"/>
+      <wsdl:part element="impl:loginUserResponse" name="parameters"/>
 
-    </wsdl:message>
+   </wsdl:message>
 
-    <wsdl:message name="logoutUserResponse">
+   <wsdl:message name="logoutUserResponse">
 
-        <wsdl:part element="impl:logoutUserReturn" name="logoutUserReturn"/>
+      <wsdl:part element="impl:logoutUserResponse" name="parameters"/>
 
-    </wsdl:message>
+   </wsdl:message>
 
-    <wsdl:message name="relevantUsersResponse">
+   <wsdl:message name="relevantUsersResponse">
 
-        <wsdl:part element="impl:relevantUsersReturn" name="relevantUsersReturn"/>
+      <wsdl:part element="impl:relevantUsersResponse" name="parameters"/>
 
-    </wsdl:message>
+   </wsdl:message>
 
-    <wsdl:message name="loginUserRequest">
+   <wsdl:message name="loginUserRequest">
 
-        <wsdl:part element="impl:username1" name="username"/>
+      <wsdl:part element="impl:loginUser" name="parameters"/>
 
-        <wsdl:part element="impl:userType" name="userType"/>
+   </wsdl:message>
 
-        <wsdl:part element="impl:password" name="password"/>
+   <wsdl:portType name="LambdaWebService">
 
-        <wsdl:part element="impl:services" name="services"/>
+      <wsdl:operation name="relevantUsers">
 
-    </wsdl:message>
+         <wsdl:input message="impl:relevantUsersRequest" name="relevantUsersRequest"/>
 
-    <wsdl:portType name="LambdaWebService">
+         <wsdl:output message="impl:relevantUsersResponse" name="relevantUsersResponse"/>
 
-        <wsdl:operation name="logoutUser" parameterOrder="username">
+      </wsdl:operation>
 
-            <wsdl:input message="impl:logoutUserRequest" name="logoutUserRequest"/>
+      <wsdl:operation name="loginUser">
 
-            <wsdl:output message="impl:logoutUserResponse" name="logoutUserResponse"/>
+         <wsdl:input message="impl:loginUserRequest" name="loginUserRequest"/>
 
-        </wsdl:operation>
+         <wsdl:output message="impl:loginUserResponse" name="loginUserResponse"/>
 
-        <wsdl:operation name="loginUser" parameterOrder="username userType password services">
+      </wsdl:operation>
 
-            <wsdl:input message="impl:loginUserRequest" name="loginUserRequest"/>
+      <wsdl:operation name="logoutUser">
 
-            <wsdl:output message="impl:loginUserResponse" name="loginUserResponse"/>
+         <wsdl:input message="impl:logoutUserRequest" name="logoutUserRequest"/>
 
-        </wsdl:operation>
+         <wsdl:output message="impl:logoutUserResponse" name="logoutUserResponse"/>
 
-        <wsdl:operation name="relevantUsers" parameterOrder="username">
+      </wsdl:operation>
 
-            <wsdl:input message="impl:relevantUsersRequest" name="relevantUsersRequest"/>
+   </wsdl:portType>
 
-            <wsdl:output message="impl:relevantUsersResponse" name="relevantUsersResponse"/>
+   <wsdl:binding name="LambdaWebServiceSoapBinding" type="impl:LambdaWebService">
 
-        </wsdl:operation>
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 
-    </wsdl:portType>
+      <wsdl:operation name="relevantUsers">
 
-    <wsdl:binding name="LambdaWebServiceSoapBinding" type="impl:LambdaWebService">
+         <wsdlsoap:operation soapAction=""/>
 
-        <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+         <wsdl:input name="relevantUsersRequest">
 
-        <wsdl:operation name="logoutUser">
+            <wsdlsoap:body use="literal"/>
 
-            <wsdlsoap:operation soapAction=""/>
+         </wsdl:input>
 
-            <wsdl:input name="logoutUserRequest">
+         <wsdl:output name="relevantUsersResponse">
 
-                <wsdlsoap:body use="literal"/>
+            <wsdlsoap:body use="literal"/>
 
-            </wsdl:input>
+         </wsdl:output>
 
-            <wsdl:output name="logoutUserResponse">
+      </wsdl:operation>
 
-                <wsdlsoap:body use="literal"/>
+      <wsdl:operation name="loginUser">
 
-            </wsdl:output>
+         <wsdlsoap:operation soapAction=""/>
 
-        </wsdl:operation>
+         <wsdl:input name="loginUserRequest">
 
-        <wsdl:operation name="loginUser">
+            <wsdlsoap:body use="literal"/>
 
-            <wsdlsoap:operation soapAction=""/>
+         </wsdl:input>
 
-            <wsdl:input name="loginUserRequest">
+         <wsdl:output name="loginUserResponse">
 
-                <wsdlsoap:body use="literal"/>
+            <wsdlsoap:body use="literal"/>
 
-            </wsdl:input>
+         </wsdl:output>
 
-            <wsdl:output name="loginUserResponse">
+      </wsdl:operation>
 
-                <wsdlsoap:body use="literal"/>
+      <wsdl:operation name="logoutUser">
 
-            </wsdl:output>
+         <wsdlsoap:operation soapAction=""/>
 
-        </wsdl:operation>
+         <wsdl:input name="logoutUserRequest">
 
-        <wsdl:operation name="relevantUsers">
+            <wsdlsoap:body use="literal"/>
 
-            <wsdlsoap:operation soapAction=""/>
+         </wsdl:input>
 
-            <wsdl:input name="relevantUsersRequest">
+         <wsdl:output name="logoutUserResponse">
 
-                <wsdlsoap:body use="literal"/>
+            <wsdlsoap:body use="literal"/>
 
-            </wsdl:input>
+         </wsdl:output>
 
-            <wsdl:output name="relevantUsersResponse">
+      </wsdl:operation>
 
-                <wsdlsoap:body use="literal"/>
+   </wsdl:binding>
 
-            </wsdl:output>
+   <wsdl:service name="LambdaWebServiceService">
 
-        </wsdl:operation>
+      <wsdl:port binding="impl:LambdaWebServiceSoapBinding" name="LambdaWebService">
 
-    </wsdl:binding>
+         <wsdlsoap:address location="http://nogai.dlinkddns.com:8080/services/LambdaWebService"/>
 
-    <wsdl:service name="LambdaWebServiceService">
+      </wsdl:port>
 
-        <wsdl:port binding="impl:LambdaWebServiceSoapBinding" name="LambdaWebService">
-
-            <wsdlsoap:address location="http://nogai.dlinkddns.com:8080/services/LambdaWebService"/>
-
-        </wsdl:port>
-
-    </wsdl:service>
+   </wsdl:service>
 
 </wsdl:definitions>

@@ -1,9 +1,10 @@
 package app;
 
 import mediator.Mediator;
-import mediator.MediatorGUI;
 import mock.NetworkImpl;
-import mock.WebServiceClientImpl;
+import webclient.WebServiceClientImpl;
+
+import javax.xml.rpc.ServiceException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,7 +25,12 @@ public class Main {
 
         Mediator mediator = new Mediator();
 
-        mediator.registerWebServiceClient(new WebServiceClientImpl());
+        try {
+            mediator.registerWebServiceClient(new WebServiceClientImpl());
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
         new GUIImpl(mediator,args[0]);
 

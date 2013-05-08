@@ -80,6 +80,11 @@ public abstract class SessionState {
     protected void inquire(int row) {
         List<String> users = mediator.inquireService((String) table.getModel().getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN));
 
+        if(null == users){
+            System.out.println("Cannot service info from server");
+            return;
+        }
+
         DefaultListModel listModel = (DefaultListModel) table.getModel().getValueAt(row, MyTableModel.USER_LIST_COLUMN);
 
         for (String user : users) {

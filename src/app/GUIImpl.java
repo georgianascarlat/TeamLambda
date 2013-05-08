@@ -9,6 +9,7 @@ import state.SessionStateFactory;
 import state.StateManager;
 import worker.DispatchWorker;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +35,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
 
     private JTextField tUserName = new JTextField(10);
-    private JTextField tType = new JTextField(10);
+    private JTextField tFileName = new JTextField(10);
     private JPasswordField tPassword = new JPasswordField(10);
 
     private JPanel bottom = new JPanel(new FlowLayout());
@@ -43,7 +44,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
     private JLabel labelUserName = new JLabel("Username: ");
     private JLabel labelPassword = new JLabel("Password: ");
-    private JLabel labelType = new JLabel("User Type: ");
+    private JLabel labelFileName = new JLabel("Wish List : ");
 
 
     private StateManager stateManager;
@@ -60,7 +61,7 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
         this.dispatchWorker = new DispatchWorker();
 
-        tType.setText(type);
+        tFileName.setText(type);
 
         init(mediator);
 
@@ -106,12 +107,12 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
         labelUserName.setLabelFor(tUserName);
         labelPassword.setLabelFor(tPassword);
-        labelType.setLabelFor(tType);
+        labelFileName.setLabelFor(tFileName);
 
         top.add(labelUserName);
         top.add(tUserName);
-        top.add(labelType);
-        top.add(tType);
+        top.add(labelFileName);
+        top.add(tFileName);
         top.add(labelPassword);
         top.add(tPassword);
         top.add(loginButton);
@@ -141,18 +142,26 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
     @Override
     public LoginInfo getLoginInfo() {
-        String username = tUserName.getText(), type = tType.getText(), pass = String.valueOf(tPassword.getPassword());
+        String username = tUserName.getText(), filename = tFileName.getText(), pass = String.valueOf(tPassword.getPassword());
 
-        if ("".equals(username) || "".equals(pass) || "".equals(type)) {
+        if ("".equals(username) || "".equals(pass) || "".equals(filename)) {
             JOptionPane.showMessageDialog(this, "Some fields are blank.");
             return null;
         }
 
-        return new LoginInfo(username, type, pass);
+        LoginInfo info =  new LoginInfo(username, filename, pass);
+        try {
+            info.readServicesFromWishList();
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(GUIImpl.this, "Invalid wish list file name " + filename+ ".");
+            info = null;
+        }
+
+        return info;
     }
 
     @Override
-    public void logIn(final LoginInfo info, final List<String> services) {
+    public void logIn(final LoginInfo info) {
 
         dispatchWorker.submitAction(new Command() {
             @Override
@@ -162,7 +171,8 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
                 try {
 
-                    SessionState sessionState = SessionStateFactory.createSessionState(info.getType(), services, GUIImpl.this, mediator);
+                    SessionState sessionState = SessionStateFactory.createSessionState(info.getType(),
+                            info.getServiceNames(), GUIImpl.this, mediator);
                     stateManager.setSessionState(sessionState);
 
                 } catch (NoSuchUserTypeException e) {
@@ -205,8 +215,8 @@ public class GUIImpl extends JFrame implements ActionListener, GUI {
 
                 top.add(labelUserName);
                 top.add(tUserName);
-                top.add(labelType);
-                top.add(tType);
+                top.add(labelFileName);
+                top.add(tFileName);
                 top.add(labelPassword);
                 top.add(tPassword);
                 top.add(loginButton);

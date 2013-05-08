@@ -49,13 +49,17 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
         if (info == null)
             return;
 
-        List<String> services;
+
         try {
 
-            services = webServiceClient.getServices(info);
-            gui.logIn(info, services);
+            boolean ok = webServiceClient.addUserToDB(info);
+            if(ok == false){
+                throw new NoSuchUserException();
+            }
 
-            network.newUser(info.getUsername(), info.getType(), services);
+            gui.logIn(info);
+
+            network.newUser(info.getUsername(), info.getType(),info.getServiceNames());
 
         } catch (NoSuchUserException e) {
 
@@ -70,6 +74,8 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
         gui.logOut();
 
         network.removeUserFromLists(info.getUsername(), info.getType());
+
+        webServiceClient.makeUserInactive(info.getUsername());
 
     }
 
@@ -93,7 +99,13 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     @Override
     public List<String> inquireService(String service) {
 
-        return network.inquireService(service);
+        List<String> result = webServiceClient.getRelevantUsers(info.getType(),service);
+
+        if(null == result){
+            JOptionPane.showMessageDialog((Component) gui, "Cannot retrieve service info from server.");
+        }
+
+        return result;
     }
 
     @Override

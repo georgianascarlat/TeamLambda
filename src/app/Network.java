@@ -22,8 +22,6 @@ public interface Network {
 
     public void newUser(String username, String type, List<String> services);
 
-    public List<String> inquireService(String service);
-
     public void auctionStatusChangeRequest(String sourceUser, String sourceUserType, String service, Auction auction);
 
     public void auctionStatusChangeInform(String sourceUser, String sourceUserType, String service, Auction auction);
