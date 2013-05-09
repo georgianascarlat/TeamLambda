@@ -45,5 +45,5 @@ public interface MediatorGUI {
     public void auctionStatusChangeRequest(String service, Auction auction);
 
 
-    public Service serviceTransfer(String service, Auction auction);
+    public Service serviceTransferFromSeller(String service, Auction auction);
 }

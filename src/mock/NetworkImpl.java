@@ -3,6 +3,7 @@ package mock;
 import app.Network;
 import mediator.MediatorNetwork;
 import models.Auction;
+import models.Service;
 import models.StatusTypes;
 
 import java.util.*;
@@ -89,6 +90,18 @@ public class NetworkImpl implements Network, Runnable {
 
         }
 
+    }
+
+    @Override
+    public Service serviceTransfer(String username, String service, Auction auction) {
+        //TODO:
+        // obiect Service
+        // transferul
+        // trebuie sa apelezi serviceTransferToBuyer(String serviceName, Auction auction, Service service); de la destinatar(buyer din auction)
+        // in auction mereu schimbi numele la username-ul sursei
+        // returnezi service
+        // syncronized la service!!
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

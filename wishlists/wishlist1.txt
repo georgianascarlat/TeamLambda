@@ -1,4 +1,4 @@
-seller
+buyer
 serviciu1
 serviciu2
 serviciu3

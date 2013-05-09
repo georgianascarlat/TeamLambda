@@ -2,7 +2,6 @@ package worker;
 
 import mediator.MediatorGUI;
 import models.Auction;
-import models.MyTableModel;
 import models.Service;
 import models.ServiceImpl;
 
@@ -45,7 +44,7 @@ public class FileTransferWorker extends SwingWorker<Service, Service> {
         Service service;
 
         while (true) {
-            service = mediator.serviceTransfer(serviceName, auction);
+            service = mediator.serviceTransferFromSeller(serviceName, auction);
 
 
             if (Transfer_Failed.equals(service.getPurchaseStatus()) ||

@@ -2,6 +2,7 @@ package mediator;
 
 import app.Network;
 import models.Auction;
+import models.Service;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface MediatorNetwork {
     public void userLoggedOut(String name, String type);
 
     public void auctionStatusChangeInform(String service, Auction auction);
+
+    public void serviceTransferToBuyer(String serviceName, Auction auction, Service service);
 }

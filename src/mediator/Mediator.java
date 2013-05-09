@@ -126,9 +126,14 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     }
 
     @Override
-    public Service serviceTransfer(String service, Auction auction) {
+    public void serviceTransferToBuyer(String serviceName, Auction auction, Service service) {
+        // TODO:
+    }
 
-        return webServiceClient.serviceTransfer(info.getUsername(), service, auction);
+    @Override
+    public Service serviceTransferFromSeller(String service, Auction auction) {
+
+        return network.serviceTransfer(info.getUsername(), service, auction);
     }
 
 
