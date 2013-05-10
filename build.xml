@@ -18,7 +18,7 @@
             <classpath>
                 <pathelement location="${build.dir}" />
             </classpath>
-            <arg value="seller" />
+            <arg value="wishlists/wishlist1.txt" />
         </java>
     </target>
 
