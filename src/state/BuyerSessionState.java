@@ -81,6 +81,26 @@ public class BuyerSessionState extends SessionState {
     }
 
     @Override
+    public void serviceTransfer(String username, String serviceName, Auction auction) {
+
+        int serviceRow = getServiceRow(serviceName);
+        DefaultListModel<Auction> listModel;
+
+        if (serviceRow < 0) {
+            return;
+        }
+
+        listModel = (DefaultListModel) table.getModel().getValueAt(serviceRow, USER_LIST_COLUMN);
+
+        if (listModel.removeElement(auction)) {
+
+            listModel.addElement(auction);
+            new FileTransferWorker(mediator, serviceName, auction, table, serviceRow).execute();
+        }
+
+    }
+
+    @Override
     public void login() {
         //does nothing
     }
@@ -121,7 +141,7 @@ public class BuyerSessionState extends SessionState {
                 if (listModel.removeElement(auction)) {
                     listModel.clear();
                     listModel.addElement(auction);
-                    new FileTransferWorker(mediator, service, auction, table, serviceRow).execute();
+                    //new FileTransferWorker(mediator, service, auction, table, serviceRow).execute();
                 }
                 break;
             case Transfer_Failed:

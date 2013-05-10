@@ -24,9 +24,9 @@ public interface Network {
 
     public void auctionStatusChangeRequest(String sourceUser, String sourceUserType, String service, Auction auction);
 
-    public Service serviceTransfer(String username, String service, Auction auction);
+    public void startServiceTransferRequest(String username, String service, Auction auction);
 
     public void auctionStatusChangeInform(String sourceUser, String sourceUserType, String service, Auction auction);
 
-
+    public Service serviceStatusRequest(String username,String service, Auction auction);
 }

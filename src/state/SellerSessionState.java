@@ -57,6 +57,11 @@ public class SellerSessionState extends SessionState {
         return true;
     }
 
+    @Override
+    public void serviceTransfer(String username, String serviceName, Auction auction) {
+        // does nothing because only buyer can receive a service
+    }
+
 
     @Override
     public void login() {

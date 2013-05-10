@@ -81,7 +81,7 @@ public abstract class SessionState {
         List<String> users = mediator.inquireService((String) table.getModel().getValueAt(row, MyTableModel.SERVICE_NAME_COLUMN));
 
         if(null == users){
-            System.out.println("Cannot service info from server");
+            System.out.println("Cannot get service info from server");
             return;
         }
 
@@ -182,8 +182,6 @@ public abstract class SessionState {
 
             if(Offer_Accepted.equals(status) ||
                     Transfer_In_Progress.equals(status) || Transfer_Started.equals(status)) {
-                auction.setStatus(Transfer_Failed);
-                mediator.auctionStatusChangeRequest(service,auction);
 
                 return true;
             }
@@ -207,4 +205,5 @@ public abstract class SessionState {
     protected abstract boolean canAddUser(TableModel model, int row);
 
 
+    public abstract void serviceTransfer(String username, String serviceName, Auction auction);
 }

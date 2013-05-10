@@ -29,6 +29,7 @@ public class FileTransferWorker extends SwingWorker<Service, Service> {
     private Auction auction;
     private JTable table;
     private int serviceRow;
+    private String username;
 
     public FileTransferWorker(MediatorGUI mediator, String serviceName, Auction auction, JTable table, int serviceRow) {
         this.mediator = mediator;
@@ -36,7 +37,9 @@ public class FileTransferWorker extends SwingWorker<Service, Service> {
         this.auction = auction;
         this.table = table;
         this.serviceRow = serviceRow;
+
     }
+
 
     @Override
     protected Service doInBackground() throws Exception {
@@ -44,7 +47,7 @@ public class FileTransferWorker extends SwingWorker<Service, Service> {
         Service service;
 
         while (true) {
-            service = mediator.serviceTransferFromSeller(serviceName, auction);
+            service = mediator.serviceStatusRequest(serviceName, auction);
 
 
             if (Transfer_Failed.equals(service.getPurchaseStatus()) ||

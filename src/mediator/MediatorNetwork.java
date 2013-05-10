@@ -7,21 +7,47 @@ import models.Service;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: nogai
- * Date: 3/26/13
- * Time: 12:43 AM
- * To change this template use File | Settings | File Templates.
+ * The mediator interface visible from the Network.
  */
 public interface MediatorNetwork {
 
+    /**
+     * Register network.
+     *
+     * @param network network
+     */
     public void registerNetwork(Network network);
 
+    /**
+     * Inform about the login of a new user.
+     *
+     * @param username  user name
+     * @param type     user type
+     * @param services    list of the user's services
+     */
     public void userLoggedIn(String username, String type, List<String> services);
 
+    /**
+     * Inform about the logiut of a new user.
+     *
+     * @param name user name
+     * @param type  user type
+     */
     public void userLoggedOut(String name, String type);
 
+    /**
+     * Informs about the change in status of an auction.
+     *
+     * @param service  target service name
+     * @param auction  the new auction
+     */
     public void auctionStatusChangeInform(String service, Auction auction);
 
-    public void serviceTransferToBuyer(String serviceName, Auction auction, Service service);
+    /**
+     * Inform the buyer about the status of the download of a bought service.
+     *
+     * @param serviceName   target service name
+     * @param auction  the auction in which the service was bought
+     */
+    public void startServiceTransferInform(String serviceName, Auction auction);
 }

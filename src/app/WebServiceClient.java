@@ -18,9 +18,6 @@ public interface WebServiceClient {
 
     public boolean addUserToDB(LoginInfo loginInfo);
 
-    //TODO: replace in Networking
-    public Service serviceTransfer(String username, String service, Auction auction);
-
     public List<String> getRelevantUsers(String type, String serviceName);
 
     public void makeUserInactive(String username);

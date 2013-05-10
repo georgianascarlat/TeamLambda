@@ -4,28 +4,25 @@ import app.Network;
 import mediator.MediatorNetwork;
 import models.Auction;
 import models.Service;
+import models.ServiceImpl;
 import models.StatusTypes;
 
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: nogai
- * Date: 3/24/13
- * Time: 11:00 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class NetworkImpl implements Network, Runnable {
 
-    MediatorNetwork mediator;
-    Map<String, List<String>> user_services = new HashMap<String, List<String>>();
-    String userType;
+    private MediatorNetwork mediator;
+    private Map<String, List<String>> user_services = new HashMap<String, List<String>>();
+
     private static int count = 0;
+    private List<Service> servicesInProgress;
 
 
-    public NetworkImpl(MediatorNetwork mediator,String userType) {
+    public NetworkImpl(MediatorNetwork mediator) {
         this.mediator = mediator;
-        this.userType = userType;
+
+        this.servicesInProgress = new LinkedList<Service>();
         mediator.registerNetwork(this);
 
         List<String> services = new LinkedList<String>();
@@ -73,41 +70,78 @@ public class NetworkImpl implements Network, Runnable {
         System.out.println("[Network]Auction status changed by " + sourceUser + " for service " + service + " into " + auction.getStatus());
 
 
-        if(StatusTypes.Offer_Made.equals(auction.getStatus()) && "seller".equals(sourceUserType)){
-            switch (count){
+        if (StatusTypes.Offer_Made.equals(auction.getStatus()) && "seller".equals(sourceUserType)) {
+            switch (count) {
                 case 0:
-                    mediator.auctionStatusChangeInform(service,new Auction(auction.getUser(),StatusTypes.Offer_Accepted,auction.getPrice()));
+                    mediator.auctionStatusChangeInform(service, new Auction(auction.getUser(), StatusTypes.Offer_Accepted, auction.getPrice()));
                     break;
                 case 1:
-                    mediator.auctionStatusChangeInform(service,new Auction(auction.getUser(),StatusTypes.Offer_Exceeded,auction.getPrice()));
+                    mediator.auctionStatusChangeInform(service, new Auction(auction.getUser(), StatusTypes.Offer_Exceeded, auction.getPrice()));
                     break;
                 default:
-                    mediator.auctionStatusChangeInform(service,new Auction(auction.getUser(),StatusTypes.Offer_Refused,auction.getPrice()));
+                    mediator.auctionStatusChangeInform(service, new Auction(auction.getUser(), StatusTypes.Offer_Refused, auction.getPrice()));
                     break;
             }
 
-            count = (count +1)%3;
+            count = (count + 1) % 3;
+
+        }
+
+        if (StatusTypes.Offer_Accepted.equals(auction.getStatus()) && "buyer".equals(sourceUserType)) {
+
+            mediator.startServiceTransferInform(service, new Auction(auction.getUser(), StatusTypes.Offer_Accepted, auction.getPrice()));
 
         }
 
     }
 
     @Override
-    public Service serviceTransfer(String username, String service, Auction auction) {
-        //TODO:
-        // obiect Service
-        // transferul
-        // trebuie sa apelezi serviceTransferToBuyer(String serviceName, Auction auction, Service service); de la destinatar(buyer din auction)
-        // in auction mereu schimbi numele la username-ul sursei
-        // returnezi service
-        // syncronized la service!!
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public void startServiceTransferRequest(String username, String serviceName, Auction auction) {
+
     }
 
     @Override
     public void auctionStatusChangeInform(String sourceUser, String sourceUserType, String service, Auction auction) {
 
         mediator.auctionStatusChangeInform(service, auction);
+    }
+
+    @Override
+    public Service serviceStatusRequest(String username, String serviceName, Auction auction) {
+
+
+        int progress;
+        Service service;
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (Iterator<Service> it = servicesInProgress.iterator(); it.hasNext(); ) {
+            service = it.next();
+            if (service.getName().equals(serviceName)) {
+
+                progress = service.getPurchaseProgress();
+                if (progress >= 100) {
+
+                    service.setPurchaseStatus(StatusTypes.Transfer_Completed);
+                    service.setPurchaseProgress(100);
+                    it.remove();
+
+                } else {
+                    service.setPurchaseStatus(StatusTypes.Transfer_In_Progress);
+                    service.setPurchaseProgress(progress + 5);
+                }
+
+                return service;
+            }
+        }
+
+        service = new ServiceImpl(serviceName, StatusTypes.Transfer_Started, auction.getUser());
+        servicesInProgress.add(service);
+        return service;
     }
 
 
@@ -140,49 +174,34 @@ public class NetworkImpl implements Network, Runnable {
         sleep();
 
 
-        if(userType.equals("buyer")){
+        auctionStatusChangeInform("haru", "buyer", "serviciu4", new Auction("Relu", StatusTypes.Offer_Made, 12));
+        auctionStatusChangeInform("haru", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Offer_Made, 54));
 
-            user_services.put("Relu",services);
-            user_services.put("Miki",services);
-            user_services.put("Shiki",services);
+        sleep();
 
+        auctionStatusChangeInform("haru", "buyer", "serviciu1", new Auction("Shiki", StatusTypes.Offer_Made, 60));
+        auctionStatusChangeInform("haru", "buyer", "serviciu4", new Auction("Shiki", StatusTypes.Offer_Made, 60));
 
-            auctionStatusChangeInform("Ana", "buyer", "serviciu4", new Auction("Relu", StatusTypes.Offer_Made, 12));
-            auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Miki", StatusTypes.Offer_Made, 54));
+        sleep();
+        sleep();
 
-            sleep();
-
-            auctionStatusChangeInform("Ana", "buyer", "serviciu1", new Auction("Shiki", StatusTypes.Offer_Made, 60));
-            auctionStatusChangeInform("Ana", "buyer", "serviciu4", new Auction("Shiki", StatusTypes.Offer_Made, 60));
-
-            sleep();
-            sleep();
-
-            removeUserFromLists("Relu", "seller");
-            sleep();
+        removeUserFromLists("Relu", "seller");
+        sleep();
 
 
-            removeUserFromLists("Miki", "seller");
-            removeUserFromLists("Shiki", "seller");
+        removeUserFromLists("Miki", "seller");
+        removeUserFromLists("Shiki", "seller");
 
 
-        }
+        sleep();
+        sleep();
 
-        if(userType.equals("seller")){
-            user_services.put("Nicu",services);
-            user_services.put("Kiki",services);
-            user_services.put("Biki",services);
-
-            sleep();
-            sleep();
-
-            removeUserFromLists("Nicu", "buyer");
-            sleep();
+        removeUserFromLists("Nicu", "buyer");
+        sleep();
 
 
-            removeUserFromLists("Kiki", "buyer");
-            removeUserFromLists("Biki", "buyer");
-        }
+        removeUserFromLists("Kiki", "buyer");
+        removeUserFromLists("Biki", "buyer");
 
 
     }

@@ -34,7 +34,7 @@ public class Main {
 
         new GUIImpl(mediator,args[0]);
 
-        new Thread(new NetworkImpl(mediator,args[0])).start();
+        new Thread(new NetworkImpl(mediator)).start();
 
 
     }

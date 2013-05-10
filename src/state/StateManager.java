@@ -52,6 +52,11 @@ public class StateManager {
             }
 
             @Override
+            public void serviceTransfer(String username, String serviceName, Auction auction) {
+
+            }
+
+            @Override
             public void login() {
 
             }
@@ -123,4 +128,7 @@ public class StateManager {
     }
 
 
+    public void serviceTransfer(String username, String serviceName, Auction auction) {
+        sessionState.serviceTransfer(username,serviceName,auction);
+    }
 }

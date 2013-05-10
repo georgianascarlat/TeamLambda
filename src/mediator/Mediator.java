@@ -10,13 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: nogai
- * Date: 3/24/13
- * Time: 4:08 PM
- * To change this template use File | Settings | File Templates.
- */
 public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServiceClient {
 
     protected GUI gui;
@@ -126,14 +119,20 @@ public class Mediator implements MediatorGUI, MediatorNetwork, MediatorWebServic
     }
 
     @Override
-    public void serviceTransferToBuyer(String serviceName, Auction auction, Service service) {
-        // TODO:
+    public void startServiceTransferInform(String serviceName, Auction auction) {
+
+        gui.serviceTransfer(info.getUsername(),serviceName,auction);
     }
 
     @Override
-    public Service serviceTransferFromSeller(String service, Auction auction) {
+    public void startServiceTransferRequest(String service, Auction auction) {
 
-        return network.serviceTransfer(info.getUsername(), service, auction);
+        network.startServiceTransferRequest(info.getUsername(), service, auction);
+    }
+
+    @Override
+    public Service serviceStatusRequest(String service, Auction auction) {
+        return network.serviceStatusRequest(info.getUsername(), service,auction);
     }
 
 
