@@ -1,7 +1,7 @@
 package app;
 
 import mediator.Mediator;
-import mock.NetworkImpl;
+import network.NetworkImplementation;
 import webclient.WebServiceClientImpl;
 
 import javax.xml.rpc.ServiceException;
@@ -24,6 +24,7 @@ public class Main {
         }
 
         Mediator mediator = new Mediator();
+        Network network = new NetworkImplementation(mediator);
 
         try {
             mediator.registerWebServiceClient(new WebServiceClientImpl());
@@ -32,9 +33,10 @@ public class Main {
             System.exit(1);
         }
 
+
         new GUIImpl(mediator,args[0]);
 
-        new Thread(new NetworkImpl(mediator)).start();
+
 
 
     }

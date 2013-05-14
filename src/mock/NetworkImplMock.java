@@ -10,7 +10,7 @@ import models.StatusTypes;
 import java.util.*;
 
 
-public class NetworkImpl implements Network, Runnable {
+public class NetworkImplMock implements Network, Runnable {
 
     private MediatorNetwork mediator;
     private Map<String, List<String>> user_services = new HashMap<String, List<String>>();
@@ -19,7 +19,7 @@ public class NetworkImpl implements Network, Runnable {
     private List<Service> servicesInProgress;
 
 
-    public NetworkImpl(MediatorNetwork mediator) {
+    public NetworkImplMock(MediatorNetwork mediator) {
         this.mediator = mediator;
 
         this.servicesInProgress = new LinkedList<Service>();

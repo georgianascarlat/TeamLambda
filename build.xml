@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="IDP1" basedir="." default="run">
+<project name="IDP1" basedir="." default="runserver">
 
     <!-- Properties -->
 
@@ -19,12 +19,21 @@
         <javac classpathref = "classpath" srcdir="${src.dir}" destdir="${build.dir}" />
     </target>
 
-    <target name="run" depends="compile">
+    <target name="runclient" depends="compile">
         <java classname="app.Main" fork="true">
             <classpath refid="classpath">
 
             </classpath>
             <arg value="wishlists/wishlist1.txt" />
+        </java>
+    </target>
+
+    <target name="runserver" depends="compile">
+        <java classname="network.NetworkServer" fork="true">
+            <classpath refid="classpath">
+
+            </classpath>
+
         </java>
     </target>
 
